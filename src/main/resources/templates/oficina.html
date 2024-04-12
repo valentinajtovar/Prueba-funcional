@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Lista de Oficinas</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}" />
+  <script th:src="@{/js/jquery.min.js}"></script>
+  <script th:src="@{/js/bootstrap.min.js}"></script>
+</head>
+
+<body>
+    <h1>Oficinas</h1>
+    
+    <table class="table table-condensed table-hover table-bordered">
+      <thead class="thead-dark">
+        <tr>
+          <th>Id Oficina</th>
+          <th>Nombre</th>
+          <th>Locacion</th>
+          <th>Gerente</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr th:each="oficina : ${oficina}" th:object="${oficina}">
+          <td th:text="${oficina.idOficina}"></td>
+          <td th:text="${oficina.nombre}"></td>
+          <td th:text="${oficina.locacion}"></td>
+          <td th:text="${oficina.gerente}"></td>
+          <td>
+            <a th:href="@{oficina/{id_Oficina}/edit(id_Oficina=${oficina.idOficina})}">Editar</a>
+            <a th:href="@{oficina/{id_Oficina}/delete(id_Oficina=${oficina.idOficina})}"
+              onclick="return confirm('¿Estás seguro de borrar esta oficina?')">Borrar</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="text-center">
+      <a th:href="@{/oficina/new}" class="btn btn-primary">Añadir Oficina</a>
+      <a th:href="@{/}" class="btn btn-primary">Volver Atrás</a>
+    </div>
+  </div>
+  <br />
+</body>
+
+</html>
