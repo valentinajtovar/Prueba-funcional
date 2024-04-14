@@ -9,38 +9,49 @@
 </head>
 
 <body>
-    <h1>Oficinas</h1>
-    
-    <table class="table table-condensed table-hover table-bordered">
-      <thead class="thead-dark">
-        <tr>
-          <th>Id Oficina</th>
-          <th>Nombre</th>
-          <th>Locacion</th>
-          <th>Gerente</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr th:each="oficina : ${oficina}" th:object="${oficina}">
-          <td th:text="${oficina.idOficina}"></td>
-          <td th:text="${oficina.nombre}"></td>
-          <td th:text="${oficina.locacion}"></td>
-          <td th:text="${oficina.gerente}"></td>
-          <td>
-            <a th:href="@{oficina/{id_Oficina}/edit(id_Oficina=${oficina.idOficina})}">Editar</a>
-            <a th:href="@{oficina/{id_Oficina}/delete(id_Oficina=${oficina.idOficina})}"
-              onclick="return confirm('¿Estás seguro de borrar esta oficina?')">Borrar</a>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  
+  <nav class="navbar navbar-expand-lg bg-body-tertiary" >
+    <div class="container-fluid">
+      <a class="navbar-brand" th:href='@{/}'>
+        <img th:src="@{/images/logoPrincipal.png}" width="200" height="60">
+      </a>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" th:href="@{/oficina}" style="color: #78288c;">Oficinas</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <h1 style="color: #78288c;">Listado de oficinas:</h1>
+
+  <div class="card-columns">
+    <div th:each="oficina : ${oficina}" th:object="${oficina}">
+      <div class="card" style="background-color: #78288c;">
+        <div class="card-header">
+          <h5 class="card-title" th:text="${oficina.nombre}" style="color: #c7cac8;"></h5>
+        </div>
+        <div class="card-body">
+          <p class="card-text">
+
+          <span class="font-weight-bold" style="color: #c7cac8;">Id:</span> <span th:text="${oficina.idOficina}" style="color: #c7cac8;"></span><br>
+          <span class="font-weight-bold" style="color: #c7cac8;">Ubicación:</span> <span th:text="${oficina.locacion}" style="color: #c7cac8;"></span><br>
+          <span class="font-weight-bold" style="color: #c7cac8;">Gerente:</span> <span th:text="${oficina.gerente}" style="color: #c7cac8;"></span>
+        </div>
+        <div class="card-footer">
+          <a th:href="@{oficina/{id_Oficina}/edit(id_Oficina=${oficina.idOficina})}" class="btn" style="background-color: #b659cd ; color: white;">Editar</a>
+          <a th:href="@{oficina/{id_Oficina}/delete(id_Oficina=${oficina.idOficina})}" class="btn" style="background-color: #ee0e0e; color: white;"  onclick="return confirm('¿Estás seguro de borrar esta oficina?')">Borrar</a>
+        </div>
+      </div>
+    </div>    
+  </div>
     <div class="text-center">
-      <a th:href="@{/oficina/new}" class="btn btn-primary">Añadir Oficina</a>
-      <a th:href="@{/}" class="btn btn-primary">Volver Atrás</a>
+      <a th:href="@{/oficina/new}" class="btn btn" style="background-color: #78288c ; color: white;" >Añadir Oficina</a>
+      <a th:href="@{/}" class="btn " style="background-color: #ee0e0e; color: white;" >Volver Atrás</a>
     </div>
   </div>
   <br />
 </body>
-
 </html>
