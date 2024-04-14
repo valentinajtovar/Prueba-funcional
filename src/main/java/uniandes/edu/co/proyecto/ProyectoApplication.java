@@ -39,7 +39,7 @@ public class ProyectoApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args)  {
 		
-		
+/*		
 		
 		Collection<Oficina> oficinas = oficinaRepository.darOficinas();
 		System.out.println(oficinas);
@@ -52,7 +52,7 @@ public class ProyectoApplication implements CommandLineRunner {
 			System.out.println(u.getGerente());
 			System.out.println("------------------------");
 		}
-		
+ */	
 /*
 		System.out.println("HOLAAA");
 		Optional<Oficina> buscarOficina = oficinaRepository.buscarOficinaPorId(2);
