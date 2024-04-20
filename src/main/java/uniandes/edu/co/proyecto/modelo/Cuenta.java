@@ -5,22 +5,30 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 
 @Entity
-@Table(name = "CUENTA")
+@Table(name = "CUENTAS")
 public class Cuenta {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer idCuenta;
 
-    private Usuario cliente;
+    @ManyToOne
+    @JoinColumn(name ="idUsuario", referencedColumnName = "idUsuario")
+    private Usuario usuario;
 
+    
+    @ManyToOne
+    @JoinColumn(name ="tipoCuenta", referencedColumnName = "tipoCuenta")
     private TipoCuenta tipoCuenta;
 
+    @ManyToOne
+    @JoinColumn(name ="estadoCuenta", referencedColumnName = "estadoCuenta")
     private EstadoCuenta estadoCuenta;
 
     private double valor;
@@ -30,7 +38,7 @@ public class Cuenta {
 
     public Cuenta(Integer idCuenta, Usuario cliente, TipoCuenta tipoCuenta, EstadoCuenta estadoCuenta, double valor) {
         this.idCuenta = idCuenta;
-        this.cliente = cliente;
+        this.usuario = cliente;
         this.tipoCuenta = tipoCuenta;
         this.estadoCuenta = estadoCuenta;
         this.valor = valor;
@@ -45,11 +53,11 @@ public class Cuenta {
     }
 
     public Usuario getCliente() {
-        return cliente;
+        return usuario;
     }
 
     public void setCliente(Usuario cliente) {
-        this.cliente = cliente;
+        this.usuario = cliente;
     }
 
     public TipoCuenta getTipoCuenta() {
