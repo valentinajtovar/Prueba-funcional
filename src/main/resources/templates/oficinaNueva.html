@@ -7,24 +7,62 @@
 </head>
 
 <body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary" >
+        <div class="container-fluid">
+            <a class="navbar-brand" th:href='@{/}'>
+            <img th:src="@{/images/logoPrincipal.png}" width="200" height="60">
+            </a>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" th:href="@{/oficina}" style="color: #78288c;">Oficinas</a>
+                    </li>
+                </ul>
+          </div>
+        </div>
+    </nav>
     <br>
-    <form th:action="@{/oficina/new/save}" method="post">
-        <div class="form-group">
-            <label for="nombre">Nombre:</label>
-            <input type="text" class="form-control" id="nombre" placeholder="Nombre" name="nombre" />
+
+    <div class="container">
+        <div class="row">
+            <div class="col text-align: center justify-content: center" style=" align-items: center;">
+                <div style="display: flex; justify-content: center;">
+                    <div class="card" style="text-align: center; width: 60%; height: 100%;" >
+                        <h3 style="color: #78288c;">Estas creando una nueva Oficina:</h3><br>
+                        <div th:each="oficina : ${oficina}" th:object="${oficina}">
+                            <div class="card" style="background-color: #78288c;">
+                                <div class="card-body">
+                                    <p class="card-text">
+                                        <span class="font-weight-bold" style="color: #c7cac8;">Nombre:</span> <span th:text="${oficina.locacion}" style="color: #c7cac8;"></span><br>
+                                    <span class="font-weight-bold" style="color: #c7cac8;">Locacion:</span> <span th:text="${oficina.locacion}" style="color: #c7cac8;"></span><br>
+                                    <span class="font-weight-bold" style="color: #c7cac8;">Gerente:</span> <span th:text="${oficina.gerente}" style="color: #c7cac8;"></span>
+                                </div>
+                            </div>
+                        </div>    
+                    </div>
+                </div>
+            </div>
+            <div class="col text-align: center">
+                <form th:action="@{/oficina/new/save}" method="post">
+                    <div class="form-group">
+                        <label for="nombre" style="color: #78288c;">Nombre:</label>
+                        <input type="text" class="form-control" style="color: #78288c;" id="nombre" placeholder="Nombre" name="nombre" th:value="${nombre}" />
+                    </div>
+            
+                    <div class="form-group">
+                        <label for="locacion" style="color: #78288c;">Locacion:</label>
+                        <input type="text" class="form-control"  style="color: #78288c;" id="locacion" placeholder="Locacion" name="locacion" required th:value="${oficina.locacion}" />
+                    </div>
+                    <div class="form-group">
+                        <label for="gerente" style="color: #78288c;">Gerente:</label>
+                        <input type="number" class="form-control" style="color: #b659cd;" id="gerente" placeholder="Gerente" name="gerente" required th:value="${oficina.gerente}" />
+                    </div>
+                    <button type="submit" class="btn" style="background-color: #78288c; color: white;">Guardar</button>
+                    <a th:href="@{/oficina}" class="btn" style="background-color: #ee0e0e; color: white;">Cancelar</a>
+                </form>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="locacion">Locacion:</label>
-            <input type="text" class="form-control" id="locacion" placeholder="Locacion" name="locacion" />
-        </div>
-        <div class="form-group">
-            <label for="gerente">Gerente:</label>
-            <input type="text" class="form-control" id="gerente" placeholder="Gerente" name="gerente" />
-        </div>
-        
-        <button type="submit" class="btn btn-primary">Guardar</button>
-        <a th:href="@{/oficina}" class="btn btn-primary">Cancelar</a>
-    </form>
+    </div>
 </body>
 
 </html>
