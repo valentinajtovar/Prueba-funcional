@@ -52,13 +52,4 @@ public class DatosUsuario {
         this.idDatosUsuario = idDatosUsuario;
     }
 
-    
-
-
-
-
-    
-
-
-
 }
