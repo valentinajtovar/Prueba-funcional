@@ -2,10 +2,12 @@ package uniandes.edu.co.proyecto.modelo;
 
 import java.util.List;
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.Collection;
@@ -16,9 +18,11 @@ public class Oficina {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Column(name = "ID_OFICINA")
     private Integer idOficina;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "fk_oficina_id",referencedColumnName = "ID_OFICINA")
     private Collection<PuntosAtencion> puntosAtencion;
 
     private String nombre;

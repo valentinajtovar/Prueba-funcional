@@ -1,4 +1,4 @@
-package uniandes.edu.co.proyecto.repositorio;
+/*package uniandes.edu.co.proyecto.repositorio;
 
 
 import java.util.Collection;
@@ -37,4 +37,4 @@ public interface CredencialesPrestamoRepository extends JpaRepository<Credencial
     @Query(value = "DELETE FROM CREDENCIALES_PRESTAMO WHERE id_cliente = :id_cliente AND id_gerente =:id_gerente AND id_prestamo =:id_prestamo", nativeQuery = true)
     void eliminarCredencialesPrestamo(@Param("id_cliente") String id_cliente, @Param("id_gerente") String id_gerente, @Param("id_prestamo") Integer id_prestamo);
 
-}
+}*/

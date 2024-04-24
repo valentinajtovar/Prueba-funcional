@@ -29,9 +29,7 @@ public class Usuario {
 
     private String nombre;
 
-    @ManyToOne
-    @JoinColumn(name ="nacionalidad", referencedColumnName = "idNacionalidad")
-    private Nacionalidad nacionalidad;
+    private String nacionalidad;
 
     private String direccionFisica;
 
@@ -42,7 +40,7 @@ public class Usuario {
     private Integer codigoPostal;
 
     @ManyToOne
-    @JoinColumn(name ="tipo_usuario", referencedColumnName = "tipoUsuario")
+    @JoinColumn(name ="tipoUsuario", referencedColumnName = "tipoUsuario")
     private TipoUsuario tipoUsuario;
 
 
@@ -50,7 +48,7 @@ public class Usuario {
 
     
     public Usuario(String id, TipoDocumento tipoDocumento, Integer numeroDocumento, String nombre,
-            Nacionalidad nacionalidad, String direccionFisica, String direccionDigital, Integer telefono,
+            String nacionalidad, String direccionFisica, String direccionDigital, Integer telefono,
             Integer codigoPostal, TipoUsuario tipoUsuario) {
         this.idUsuario = id;
         this.tipoDocumento = tipoDocumento;
@@ -96,11 +94,11 @@ public class Usuario {
         this.nombre = nombre;
     }
 
-    public Nacionalidad getNacionalidad() {
+    public String getNacionalidad() {
         return nacionalidad;
     }
 
-    public void setNacionalidad(Nacionalidad nacionalidad) {
+    public void setNacionalidad(String nacionalidad) {
         this.nacionalidad = nacionalidad;
     }
 

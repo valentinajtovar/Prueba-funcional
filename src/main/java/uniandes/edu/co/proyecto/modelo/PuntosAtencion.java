@@ -19,6 +19,7 @@ public class PuntosAtencion {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer idPuntosAtencion;
 
+   
     @ManyToOne
     @JoinColumn(name ="tipo", referencedColumnName = "tipoPuntosAtencion")
     private TiposPuntosAtencion tipo;
@@ -28,8 +29,8 @@ public class PuntosAtencion {
     private String locacion;
 
     @ManyToOne
-    @JoinColumn(name ="idOficina", referencedColumnName = "idOficina")
-    private Oficina idOficina; 
+    @JoinColumn(name ="fk_oficina_id")
+    private Oficina oficina; 
 
     public PuntosAtencion(){;}
 
@@ -80,5 +81,5 @@ public class PuntosAtencion {
     public void setIdOficina(Oficina idOficina) {
         this.idOficina = idOficina;
     }
-    
+
 }

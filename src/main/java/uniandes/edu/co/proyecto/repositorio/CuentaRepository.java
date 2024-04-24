@@ -1,4 +1,4 @@
-package uniandes.edu.co.proyecto.repositorio;
+/*package uniandes.edu.co.proyecto.repositorio;
 
 
 import java.util.Collection;
@@ -34,4 +34,4 @@ public interface CuentaRepository extends JpaRepository<Cuenta, Integer> {
     @Transactional
     @Query(value = "DELETE FROM CUENTAS WHERE id_cuenta = :id_cuenta", nativeQuery = true)
     void eliminarDatosUsuario(@Param("id_cuenta") Integer id_cuenta);
-}
+}*/
