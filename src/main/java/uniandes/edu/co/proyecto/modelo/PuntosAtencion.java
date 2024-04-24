@@ -18,20 +18,18 @@ public class PuntosAtencion {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer idPuntosAtencion;
-/*
-    @OneToMany(mappedBy = "puntosAtencion", cascade = CascadeType.ALL,orphanRemoval=true)
-    private List<Transaccion> transacciones;*/
-
-
-    private String nombre;
 
     @ManyToOne
-    @JoinColumn(name ="tipo", referencedColumnName = "nombre")
+    @JoinColumn(name ="tipo", referencedColumnName = "tipoPuntosAtencion")
     private TiposPuntosAtencion tipo;
+
+    private String nombre;
     
     private String locacion;
 
-    private Integer idOficina;
+    @ManyToOne
+    @JoinColumn(name ="idOficina", referencedColumnName = "idOficina")
+    private Oficina idOficina; 
 
     public PuntosAtencion(){;}
 
@@ -45,11 +43,7 @@ public class PuntosAtencion {
     public Integer getIdPuntosAtencion(){
         return idPuntosAtencion;
     }
-    /*
-    public List<Transaccion> getTransacciones(){
-        return transacciones;
-    } 
- */
+
     public String getNombre(){
         return nombre;
     } 
@@ -61,6 +55,10 @@ public class PuntosAtencion {
     public String getLocacion(){
         return locacion;
     } 
+
+    public Oficina getIdOficina() {
+        return idOficina;
+    }
 
     public void setIdPuntosAtencion(Integer idPuntosAtencion){
         this.idPuntosAtencion = idPuntosAtencion;
@@ -79,14 +77,8 @@ public class PuntosAtencion {
         this.locacion = locacion;
     }
 
-    public Integer getIdOficina() {
-        return idOficina;
-    }
-
-    public void setIdOficina(Integer idOficina) {
+    public void setIdOficina(Oficina idOficina) {
         this.idOficina = idOficina;
-    } 
-
+    }
     
-
 }
