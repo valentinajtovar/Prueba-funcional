@@ -1,16 +1,15 @@
 package uniandes.edu.co.proyecto.modelo;
 
-
-import java.util.List;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 
@@ -18,11 +17,13 @@ import jakarta.persistence.Table;
 @Table(name = "USUARIO")
 public class Usuario {
     @Id
-    private String idUsuario;
+    @OneToOne
+    @JoinColumn(name="ID_USUARIO")
+    private DatosUsuario idUsuario;
 
 
-    @ManyToOne
-    @JoinColumn(name ="tipo_documento", referencedColumnName = "tipoDocumento")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name ="TIPO_DOCUMENTO")
     private TipoDocumento tipoDocumento;
 
     private Integer numeroDocumento;
@@ -39,15 +40,15 @@ public class Usuario {
 
     private Integer codigoPostal;
 
-    @ManyToOne
-    @JoinColumn(name ="tipoUsuario", referencedColumnName = "tipoUsuario")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name ="TIPO_USUARIO")
     private TipoUsuario tipoUsuario;
 
 
     public Usuario(){;}
 
     
-    public Usuario(String id, TipoDocumento tipoDocumento, Integer numeroDocumento, String nombre,
+    public Usuario(DatosUsuario id, TipoDocumento tipoDocumento, Integer numeroDocumento, String nombre,
             String nacionalidad, String direccionFisica, String direccionDigital, Integer telefono,
             Integer codigoPostal, TipoUsuario tipoUsuario) {
         this.idUsuario = id;
@@ -62,11 +63,11 @@ public class Usuario {
         this.tipoUsuario = tipoUsuario;
     }
 
-    public String getId() {
+    public DatosUsuario getId() {
         return idUsuario;
     }
 
-    public void setId(String id) {
+    public void setId(DatosUsuario id) {
         this.idUsuario = id;
     }
 
