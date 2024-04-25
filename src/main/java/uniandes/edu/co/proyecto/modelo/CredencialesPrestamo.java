@@ -20,9 +20,9 @@ import jakarta.persistence.Table;
     public CredencialesPrestamo(){;}
 
 
-    public CredencialesPrestamo(Usuario cliente, Usuario Gerente, Prestamo prestamo) {
+    public CredencialesPrestamo(Usuario cliente, Usuario gerente, Prestamo prestamo) {
         super();
-        this.pk = new CredencialesPrestamoPK(cliente, Gerente, prestamo);
+        this.pk = new CredencialesPrestamoPK(cliente, gerente, prestamo);
     }
 
 
@@ -34,9 +34,4 @@ import jakarta.persistence.Table;
     public void setPk(CredencialesPrestamoPK pk) {
         this.pk = pk;
     }
-
-    
-
-
-
 }

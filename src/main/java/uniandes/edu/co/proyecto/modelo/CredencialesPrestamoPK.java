@@ -10,7 +10,7 @@ import jakarta.persistence.ManyToOne;
 
 
 @Embeddable
-    public class CredencialesPrestamoPK implements Serializable {
+public class CredencialesPrestamoPK implements Serializable {
 
 
     @ManyToOne
