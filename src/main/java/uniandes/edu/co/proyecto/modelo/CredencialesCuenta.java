@@ -19,6 +19,10 @@ public class CredencialesCuenta {
         this.pk = new CredencialesCuentaPK(cliente,gerente,cuenta);
     }
 
+    public CredencialesCuentaPK getPk() {
+        return pk;
+    }
+
     public void setPk(CredencialesCuentaPK pk) {
         this.pk = pk;
     }

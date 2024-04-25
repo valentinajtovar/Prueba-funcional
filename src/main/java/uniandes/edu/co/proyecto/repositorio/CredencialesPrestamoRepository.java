@@ -29,12 +29,12 @@ public interface CredencialesPrestamoRepository extends JpaRepository<Credencial
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE CREDENCIALES_PRESTAMO SET id_cliente = :id_cliente_actualizado, id_gerente = :id_gerente_actualizado, id_prestamo = :id_prestamo_actualizado WHERE id_cliente = :id_cliente AND id_gerente = :id_gerente AND id_prestamo = :id_prestamo", nativeQuery = true)
-    void actualizarCredencialesPrestamo(@Param("id_cliente") String id_cliente,@Param("id_gerente") String id_gerente, @Param("id_prestamo") Integer id_prestamo,@Param("id_cliente_actualizado") String id_cliente_actualizado,@Param("id_gerente_actualizado") String id_gerente_actualizado, @Param("id_prestamo_actualizado") Integer id_prestamo_actualizado);
+    @Query(value = "UPDATE CREDENCIALES_PRESTAMO SET ID_CLIENTE = :id_cliente, ID_GERENTE = :id_gerente, ID_PRESTAMO = :id_prestamo WHERE ID_CLIENTE = :id_cliente AND ID_GERENTE = :id_gerente AND ID_PRESTAMO = :id_prestamo", nativeQuery = true)
+    void actualizarCredencialesPrestamo(@Param("id_cliente") String id_cliente,@Param("id_gerente") String id_gerente, @Param("id_prestamo") Integer id_prestamo);
 
     @Modifying
     @Transactional
-    @Query(value = "DELETE FROM CREDENCIALES_PRESTAMO WHERE id_cliente = :id_cliente AND id_gerente =:id_gerente AND id_prestamo =:id_prestamo", nativeQuery = true)
+    @Query(value = "DELETE FROM CREDENCIALES_PRESTAMO WHERE ID_CLIENTE = :id_cliente AND ID_GERENTE =:id_gerente AND ID_PRESTAMO =:id_prestamo", nativeQuery = true)
     void eliminarCredencialesPrestamo(@Param("id_cliente") String id_cliente, @Param("id_gerente") String id_gerente, @Param("id_prestamo") Integer id_prestamo);
 
 }

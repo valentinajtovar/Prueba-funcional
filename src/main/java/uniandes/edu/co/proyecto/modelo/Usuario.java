@@ -5,12 +5,14 @@ import java.util.List;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 
@@ -18,12 +20,16 @@ import jakarta.persistence.Table;
 @Table(name = "USUARIO")
 public class Usuario {
     @Id
-    private String idUsuario;
-
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Integer idUsuario;
 
     @ManyToOne
     @JoinColumn(name ="tipo_documento", referencedColumnName = "tipoDocumento")
     private TipoDocumento tipoDocumento;
+
+    
+    @OneToOne(fetch = FetchType.LAZY)
+    private DatosUsuario datosUsuario;
 
     private Integer numeroDocumento;
 
@@ -47,10 +53,10 @@ public class Usuario {
     public Usuario(){;}
 
     
-    public Usuario(String id, TipoDocumento tipoDocumento, Integer numeroDocumento, String nombre,
+    public Usuario(Integer idUsuario, TipoDocumento tipoDocumento, Integer numeroDocumento, String nombre,
             String nacionalidad, String direccionFisica, String direccionDigital, Integer telefono,
             Integer codigoPostal, TipoUsuario tipoUsuario) {
-        this.idUsuario = id;
+        this.idUsuario = idUsuario;
         this.tipoDocumento = tipoDocumento;
         this.numeroDocumento = numeroDocumento;
         this.nombre = nombre;
@@ -62,11 +68,11 @@ public class Usuario {
         this.tipoUsuario = tipoUsuario;
     }
 
-    public String getId() {
+    public Integer getId() {
         return idUsuario;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.idUsuario = id;
     }
 
