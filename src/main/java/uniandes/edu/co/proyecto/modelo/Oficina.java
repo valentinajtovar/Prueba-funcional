@@ -22,18 +22,16 @@ public class Oficina {
 
     private String nombre;
 
+    private String direccion;
     
-    private String locacion;
-    
-    private Integer gerente;
+    private Integer numeroPuntosDisponibles;
     
     public Oficina(){;}
 
-    //CAMBIAR TIPO GERENTE
-    public Oficina( String nombre, String locacion, Integer gerente) {
+    public Oficina( String nombre, String direccion, Integer numeroPuntosDisponibles) {
         this.nombre = nombre;
-        this.locacion = locacion;
-        this.gerente = gerente;
+        this.direccion = direccion;
+        this.numeroPuntosDisponibles = numeroPuntosDisponibles;
     }
 
 
@@ -57,30 +55,22 @@ public class Oficina {
     }
 
 
-    public String getLocacion() {
-        return locacion;
+    public String getDireccion() {
+        return direccion;
     }
 
 
-    public void setLocacion(String locacion) {
-        this.locacion = locacion;
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
     }
 
 
-    public Integer getGerente() {
-        return gerente;
+    public Integer getNumeroPuntosDisponibles() {
+        return numeroPuntosDisponibles;
     }
 
 
-    public void setGerente(Integer gerente) {
-        this.gerente = gerente;
+    public void setNumeroPuntosDisponibles(Integer numeroPuntosDisponibles) {
+        this.numeroPuntosDisponibles = numeroPuntosDisponibles;
     }
-
-
-
-
-    
-
-
-
 }
