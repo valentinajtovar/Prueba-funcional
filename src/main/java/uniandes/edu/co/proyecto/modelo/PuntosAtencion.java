@@ -58,7 +58,7 @@ public class PuntosAtencion {
     } 
 
     public Oficina getIdOficina() {
-        return idOficina;
+        return oficina;
     }
 
     public void setIdPuntosAtencion(Integer idPuntosAtencion){
@@ -79,7 +79,7 @@ public class PuntosAtencion {
     }
 
     public void setIdOficina(Oficina idOficina) {
-        this.idOficina = idOficina;
+        this.oficina = idOficina;
     }
 
 }
