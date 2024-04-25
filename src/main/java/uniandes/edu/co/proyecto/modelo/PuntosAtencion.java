@@ -18,10 +18,6 @@ public class PuntosAtencion {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer idPuntosAtencion;
-/*
-    @OneToMany(mappedBy = "puntosAtencion", cascade = CascadeType.ALL,orphanRemoval=true)
-    private List<Transaccion> transacciones;*/
-
 
     private String nombre;
 
