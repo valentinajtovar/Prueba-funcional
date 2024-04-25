@@ -31,25 +31,30 @@ public class PuntosAtencion {
     
     private String locacion;
 
-    private Integer idOficina;
+    private String horarioApertura;
+
+    private String horarioCierre;
+
+    @ManyToOne
+    @JoinColumn(name ="idOficina", referencedColumnName = "idOficina")
+    private Oficina idOficina;
 
     public PuntosAtencion(){;}
 
-    public PuntosAtencion(String nombre,TiposPuntosAtencion tipo,String locacion)
+    public PuntosAtencion(String nombre,TiposPuntosAtencion tipo,String locacion,String horarioApertura,String horarioCierre, Oficina idOficina)
     {
         this.nombre = nombre;
         this.tipo = tipo;
         this.locacion = locacion;
+        this.horarioApertura = horarioApertura;
+        this.horarioCierre = horarioCierre;
+        this.idOficina = idOficina;
     }
 
     public Integer getIdPuntosAtencion(){
         return idPuntosAtencion;
     }
-    /*
-    public List<Transaccion> getTransacciones(){
-        return transacciones;
-    } 
- */
+
     public String getNombre(){
         return nombre;
     } 
@@ -61,6 +66,18 @@ public class PuntosAtencion {
     public String getLocacion(){
         return locacion;
     } 
+
+    public String getHorarioApertura(){
+        return horarioApertura;
+    }
+
+    public String getHorarioCierre(){
+        return horarioCierre;
+    }
+
+    public Oficina getIdOficina(){
+        return idOficina;
+    }
 
     public void setIdPuntosAtencion(Integer idPuntosAtencion){
         this.idPuntosAtencion = idPuntosAtencion;
@@ -79,14 +96,17 @@ public class PuntosAtencion {
         this.locacion = locacion;
     }
 
-    public Integer getIdOficina() {
-        return idOficina;
+    public void setHorarioApertura(String horarioApertura){
+        this.horarioApertura = horarioApertura;
     }
 
-    public void setIdOficina(Integer idOficina) {
+    public void setHorarioCierre(String horarioCierre){
+        this.horarioCierre = horarioCierre;
+    }
+
+    public void setIdOficina(Oficina idOficina) {
         this.idOficina = idOficina;
     } 
 
-    
 
 }

@@ -13,41 +13,50 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.criteria.CriteriaBuilder.In;
 
 
 @Entity
 @Table(name = "PRESTAMO")
-    public class Prestamo {
+public class Prestamo {
 
-        @Id
-        @GeneratedValue(strategy=GenerationType.IDENTITY)
-        private Integer idPrestamo;
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Integer idPrestamo;
 
-        private Date fecha;
+    private Date fechaCreacion;
 
-        private Integer pagado;
-
-        private double valor;
-
+    private Float monto;
 
     @ManyToOne
     @JoinColumn(name ="estado", referencedColumnName = "estadoPrestamo")
-    private EstadoPrestamo estado;
+    private EstadoPrestamo estadoPrestamo;
 
     @ManyToOne
     @JoinColumn(name ="tipoPrestamo", referencedColumnName = "tipoPrestamo")
     private TipoPrestamo tipoPrestamo;
 
+    private Float interes;
+
+    private Integer cuotas;
+
+    private Integer diaMesCuota;
+
+    private float valorCuota;
+
     public Prestamo(){;}
 
-    public Prestamo( Date fecha, Integer pagado, double valor, EstadoPrestamo estado,
-            TipoPrestamo tipoPrestamo) {
+    public Prestamo( Date fechaCreacion, Float monto, double valor, EstadoPrestamo estadoPrestamo,
+            TipoPrestamo tipoPrestamo,Float interes,Integer cuotas, Integer diaMesCuota,Float valorCuota) {
   
-        this.fecha = fecha;
-        this.pagado = pagado;
-        this.valor = valor;
-        this.estado = estado;
+        this.fechaCreacion = fechaCreacion;
+        this.monto = monto;
+        this.estadoPrestamo = estadoPrestamo;
         this.tipoPrestamo = tipoPrestamo;
+        this.interes = interes;
+        this.cuotas = cuotas;
+        this.diaMesCuota = diaMesCuota;
+        this.valorCuota= valorCuota;
     }
 
     public Integer getIdPrestamo() {
@@ -58,36 +67,28 @@ import jakarta.persistence.Table;
         this.idPrestamo = idPrestamo;
     }
 
-    public Date getFecha() {
-        return fecha;
+    public Date getFechaCreacion() {
+        return fechaCreacion;
     }
 
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
+    public void setFechaCreacion(Date fechaCreacion) {
+        this.fechaCreacion = fechaCreacion;
     }
 
-    public Integer getPagado() {
-        return pagado;
+    public Float getMonto() {
+        return monto;
     }
 
-    public void setPagado(Integer pagado) {
-        this.pagado = pagado;
+    public void setMonto(float monto) {
+        this.monto = monto;
     }
 
-    public double getValor() {
-        return valor;
+    public EstadoPrestamo getEstadoPrestamo() {
+        return estadoPrestamo;
     }
 
-    public void setValor(Float valor) {
-        this.valor = valor;
-    }
-
-    public EstadoPrestamo getEstado() {
-        return estado;
-    }
-
-    public void setEstado(EstadoPrestamo estado) {
-        this.estado = estado;
+    public void setEstadoPrestamo(EstadoPrestamo estadoPrestamo) {
+        this.estadoPrestamo = estadoPrestamo;
     }
 
     public TipoPrestamo getTipoPrestamo() {
@@ -98,23 +99,35 @@ import jakarta.persistence.Table;
         this.tipoPrestamo = tipoPrestamo;
     }
 
-    
+    public Float getInteres() {
+        return interes;
+    }
 
-    
+    public void setInteres(Float interes) {
+        this.interes = interes;
+    }
 
+    public Integer getCuotas(){
+        return cuotas;
+    }
 
+    public void serCuotas(Integer cuotas){
+        this.cuotas = cuotas;
+    }
 
+    public Integer getDiaMesCuota(Integer diaMesCuota){
+        return diaMesCuota;
+    }
 
+    public void setDiaMesCuota(Integer diaMesCuota){
+        this.diaMesCuota = diaMesCuota;
+    }
 
+    public float getValorCuota() {
+        return valorCuota;
+    }
 
-
-    
-
-
-
-
-    
-
-
-
+    public void setValorCuota(float valorCuota) {
+        this.valorCuota = valorCuota;
+    }
 }

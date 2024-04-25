@@ -1,5 +1,5 @@
 
-package uniandes.edu.co.proyecto.controller;
+/*package uniandes.edu.co.proyecto.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -63,3 +63,4 @@ public class PuntosAtencionController {
         return "redirect:/puntosAtencion";
     }
 }
+*/
