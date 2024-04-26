@@ -9,6 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 
@@ -19,6 +20,9 @@ public class Cuenta {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer idCuenta;
+
+    @OneToOne
+    private CredencialesCuenta credencialesCuenta;
     
     @ManyToOne
     @JoinColumn(name ="tipoCuenta", referencedColumnName = "tipoCuenta")
@@ -35,8 +39,7 @@ public class Cuenta {
     public Cuenta() {;
     }
 
-    public Cuenta(Usuario cliente, TipoCuenta tipoCuenta, EstadoCuenta estadoCuenta, double saldo,Date fechaUltimaTransaccion) {
-        this.usuario = cliente;
+    public Cuenta(TipoCuenta tipoCuenta, EstadoCuenta estadoCuenta, double saldo,Date fechaUltimaTransaccion) {        
         this.tipoCuenta = tipoCuenta;
         this.estadoCuenta = estadoCuenta;
         this.saldo = saldo;
@@ -49,14 +52,6 @@ public class Cuenta {
 
     public void setIdCuenta(Integer idCuenta) {
         this.idCuenta = idCuenta;
-    }
-
-    public Usuario getCliente() {
-        return usuario;
-    }
-
-    public void setCliente(Usuario cliente) {
-        this.usuario = cliente;
     }
 
     public TipoCuenta getTipoCuenta() {
@@ -75,28 +70,28 @@ public class Cuenta {
         this.estadoCuenta = estadoCuenta;
     }
 
-    public double getValor() {
-        return valor;
+    public CredencialesCuenta getCredencialesCuenta() {
+        return credencialesCuenta;
+    }
+    
+    public void setCredencialesCuenta(CredencialesCuenta credencialesCuenta) {
+        this.credencialesCuenta = credencialesCuenta;
     }
 
-    public void setValor(double valor) {
-        this.valor = valor;
+    public Date getFechaUltimaTransaccion() {
+        return fechaUltimaTransaccion;
     }
 
+    public void setFechaUltimaTransaccion(Date fechaUltimaTransaccion) {
+        this.fechaUltimaTransaccion = fechaUltimaTransaccion;
+    }
+
+    public double getSaldo() {
+        return saldo;
+    }
+
+    public void setSaldo(double saldo) {
+        this.saldo = saldo;
+    }
     
-    
-
-
-    
-    
-   
-    
-
-
-
-
-    
-
-
-
 }

@@ -17,16 +17,11 @@ public class CredencialesCuentaPK implements Serializable {
     @JoinColumn(name = "idGerente", referencedColumnName = "idUsuario")
     private Usuario idGerente;
 
-    @ManyToOne
-    @JoinColumn(name = "idCuenta", referencedColumnName = "idCuenta")
-    private Cuenta idCuenta;
-
     public CredencialesCuentaPK(){;}
 
-    public CredencialesCuentaPK(Usuario idCliente,Usuario idGerente,Cuenta idCuenta){
+    public CredencialesCuentaPK(Usuario idCliente,Usuario idGerente){
         this.idCliente = idCliente;
         this.idGerente = idGerente;
-        this.idCuenta = idCuenta;
     }
     
     public Usuario getIdCliente() {
@@ -35,14 +30,6 @@ public class CredencialesCuentaPK implements Serializable {
 
     public void setIdCliente(Usuario idCliente) {
         this.idCliente = idCliente;
-    }
-
-    public Cuenta getIdCuenta() {
-        return idCuenta;
-    }
-
-    public void setIdCuenta(Cuenta idCuenta) {
-        this.idCuenta = idCuenta;
     }
 
     public Usuario getIdGerente() {
