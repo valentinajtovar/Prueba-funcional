@@ -29,6 +29,7 @@ public class Usuario {
 
     
     @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name ="datosUsuario", referencedColumnName = "idDatosUsuario")
     private DatosUsuario datosUsuario;
 
     private Integer numeroDocumento;
