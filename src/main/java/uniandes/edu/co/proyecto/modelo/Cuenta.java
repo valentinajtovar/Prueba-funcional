@@ -1,6 +1,8 @@
 package uniandes.edu.co.proyecto.modelo;
 
 
+import java.sql.Date;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,11 +19,6 @@ public class Cuenta {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer idCuenta;
-
-    @ManyToOne
-    @JoinColumn(name ="idUsuario", referencedColumnName = "idUsuario")
-    private Usuario usuario;
-
     
     @ManyToOne
     @JoinColumn(name ="tipoCuenta", referencedColumnName = "tipoCuenta")
@@ -31,17 +28,19 @@ public class Cuenta {
     @JoinColumn(name ="estadoCuenta", referencedColumnName = "estadoCuenta")
     private EstadoCuenta estadoCuenta;
 
-    private double valor;
+    private double saldo;
+
+    private Date fechaUltimaTransaccion;
 
     public Cuenta() {;
     }
 
-    public Cuenta(Integer idCuenta, Usuario cliente, TipoCuenta tipoCuenta, EstadoCuenta estadoCuenta, double valor) {
-        this.idCuenta = idCuenta;
+    public Cuenta(Usuario cliente, TipoCuenta tipoCuenta, EstadoCuenta estadoCuenta, double saldo,Date fechaUltimaTransaccion) {
         this.usuario = cliente;
         this.tipoCuenta = tipoCuenta;
         this.estadoCuenta = estadoCuenta;
-        this.valor = valor;
+        this.saldo = saldo;
+        this.fechaUltimaTransaccion = fechaUltimaTransaccion;
     }
 
     public Integer getIdCuenta() {

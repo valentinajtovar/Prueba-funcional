@@ -9,11 +9,11 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "CUENTA_ORIGEN_TRANSACCION_CUENTA")
-public class CuentaOrigenTransaccionCuenta {
+@Table(name = "CUENTA_DESTINO_TRANSACCION_CUENTA")
+public class CuentaDestinoTransaccionCuenta {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private Integer idCuentaOrigenTransaccionCuenta;
+    private Integer idCuentaDestinoTransaccionCuenta;
 
     @ManyToOne
     @JoinColumn(name ="cuenta", referencedColumnName = "idCuenta")
