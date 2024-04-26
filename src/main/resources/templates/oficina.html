@@ -26,7 +26,6 @@
   </nav>
 
   <h1 style="color: #78288c;">Listado de oficinas:</h1>
-
   <div class="card-columns">
     <div th:each="oficina : ${oficina}" th:object="${oficina}">
       <div class="card" style="background-color: #78288c;">
@@ -51,6 +50,7 @@
       <a th:href="@{/oficina/new}" class="btn btn" style="background-color: #78288c ; color: white;" >Añadir Oficina</a>
       <a th:href="@{/}" class="btn " style="background-color: #ee0e0e; color: white;" >Volver Atrás</a>
     </div>
+
   </div>
   <br />
 </body>

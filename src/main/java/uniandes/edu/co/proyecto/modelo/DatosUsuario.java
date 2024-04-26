@@ -17,14 +17,14 @@ public class DatosUsuario {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private Integer idDatosUsuario;
+    private Long idDatosUsuario;
 
     private String login;
 
     private String clave;
 
 
-    @OneToOne(mappedBy = "datosUsuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "datosUsuario", cascade = CascadeType.ALL)
     private Usuario usuario;
 
 
@@ -51,11 +51,11 @@ public class DatosUsuario {
         this.clave = clave;
     }
 
-    public Integer getIdDatosUsuario() {
+    public Long getIdDatosUsuario() {
         return idDatosUsuario;
     }
 
-    public void setIdDatosUsuario(Integer idDatosUsuario) {
+    public void setIdDatosUsuario(Long idDatosUsuario) {
         this.idDatosUsuario = idDatosUsuario;
     }
 

@@ -27,11 +27,6 @@ public class Usuario {
     @JoinColumn(name ="tipo_documento", referencedColumnName = "tipoDocumento")
     private TipoDocumento tipoDocumento;
 
-    
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name ="datosUsuario", referencedColumnName = "idDatosUsuario")
-    private DatosUsuario datosUsuario;
-
     private Integer numeroDocumento;
 
     private String nombre;
@@ -42,7 +37,7 @@ public class Usuario {
 
     private String direccionDigital;
 
-    private Integer telefono;
+    private Long telefono;
 
     private Integer codigoPostal;
 
@@ -50,14 +45,18 @@ public class Usuario {
     @JoinColumn(name ="tipo_usuario", referencedColumnName = "tipoUsuario")
     private TipoUsuario tipoUsuario;
 
+    @OneToOne()
+    @JoinColumn(name ="ID_DATOS_USUARIO", referencedColumnName = "idDatosUsuario")
+    private DatosUsuario datosUsuario;
+
+
 
     public Usuario(){;}
 
     
-    public Usuario(Integer idUsuario, TipoDocumento tipoDocumento, Integer numeroDocumento, String nombre,
-            String nacionalidad, String direccionFisica, String direccionDigital, Integer telefono,
-            Integer codigoPostal, TipoUsuario tipoUsuario) {
-        this.idUsuario = idUsuario;
+    public Usuario(TipoDocumento tipoDocumento, Integer numeroDocumento, String nombre,
+            String nacionalidad, String direccionFisica, String direccionDigital, Long telefono,
+            Integer codigoPostal, TipoUsuario tipoUsuario, DatosUsuario datosUsuario) {
         this.tipoDocumento = tipoDocumento;
         this.numeroDocumento = numeroDocumento;
         this.nombre = nombre;
@@ -67,6 +66,7 @@ public class Usuario {
         this.telefono = telefono;
         this.codigoPostal = codigoPostal;
         this.tipoUsuario = tipoUsuario;
+        this.datosUsuario = datosUsuario;
     }
 
     public Integer getId() {
@@ -125,11 +125,11 @@ public class Usuario {
         this.direccionDigital = direccionDigital;
     }
 
-    public Integer getTelefono() {
+    public Long getTelefono() {
         return telefono;
     }
 
-    public void setTelefono(Integer telefono) {
+    public void setTelefono(Long telefono) {
         this.telefono = telefono;
     }
 
@@ -149,11 +149,16 @@ public class Usuario {
         this.tipoUsuario = tipoUsuario;
     }
     
-    
+    public DatosUsuario getDatosUsuario() {
+        return datosUsuario;
+    }
 
+    public void setDatosUsuario(DatosUsuario datosUsuario) {
+        this.datosUsuario = datosUsuario;
+    }
 
-    
-
-
+    public Integer getIdUsuario() {
+        return idUsuario;
+    }
 
 }

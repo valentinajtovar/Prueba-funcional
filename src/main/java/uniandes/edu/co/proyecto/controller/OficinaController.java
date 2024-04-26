@@ -1,5 +1,5 @@
 
-/*package uniandes.edu.co.proyecto.controller;
+package uniandes.edu.co.proyecto.controller;
 
 import java.util.Optional;
 
@@ -60,8 +60,8 @@ public class OficinaController {
 
 
     @PostMapping("/oficinas/{id_Oficina}/edit/save")
-    public String barEditarGuardar(@PathVariable("id_Oficina") Integer id, @ModelAttribute Oficina oficina) {
-        oficinaRepository.actualizarOficina(id, oficina.getNombre(), oficina.getLocacion(), oficina.getGerente());
+    public String OficinaEditarGuardar(@PathVariable("id_Oficina") Integer id, @ModelAttribute Oficina oficina) {
+        oficinaRepository.actualizarOficina(id, oficina.getNombre(), oficina.getDireccion(), oficina.getNumeroPuntosDisponibles());
         return "redirect:/oficina";
     }
 
@@ -73,4 +73,3 @@ public class OficinaController {
         return "redirect:/oficina";
     }
 }
-*/

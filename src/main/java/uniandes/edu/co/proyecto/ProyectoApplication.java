@@ -10,6 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import uniandes.edu.co.proyecto.repositorio.OficinaRepository;
 import uniandes.edu.co.proyecto.repositorio.TiposPuntosAtencionRepository;
+import uniandes.edu.co.proyecto.repositorio.UsuarioRepository;
 import uniandes.edu.co.proyecto.modelo.Oficina;
 /*
 import uniandes.edu.co.proyecto.repositorio.PuntosAtencionRepository;
@@ -18,6 +19,7 @@ import uniandes.edu.co.proyecto.modelo.Oficina;
 import uniandes.edu.co.proyecto.modelo.PuntosAtencion;
 */
 import uniandes.edu.co.proyecto.modelo.TiposPuntosAtencion;
+import uniandes.edu.co.proyecto.modelo.Usuario;
 
 
 @SpringBootApplication
@@ -27,6 +29,9 @@ public class ProyectoApplication implements CommandLineRunner {
 	*/
 	@Autowired
 	private OficinaRepository oficinaRepository; 
+
+	@Autowired
+	private UsuarioRepository usuarioRepository; 
 
 	@Autowired
 	private TiposPuntosAtencionRepository tiposPuntosAtencionRepository;
@@ -39,9 +44,20 @@ public class ProyectoApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args)  {
+
+		Collection<Usuario> usuarios = usuarioRepository.darUsuarios();
+		System.out.println(usuarios);
+
 		
-/*		
-		
+
+
+		/* 
+		Collection<Usuario> usuarios = usuarioRepository.darUsuarios();
+		System.out.println(usuarios);
+		*/
+
+
+ /*		
 		Collection<Oficina> oficinas = oficinaRepository.darOficinas();
 		System.out.println(oficinas);
 		for (Oficina u: oficinas)
@@ -49,11 +65,11 @@ public class ProyectoApplication implements CommandLineRunner {
 			System.out.println("------------------------");
 			System.out.println(u.getIdOficina());
 			System.out.println(u.getNombre());
-			System.out.println(u.getLocacion());
-			System.out.println(u.getGerente());
+			System.out.println(u.getDireccion());
+			System.out.println(u.getNumeroPuntosDisponibles());
 			System.out.println("------------------------");
 		}
- */	
+  */
 /*
 		System.out.println("HOLAAA");
 		Optional<Oficina> buscarOficina = oficinaRepository.buscarOficinaPorId(2);
