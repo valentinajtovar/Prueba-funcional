@@ -47,6 +47,15 @@ public class ProyectoApplication implements CommandLineRunner {
 
 		Collection<Usuario> usuarios = usuarioRepository.darUsuarios();
 		System.out.println(usuarios);
+		for (Usuario u: usuarios)
+		{
+			System.out.println("------------------------");
+			System.out.println(u.getNombre());
+			System.out.println(u.getDireccionFisica());
+			System.out.println(u.getNacionalidad());
+			System.out.println(u.getNumeroDocumento());
+			System.out.println("------------------------");
+		}
 
 		
 

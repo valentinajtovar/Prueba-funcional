@@ -23,11 +23,6 @@ public class DatosUsuario {
 
     private String clave;
 
-
-    @OneToOne(mappedBy = "datosUsuario", cascade = CascadeType.ALL)
-    private Usuario usuario;
-
-
     public DatosUsuario(){;}
 
     public DatosUsuario(String login, String clave) {

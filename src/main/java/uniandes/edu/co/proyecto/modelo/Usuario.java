@@ -45,11 +45,12 @@ public class Usuario {
     @JoinColumn(name ="tipo_usuario", referencedColumnName = "tipoUsuario")
     private TipoUsuario tipoUsuario;
 
+    
     @OneToOne()
-    @JoinColumn(name ="ID_DATOS_USUARIO", referencedColumnName = "idDatosUsuario")
-    private DatosUsuario datosUsuario;
+    @JoinColumn(name ="DATOS_USUARIO", referencedColumnName = "idDatosUsuario")
+    private DatosUsuario datosUsuario; 
 
-
+ 
 
     public Usuario(){;}
 
