@@ -40,8 +40,8 @@ public class Oficina {
     }
 
 
-    public void setIdOficina(Integer idPuntosAtencion) {
-        this.idOficina = idPuntosAtencion;
+    public void setIdOficina(Integer idOficina) {
+        this.idOficina = idOficina;
     }
 
 

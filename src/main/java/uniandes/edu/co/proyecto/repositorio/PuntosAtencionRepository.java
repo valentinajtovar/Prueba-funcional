@@ -17,24 +17,24 @@ public interface PuntosAtencionRepository extends JpaRepository<PuntosAtencion, 
     @Query(value = "SELECT 1 FROM DUAL", nativeQuery = true)
     Integer testConnection();
 
-    @Query(value = "SELECT * FROM PUNTOS_ATENCION", nativeQuery = true)
+    @Query(value = "SELECT * FROM PUNTO_ATENCION", nativeQuery = true)
     List<PuntosAtencion> darPuntosAtencion();
 
-    @Query(value = "SELECT * FROM PUNTOS_ATENCION WHERE idPuntosAtencion = :idPuntosAtencion", nativeQuery = true)
+    @Query(value = "SELECT * FROM PUNTO_ATENCION WHERE idPuntosAtencion = :idPuntosAtencion", nativeQuery = true)
     Optional<PuntosAtencion> buscarPuntosAtencionPorId(@Param("idPuntosAtencion") Integer idPuntosAtencion);
 
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO PUNTOS_ATENCION (nombre, tipo, locacion) VALUES (:nombre, :tipo, :locacion)", nativeQuery = true)
+    @Query(value = "INSERT INTO PUNTO_ATENCION (nombre, tipo, locacion) VALUES (:nombre, :tipo, :locacion)", nativeQuery = true)
     void insertarPuntosAtencion(@Param("nombre") String nombre, @Param("tipo") String tipo, @Param("locacion") String locacion);
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE PUNTOS_ATENCION SET nombre = :nombre, tipo = :tipo, locacion = :locacion WHERE idPuntosAtencion = :idPuntosAtencion", nativeQuery = true)
+    @Query(value = "UPDATE PUNTO_ATENCION SET nombre = :nombre, tipo = :tipo, locacion = :locacion WHERE idPuntosAtencion = :idPuntosAtencion", nativeQuery = true)
     void actualizarPuntosAtencion(@Param("idPuntosAtencion") Integer idPuntosAtencion, @Param("nombre") String nombre, @Param("tipo") String tipo, @Param("locacion") String locacion);
 
     @Modifying
     @Transactional
-    @Query(value = "DELETE FROM PUNTOS_ATENCION WHERE idPuntosAtencion = :idPuntosAtencion", nativeQuery = true)
+    @Query(value = "DELETE FROM PUNTO_ATENCION WHERE idPuntosAtencion = :idPuntosAtencion", nativeQuery = true)
     void eliminarPuntosAtencion(@Param("idPuntosAtencion") Integer idPuntosAtencion);
 }

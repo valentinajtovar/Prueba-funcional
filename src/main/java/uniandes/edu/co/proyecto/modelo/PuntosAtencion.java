@@ -13,17 +13,17 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "PUNTOS_ATENCION")
+@Table(name = "PUNTO_ATENCION")
 public class PuntosAtencion {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private Integer idPuntosAtencion;
+    private Integer idPuntoAtencion;
 
     private String nombre;
 
     @ManyToOne
-    @JoinColumn(name ="tipo", referencedColumnName = "nombre")
-    private TiposPuntosAtencion tipo;
+    @JoinColumn(name ="tipo_punto_atencion", referencedColumnName = "tipoPuntoAtencion")
+    private TiposPuntosAtencion tiposPuntosAtencion;
     
     private String locacion;
 
@@ -32,15 +32,15 @@ public class PuntosAtencion {
     private String horarioCierre;
 
     @ManyToOne
-    @JoinColumn(name ="idOficina", referencedColumnName = "idOficina")
+    @JoinColumn(name ="id_Oficina", referencedColumnName = "idOficina")
     private Oficina idOficina;
 
     public PuntosAtencion(){;}
 
-    public PuntosAtencion(String nombre,TiposPuntosAtencion tipo,String locacion,String horarioApertura,String horarioCierre, Oficina idOficina)
+    public PuntosAtencion(String nombre,TiposPuntosAtencion tiposPuntosAtencion,String locacion,String horarioApertura,String horarioCierre, Oficina idOficina)
     {
         this.nombre = nombre;
-        this.tipo = tipo;
+        this.tiposPuntosAtencion = tiposPuntosAtencion;
         this.locacion = locacion;
         this.horarioApertura = horarioApertura;
         this.horarioCierre = horarioCierre;
@@ -48,7 +48,7 @@ public class PuntosAtencion {
     }
 
     public Integer getIdPuntosAtencion(){
-        return idPuntosAtencion;
+        return idPuntoAtencion;
     }
 
     public String getNombre(){
@@ -56,7 +56,7 @@ public class PuntosAtencion {
     } 
 
     public TiposPuntosAtencion getTipo(){
-        return tipo;
+        return tiposPuntosAtencion;
     } 
 
     public String getLocacion(){
@@ -76,7 +76,7 @@ public class PuntosAtencion {
     }
 
     public void setIdPuntosAtencion(Integer idPuntosAtencion){
-        this.idPuntosAtencion = idPuntosAtencion;
+        this.idPuntoAtencion = idPuntosAtencion;
     }
 
 
@@ -84,8 +84,8 @@ public class PuntosAtencion {
         this.nombre = nombre;
     } 
 
-    public void setTipo(TiposPuntosAtencion tipo){
-        this.tipo = tipo;
+    public void setTipo(TiposPuntosAtencion tiposPuntosAtencion){
+        this.tiposPuntosAtencion = tiposPuntosAtencion;
     } 
 
     public void setLocacion(String locacion){

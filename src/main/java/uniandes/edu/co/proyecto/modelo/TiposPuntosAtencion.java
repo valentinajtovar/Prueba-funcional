@@ -13,47 +13,24 @@ import jakarta.persistence.Table;
 
 
 @Entity
-@Table(name = "TIPOS_PUNTOS_ATENCION")
+@Table(name = "TIPO_PUNTO_ATENCION")
 public class TiposPuntosAtencion {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private Integer idTiposPuntosAtencion;
-
-    private String nombre;
+    private String tipoPuntoAtencion;
 
     public TiposPuntosAtencion(){;}
 
-    
 
-    public TiposPuntosAtencion(String nombre) {
-        this.nombre = nombre;
+    public TiposPuntosAtencion(String tipoPuntoAtencion) {
+        this.tipoPuntoAtencion = tipoPuntoAtencion;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getTipoPuntoAtencion() {
+        return tipoPuntoAtencion;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setTipoPuntoAtencion(String tipoPuntoAtencion) {
+        this.tipoPuntoAtencion = tipoPuntoAtencion;
     }
-
-
-
-    public Integer getIdTiposPuntosAtencion() {
-        return idTiposPuntosAtencion;
-    }
-
-
-    public void setIdTiposPuntosAtencion(Integer idTiposPuntosAtencion) {
-        this.idTiposPuntosAtencion = idTiposPuntosAtencion;
-    }
-
-    
-
-
-    
-
-
-
 }

@@ -35,7 +35,7 @@ public class TiposPuntosAtencionController {
 
     @PostMapping("/tiposPuntosAtencion/new/save")
     public String guardarTiposPuntosAtencion(@ModelAttribute TiposPuntosAtencion tiposPuntosAtencion) {
-        tiposPuntosAtencionRepository.insertarTiposPuntosAtencion(tiposPuntosAtencion.getNombre());
+        tiposPuntosAtencionRepository.insertarTiposPuntosAtencion(tiposPuntosAtencion.getTipoPuntoAtencion());
         return "redirect:/tiposPuntosAtencion";
     }
 
@@ -52,7 +52,7 @@ public class TiposPuntosAtencionController {
 
     @PostMapping("/tiposPuntosAtencion/{idTiposPuntosAtencion}/edit/save")
     public String guardarEdicionTiposPuntosAtencion(@PathVariable("idTiposPuntosAtencion") Integer idTiposPuntosAtencion, @ModelAttribute TiposPuntosAtencion tiposPuntosAtencion) {
-        tiposPuntosAtencionRepository.actualizarTiposPuntosAtencion(idTiposPuntosAtencion, tiposPuntosAtencion.getNombre());
+        tiposPuntosAtencionRepository.actualizarTiposPuntosAtencion(idTiposPuntosAtencion, tiposPuntosAtencion.getTipoPuntoAtencion());
         return "redirect:/tiposPuntosAtencion";
     }
 

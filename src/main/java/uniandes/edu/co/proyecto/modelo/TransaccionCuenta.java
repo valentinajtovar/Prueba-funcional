@@ -25,7 +25,7 @@ public class TransaccionCuenta {
     private Usuario idCajero;
 
     @ManyToOne
-    @JoinColumn(name = "idPuntosAtencion", referencedColumnName = "idPuntosAtencion")
+    @JoinColumn(name = "idPuntoAtencion", referencedColumnName = "idPuntoAtencion")
     private PuntosAtencion idPuntosAtencion;
 
     @ManyToOne
@@ -47,10 +47,6 @@ public class TransaccionCuenta {
     @ManyToOne
     @JoinColumn(name = "cuentaDestinoTransaccionCuenta", referencedColumnName = "idCuentaDestinoTransaccionCuenta")
     private CuentaDestinoTransaccionCuenta cuentaDestinoTransaccionCuenta;
-
-    @ManyToOne
-    @JoinColumn(name = "idPuntoAtencion", referencedColumnName = "idPuntosAtencion")
-    private PuntosAtencion idPuntoAtencion;
 
     private double monto;
 

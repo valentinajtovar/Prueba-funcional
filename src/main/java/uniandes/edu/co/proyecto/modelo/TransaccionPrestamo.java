@@ -30,7 +30,7 @@ public class TransaccionPrestamo {
     private Usuario idCajero;
 
     @ManyToOne
-    @JoinColumn(name = "idPuntoAtencion", referencedColumnName = "idPuntosAtencion")
+    @JoinColumn(name = "idPuntoAtencion", referencedColumnName = "idPuntoAtencion")
     private PuntosAtencion idPuntoAtencion;
 
     @ManyToOne
