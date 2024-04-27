@@ -10,11 +10,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import uniandes.edu.co.proyecto.repositorio.CuentaRepository;
 import uniandes.edu.co.proyecto.repositorio.OficinaRepository;
+import uniandes.edu.co.proyecto.repositorio.PrestamoRepository;
 import uniandes.edu.co.proyecto.repositorio.PuntosAtencionRepository;
 import uniandes.edu.co.proyecto.repositorio.TiposPuntosAtencionRepository;
 import uniandes.edu.co.proyecto.repositorio.UsuarioRepository;
 import uniandes.edu.co.proyecto.modelo.Cuenta;
 import uniandes.edu.co.proyecto.modelo.Oficina;
+import uniandes.edu.co.proyecto.modelo.Prestamo;
 import uniandes.edu.co.proyecto.modelo.PuntosAtencion;
 /*
 import uniandes.edu.co.proyecto.repositorio.PuntosAtencionRepository;
@@ -45,6 +47,9 @@ public class ProyectoApplication implements CommandLineRunner {
 
 	@Autowired
 	private CuentaRepository cuentaRepository;
+
+	@Autowired
+	private PrestamoRepository prestamoRepository;
 	 
 
 	public static void main(String[] args) 
@@ -57,6 +62,17 @@ public class ProyectoApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args)  {
 
+		Collection<Prestamo> prestamos= prestamoRepository.darPrestamos();
+		System.out.println(prestamos);
+		for (Prestamo u: prestamos)
+		{
+			System.out.println("------------------------");
+			System.out.println(u.getValorCuota());
+			System.out.println(u.getIdPrestamo());
+			System.out.println("------------------------");
+		}
+
+		/* 
 		Collection<Cuenta> cuentas = cuentaRepository.darCuentas();
 		System.out.println(cuentas);
 		for (Cuenta u: cuentas)
@@ -66,7 +82,7 @@ public class ProyectoApplication implements CommandLineRunner {
 			System.out.println(u.getEstadoCuenta().getEstadoCuenta());
 			System.out.println("------------------------");
 		}
- 
+ */
 
 		/*
 		Collection<PuntosAtencion> puntosAtencions = puntosAtencionRepository.darPuntosAtencion();

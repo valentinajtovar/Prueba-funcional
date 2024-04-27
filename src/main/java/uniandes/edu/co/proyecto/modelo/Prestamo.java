@@ -29,11 +29,11 @@ public class Prestamo {
     private Float monto;
 
     @ManyToOne
-    @JoinColumn(name ="estado", referencedColumnName = "estadoPrestamo")
+    @JoinColumn(name ="ESTADO_PRESTAMO", referencedColumnName = "estadoPrestamo")
     private EstadoPrestamo estadoPrestamo;
 
     @ManyToOne
-    @JoinColumn(name ="tipoPrestamo", referencedColumnName = "tipoPrestamo")
+    @JoinColumn(name ="TIPO_PRESTAMO", referencedColumnName = "tipoPrestamo")
     private TipoPrestamo tipoPrestamo;
 
     private Float interes;
