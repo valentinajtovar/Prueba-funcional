@@ -8,10 +8,12 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import uniandes.edu.co.proyecto.repositorio.CuentaRepository;
 import uniandes.edu.co.proyecto.repositorio.OficinaRepository;
 import uniandes.edu.co.proyecto.repositorio.PuntosAtencionRepository;
 import uniandes.edu.co.proyecto.repositorio.TiposPuntosAtencionRepository;
 import uniandes.edu.co.proyecto.repositorio.UsuarioRepository;
+import uniandes.edu.co.proyecto.modelo.Cuenta;
 import uniandes.edu.co.proyecto.modelo.Oficina;
 import uniandes.edu.co.proyecto.modelo.PuntosAtencion;
 /*
@@ -40,6 +42,9 @@ public class ProyectoApplication implements CommandLineRunner {
 
 	@Autowired
 	private TiposPuntosAtencionRepository tiposPuntosAtencionRepository;
+
+	@Autowired
+	private CuentaRepository cuentaRepository;
 	 
 
 	public static void main(String[] args) 
@@ -52,7 +57,18 @@ public class ProyectoApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args)  {
 
+		Collection<Cuenta> cuentas = cuentaRepository.darCuentas();
+		System.out.println(cuentas);
+		for (Cuenta u: cuentas)
+		{
+			System.out.println("------------------------");
+			System.out.println(u.getIdCuenta());
+			System.out.println(u.getEstadoCuenta().getEstadoCuenta());
+			System.out.println("------------------------");
+		}
+ 
 
+		/*
 		Collection<PuntosAtencion> puntosAtencions = puntosAtencionRepository.darPuntosAtencion();
 		System.out.println(puntosAtencions);
 		for (PuntosAtencion u: puntosAtencions)
@@ -60,7 +76,7 @@ public class ProyectoApplication implements CommandLineRunner {
 			System.out.println("------------------------");
 			System.out.println(u.getNombre());
 			System.out.println("------------------------");
-		}
+		} */
 		/*
 
 		Collection<Usuario> usuarios = usuarioRepository.darUsuarios();

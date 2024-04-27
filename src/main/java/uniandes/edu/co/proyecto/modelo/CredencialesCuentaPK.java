@@ -6,22 +6,25 @@ import jakarta.persistence.Embeddable;
 
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 
 @Embeddable
 public class CredencialesCuentaPK implements Serializable {
     @ManyToOne
-    @JoinColumn(name = "idCliente", referencedColumnName = "idUsuario")
+    @JoinColumn(name = "ID_USUARIO", referencedColumnName = "idUsuario")
     private Usuario idCliente;
 
-    @ManyToOne
-    @JoinColumn(name = "idGerente", referencedColumnName = "idUsuario")
-    private Usuario idGerente;
+    @OneToOne
+    @JoinColumn(name = "ID_CUENTA", referencedColumnName = "idCuenta")
+    private Cuenta idCuenta;
+
+    
 
     public CredencialesCuentaPK(){;}
 
-    public CredencialesCuentaPK(Usuario idCliente,Usuario idGerente){
+    public CredencialesCuentaPK(Usuario idCliente,Cuenta idCuenta){
         this.idCliente = idCliente;
-        this.idGerente = idGerente;
+        this.idCuenta = idCuenta;
     }
     
     public Usuario getIdCliente() {
@@ -32,11 +35,11 @@ public class CredencialesCuentaPK implements Serializable {
         this.idCliente = idCliente;
     }
 
-    public Usuario getIdGerente() {
-        return idGerente;
+    public Cuenta getIdCuenta() {
+        return idCuenta;
     }
 
-    public void setIdGerente(Usuario idGerente) {
-        this.idGerente = idGerente;
+    public void setIdCuenta(Cuenta idCuenta) {
+        this.idCuenta = idCuenta;
     }
 }

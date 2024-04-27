@@ -14,22 +14,19 @@ import jakarta.persistence.Table;
 
 
 @Entity
-@Table(name = "CUENTAS")
+@Table(name = "CUENTA")
 public class Cuenta {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer idCuenta;
-
-    @OneToOne
-    private CredencialesCuenta credencialesCuenta;
     
     @ManyToOne
-    @JoinColumn(name ="tipoCuenta", referencedColumnName = "tipoCuenta")
+    @JoinColumn(name ="TIPO_CUENTA", referencedColumnName = "tipoCuenta")
     private TipoCuenta tipoCuenta;
 
     @ManyToOne
-    @JoinColumn(name ="estadoCuenta", referencedColumnName = "estadoCuenta")
+    @JoinColumn(name ="ESTADO_CUENTA", referencedColumnName = "estadoCuenta")
     private EstadoCuenta estadoCuenta;
 
     private double saldo;

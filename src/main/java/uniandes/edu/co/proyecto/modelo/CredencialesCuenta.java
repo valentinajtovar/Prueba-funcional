@@ -15,16 +15,16 @@ public class CredencialesCuenta {
 
     private CredencialesCuentaPK pk;
 
-    @OneToOne
-    @JoinColumn(name = "idCuenta", referencedColumnName = "idCuenta")
-    private Cuenta idCuenta;
+    @ManyToOne
+    @JoinColumn(name = "idGerente", referencedColumnName = "idUsuario")
+    private Usuario idGerente;
 
     public CredencialesCuenta(){;}
 
     public CredencialesCuenta(Usuario cliente, Usuario gerente, Cuenta cuenta){
         super();
-        this.pk = new CredencialesCuentaPK(cliente,gerente);
-        this.idCuenta = cuenta;
+        this.pk = new CredencialesCuentaPK(cliente,cuenta);
+        this.idGerente = gerente;
     }
 
     public CredencialesCuentaPK getPk() {
@@ -35,12 +35,12 @@ public class CredencialesCuenta {
         this.pk = pk;
     }
 
-    public Cuenta getIdCuenta() {
-        return idCuenta;
+    public Usuario getIdGerente() {
+        return idGerente;
     }
 
-    public void setIdCuenta(Cuenta idCuenta) {
-        this.idCuenta = idCuenta;
+    public void setIdGerente(Usuario idGerente) {
+        this.idGerente = idGerente;
     }
 
 }
