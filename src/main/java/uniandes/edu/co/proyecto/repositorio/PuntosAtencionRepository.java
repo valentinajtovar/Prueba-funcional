@@ -20,8 +20,8 @@ public interface PuntosAtencionRepository extends JpaRepository<PuntosAtencion, 
     @Query(value = "SELECT * FROM PUNTO_ATENCION", nativeQuery = true)
     List<PuntosAtencion> darPuntosAtencion();
 
-    @Query(value = "SELECT * FROM PUNTO_ATENCION WHERE idPuntosAtencion = :idPuntosAtencion", nativeQuery = true)
-    Optional<PuntosAtencion> buscarPuntosAtencionPorId(@Param("idPuntosAtencion") Integer idPuntosAtencion);
+    @Query(value = "SELECT * FROM PUNTO_ATENCION WHERE ID_PUNTO_ATENCION = :idPuntosAtencion", nativeQuery = true)
+    PuntosAtencion buscarPuntosAtencionPorId(@Param("idPuntosAtencion") Integer idPuntosAtencion);
 
     @Modifying
     @Transactional

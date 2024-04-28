@@ -47,7 +47,7 @@ public class PuntosAtencion {
         this.idOficina = idOficina;
     }
 
-    public Integer getIdPuntosAtencion(){
+    public Integer getIdPuntoAtencion(){
         return idPuntoAtencion;
     }
 

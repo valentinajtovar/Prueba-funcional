@@ -43,8 +43,8 @@ public class PuntosAtencionController {
     }
 
 
-    @GetMapping("/puntosAtencion/{idPuntosAtencion}/delete")
-    public String eliminarPuntosAtencion(@PathVariable("idPuntosAtencion") Integer idPuntosAtencion) {
+    @GetMapping("/puntosAtencion/{id_Punto_Atencion}/delete")
+    public String eliminarPuntosAtencion(@PathVariable("id_Punto_Atencion") Integer idPuntosAtencion,Model model) {
         puntosAtencionRepository.eliminarPuntosAtencion(idPuntosAtencion);
         return "redirect:/puntosAtencion";
     }

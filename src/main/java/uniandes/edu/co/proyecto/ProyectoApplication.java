@@ -100,7 +100,7 @@ public class ProyectoApplication implements CommandLineRunner {
 		{	
 			System.out.println("------------------------");
 			System.out.println(u.getNombre());
-			System.out.println(u.getIdPuntosAtencion());
+			System.out.println(u.getIdPuntoAtencion());
 			
 			System.out.println("------------------------");
 		}
