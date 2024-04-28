@@ -61,7 +61,7 @@ public class ProyectoApplication implements CommandLineRunner {
 	
 	@Override
 	public void run(String... args)  {
-
+/*
 		Collection<Prestamo> prestamos= prestamoRepository.darPrestamos();
 		System.out.println(prestamos);
 		for (Prestamo u: prestamos)
@@ -70,7 +70,7 @@ public class ProyectoApplication implements CommandLineRunner {
 			System.out.println(u.getValorCuota());
 			System.out.println(u.getIdPrestamo());
 			System.out.println("------------------------");
-		}
+		} */
 
 		/* 
 		Collection<Cuenta> cuentas = cuentaRepository.darCuentas();
@@ -93,7 +93,7 @@ public class ProyectoApplication implements CommandLineRunner {
 			System.out.println(u.getNombre());
 			System.out.println("------------------------");
 		} */
-		/*
+		
 
 		Collection<Usuario> usuarios = usuarioRepository.darUsuarios();
 		System.out.println(usuarios);
@@ -109,7 +109,7 @@ public class ProyectoApplication implements CommandLineRunner {
 
 		
 
-*/
+*
 
 		/* 
 		Collection<Usuario> usuarios = usuarioRepository.darUsuarios();
