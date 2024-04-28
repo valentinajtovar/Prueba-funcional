@@ -1,5 +1,5 @@
 
-/*package uniandes.edu.co.proyecto.controller;
+package uniandes.edu.co.proyecto.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,7 +20,7 @@ public class PuntosAtencionController {
     @GetMapping("/puntosAtencion")
     public String listarPuntosAtencion(Model model) {
         model.addAttribute("puntosAtencion", puntosAtencionRepository.darPuntosAtencion());
-        return "puntosAtencionLista";
+        return "puntosAtencion";
     }
 
     @GetMapping("/puntosAtencion/new")
@@ -30,32 +30,18 @@ public class PuntosAtencionController {
     }
 
     @PostMapping("/puntosAtencion/new/save")
-    public String guardarPuntosAtencion(@ModelAttribute PuntosAtencion puntosAtencion) {
-        puntosAtencionRepository.save(puntosAtencion);
+    public String guardarPuntosAtencion(@ModelAttribute("nombre") String nombre,@ModelAttribute("tipo") String tipo,@ModelAttribute("locacion") String locacion,@ModelAttribute("horarioApertura") String horarioApertura,@ModelAttribute("horarioCierre") String horarioCierre,@ModelAttribute("idOficina") String idOficina) {
+        int idOficinaNumero = Integer.parseInt(idOficina);
+        System.out.println(nombre);
+        System.out.println(tipo);
+        System.out.println(locacion);
+        System.out.println(horarioApertura);
+        System.out.println(horarioCierre);
+        System.out.println(idOficinaNumero);
+        puntosAtencionRepository.insertarPuntosAtencion(nombre, tipo, locacion, horarioApertura, horarioCierre, idOficinaNumero);
         return "redirect:/puntosAtencion";
     }
 
-    @GetMapping("/puntosAtencion/{idPuntosAtencion}/edit")
-    public String formularioEditarPuntosAtencion(@PathVariable("idPuntosAtencion") Integer idPuntosAtencion, Model model) {
-        PuntosAtencion puntosAtencion = puntosAtencionRepository.buscarPuntosAtencionPorId(idPuntosAtencion).orElse(null);
-        if (puntosAtencion != null) {
-            model.addAttribute("puntosAtencion", puntosAtencion);
-            return "puntosAtencionEditar";
-        } else {
-            return "redirect:/puntosAtencion";
-        }
-    }
-
-    @PostMapping("/puntosAtencion/{idPuntosAtencion}/edit/save")
-    public String guardarEdicionPuntosAtencion(@PathVariable("idPuntosAtencion") Integer idPuntosAtencion, @ModelAttribute PuntosAtencion puntosAtencion) {
-        puntosAtencionRepository.actualizarPuntosAtencion(
-            idPuntosAtencion,
-            puntosAtencion.getNombre(),
-            puntosAtencion.getTipo(),
-            puntosAtencion.getLocacion()
-        );
-        return "redirect:/puntosAtencion";
-    }
 
     @GetMapping("/puntosAtencion/{idPuntosAtencion}/delete")
     public String eliminarPuntosAtencion(@PathVariable("idPuntosAtencion") Integer idPuntosAtencion) {
@@ -63,4 +49,3 @@ public class PuntosAtencionController {
         return "redirect:/puntosAtencion";
     }
 }
-*/

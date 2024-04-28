@@ -90,15 +90,26 @@ public class ProyectoApplication implements CommandLineRunner {
 		}*/
  
 
-		/*
+		Integer idPuntoAtencion = 0;
 		Collection<PuntosAtencion> puntosAtencions = puntosAtencionRepository.darPuntosAtencion();
-		System.out.println(puntosAtencions);
+		/*puntosAtencionRepository.insertarPuntosAtencion("cajero sote", "PERSONALIZADA", "Calle Principal 123", "09:00", "15:00", 2);
+		*/
+
+		
 		for (PuntosAtencion u: puntosAtencions)
-		{
+		{	
 			System.out.println("------------------------");
 			System.out.println(u.getNombre());
+			System.out.println(u.getIdPuntosAtencion());
+			
 			System.out.println("------------------------");
-		} */
+		}
+		/*puntosAtencionRepository.eliminarPuntosAtencion(idPuntoAtencion);
+		*//* 
+		System.out.println(idPuntoAtencion);
+		System.out.println("se elimino");
+		*/
+		
 		/*
 
 		Collection<Usuario> usuarios = usuarioRepository.darUsuarios();

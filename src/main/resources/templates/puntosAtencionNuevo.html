@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Crear Servicio</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}" />
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary" >
+        <div class="container-fluid">
+            <a class="navbar-brand" th:href='@{/}'>
+            <img th:src="@{/images/logoPrincipal.png}" width="200" height="60">
+            </a>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" th:href="@{/oficina}" style="color: #78288c;">Oficinas</a>
+                    </li>
+                </ul>
+          </div>
+        </div>
+    </nav>
+
+    <h1 style="color: #78288c;">Estas Creando Un Punto De Atencion:</h1>
+    <br>
+
+    <br>
+    <div class="center-text">
+    <form th:action="@{/puntosAtencion/new/save}" method="post">
+        <div class="form-group">
+            <label for="nombre" style="color: #78288c;">Nombre:</label>
+            <input type="text" class="form-control" style="color: #78288c;" id="nombre" placeholder="Nombre" name="nombre" />
+        </div>
+        <div class="form-group">
+            <label for="tipo" style="color: #78288c;">Tipo Punto Atencion:</label>
+            <input type="text" class="form-control" style="color: #78288c;" id="tipo" placeholder="Tipo Punto Atencion" name="tipo" />
+        </div>
+        <div class="form-group">
+            <label for="locacion" style="color: #78288c;">Locacion:</label>
+            <input type="text" class="form-control" style="color: #78288c;" id="locacion" placeholder="Locacion" name="locacion" />
+        </div>
+        <div class="form-group">
+            <label for="horarioApertura" style="color: #78288c;">Horario De Apertura:</label>
+            <input type="text" class="form-control" style="color: #78288c;" id="horarioApertura" placeholder="horarioApertura" name="horarioApertura" />
+        </div>
+        <div class="form-group">
+            <label for="horarioCierre" style="color: #78288c;">Horario De Cierre:</label>
+            <input type="text" class="form-control" style="color: #78288c;" id="horarioCierre" placeholder="horarioCierre" name="horarioCierre" />
+        </div>
+        <div class="form-group">
+            <label for="idOficina" style="color: #78288c;">Id De Oficina:</label>
+            <input type="text" class="form-control" style="color: #78288c;" id="idOficina" placeholder="idOficina" name="idOficina" />
+        </div>
+        
+        
+        <button type="submit" class="btn" style="background-color: #78288c; color: white;">Guardar</button>
+        <a th:href="@{/puntosAtencion}" class="btn" style="background-color: #ee0e0e; color: white;">Cancelar</a>
+    </form>
+    </div>
+</body>
+
+</html>
