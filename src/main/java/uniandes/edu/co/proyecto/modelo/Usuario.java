@@ -20,7 +20,6 @@ import jakarta.persistence.Table;
 @Table(name = "USUARIO")
 public class Usuario {
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer idUsuario;
 
     @ManyToOne
@@ -55,9 +54,10 @@ public class Usuario {
     public Usuario(){;}
 
     
-    public Usuario(TipoDocumento tipoDocumento, Integer numeroDocumento, String nombre,
+    public Usuario(Integer idUsuario,TipoDocumento tipoDocumento, Integer numeroDocumento, String nombre,
             String nacionalidad, String direccionFisica, String direccionDigital, Long telefono,
             Integer codigoPostal, TipoUsuario tipoUsuario, DatosUsuario datosUsuario) {
+        this.idUsuario=idUsuario;
         this.tipoDocumento = tipoDocumento;
         this.numeroDocumento = numeroDocumento;
         this.nombre = nombre;

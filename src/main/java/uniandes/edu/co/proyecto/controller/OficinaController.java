@@ -39,8 +39,6 @@ public class OficinaController {
     @PostMapping("/oficina/new/save")
     public String guardarOficina( @ModelAttribute("nombre") String nombre,
             @ModelAttribute("locacion") String locacion, @ModelAttribute("gerente") Integer gerente) {
-
- 
         oficinaRepository.insertarOficina(nombre, locacion, gerente);
         return "redirect:/oficina";} 
 

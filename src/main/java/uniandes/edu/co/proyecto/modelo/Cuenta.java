@@ -67,14 +67,6 @@ public class Cuenta {
         this.estadoCuenta = estadoCuenta;
     }
 
-    public CredencialesCuenta getCredencialesCuenta() {
-        return credencialesCuenta;
-    }
-    
-    public void setCredencialesCuenta(CredencialesCuenta credencialesCuenta) {
-        this.credencialesCuenta = credencialesCuenta;
-    }
-
     public Date getFechaUltimaTransaccion() {
         return fechaUltimaTransaccion;
     }

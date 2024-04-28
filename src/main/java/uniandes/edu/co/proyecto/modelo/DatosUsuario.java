@@ -17,7 +17,7 @@ public class DatosUsuario {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private Long idDatosUsuario;
+    private Integer idDatosUsuario;
 
     private String login;
 
@@ -46,11 +46,11 @@ public class DatosUsuario {
         this.clave = clave;
     }
 
-    public Long getIdDatosUsuario() {
+    public Integer getIdDatosUsuario() {
         return idDatosUsuario;
     }
 
-    public void setIdDatosUsuario(Long idDatosUsuario) {
+    public void setIdDatosUsuario(Integer idDatosUsuario) {
         this.idDatosUsuario = idDatosUsuario;
     }
 

@@ -19,6 +19,9 @@ public interface DatosUsuarioRepository extends JpaRepository<DatosUsuario, Inte
     @Query(value = "SELECT * FROM DATOS_USUARIO", nativeQuery = true)
     Collection<DatosUsuario> darDatosUsuarios();
 
+    @Query(value = "SELECT LOGIN FROM DATOS_USUARIO", nativeQuery = true)
+    Collection<String> darLogin();
+
     @Query(value = "SELECT * FROM DATOS_USUARIO WHERE login = :login", nativeQuery = true)
     DatosUsuario buscarUsuarioPorLogin(@Param("login") String login);
 
