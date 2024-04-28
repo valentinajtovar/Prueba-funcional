@@ -1,6 +1,7 @@
 package uniandes.edu.co.proyecto.repositorio;
 
 
+import java.sql.Date;
 import java.util.Collection;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -22,8 +23,8 @@ public interface CuentaRepository extends JpaRepository<Cuenta, Integer> {
 
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO CUENTA (id_usuario, tipo_cuenta, estado_cuenta, valor) VALUES (:id_usuario, :tipo_cuenta, :estado_cuenta, :valor)", nativeQuery = true)
-    void insertarDatosUsuario(@Param("id_usuario") String id_usuario, @Param("tipo_cuenta") String tipo_cuenta, @Param("estado_cuenta") String estado_cuenta, @Param("valor") double valor);
+    @Query(value = "INSERT INTO CUENTA (TIPO_CUENTA, ESTADO_CUENTA, SALDO, FECHA_ULTIMA_TRANSACCION) VALUES (:tipo_cuenta, :estado_cuenta, :saldo,:fecha)", nativeQuery = true)
+    void insertarCuenta(@Param("tipo_cuenta") String tipo_cuenta, @Param("estado_cuenta") String estado_cuenta, @Param("saldo") double saldo,@Param("fecha") Date fecha);
 
     @Modifying
     @Transactional

@@ -32,12 +32,6 @@ public class PuntosAtencionController {
     @PostMapping("/puntosAtencion/new/save")
     public String guardarPuntosAtencion(@ModelAttribute("nombre") String nombre,@ModelAttribute("tipo") String tipo,@ModelAttribute("locacion") String locacion,@ModelAttribute("horarioApertura") String horarioApertura,@ModelAttribute("horarioCierre") String horarioCierre,@ModelAttribute("idOficina") String idOficina) {
         int idOficinaNumero = Integer.parseInt(idOficina);
-        System.out.println(nombre);
-        System.out.println(tipo);
-        System.out.println(locacion);
-        System.out.println(horarioApertura);
-        System.out.println(horarioCierre);
-        System.out.println(idOficinaNumero);
         puntosAtencionRepository.insertarPuntosAtencion(nombre, tipo, locacion, horarioApertura, horarioCierre, idOficinaNumero);
         return "redirect:/puntosAtencion";
     }

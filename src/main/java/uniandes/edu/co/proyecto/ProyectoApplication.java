@@ -78,7 +78,7 @@ public class ProyectoApplication implements CommandLineRunner {
 			System.out.println("------------------------");
 		}
 */
-/* 	
+ 	
 		Collection<Cuenta> cuentas = cuentaRepository.darCuentas();
 		System.out.println(cuentas);
 		for (Cuenta u: cuentas)
@@ -87,15 +87,15 @@ public class ProyectoApplication implements CommandLineRunner {
 			System.out.println(u.getIdCuenta());
 			System.out.println(u.getEstadoCuenta().getEstadoCuenta());
 			System.out.println("------------------------");
-		}*/
+		}
  
-
+/*
 		Integer idPuntoAtencion = 0;
 		Collection<PuntosAtencion> puntosAtencions = puntosAtencionRepository.darPuntosAtencion();
 		/*puntosAtencionRepository.insertarPuntosAtencion("cajero sote", "PERSONALIZADA", "Calle Principal 123", "09:00", "15:00", 2);
 		*/
 
-		
+/*		
 		for (PuntosAtencion u: puntosAtencions)
 		{	
 			System.out.println("------------------------");
