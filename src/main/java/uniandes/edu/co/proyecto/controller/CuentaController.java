@@ -51,4 +51,9 @@ public class CuentaController {
         
         return "redirect:/cuenta";
     }
+    @GetMapping("/cuenta/new")
+    public String formularioNuevoCuenta(Model model) {
+        model.addAttribute("cuentas", new Cuenta());
+        return "CuentaNuevo";
+    }
 }
