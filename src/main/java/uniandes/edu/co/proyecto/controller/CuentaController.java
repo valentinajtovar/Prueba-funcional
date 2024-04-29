@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.sql.Date;
 import java.util.Optional;
 
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,10 +24,18 @@ import uniandes.edu.co.proyecto.modelo.PuntosAtencion;
 import uniandes.edu.co.proyecto.repositorio.CuentaRepository;
 import uniandes.edu.co.proyecto.repositorio.OficinaRepository;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Controller
 public class CuentaController {
     @Autowired
     private CuentaRepository cuentaRepository;
+
+    private static final Logger logger = LoggerFactory.getLogger(CuentaController.class);
+
+    //logger.debug("Agregando cuenta: {}", cuenta);
+    // logger.debug("Eliminando cuenta con ID: {}", id);
     
     @GetMapping("/cuenta")
     public String listarOficina(Model model) {
