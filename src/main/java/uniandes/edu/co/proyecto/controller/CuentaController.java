@@ -36,6 +36,17 @@ public class CuentaController {
 
     //logger.debug("Agregando cuenta: {}", cuenta);
     // logger.debug("Eliminando cuenta con ID: {}", id);
+
+/*
+    public void consignarDinero(String numeroCuenta, double monto) {
+        // Lógica para consignar dinero
+        // Suponemos que el saldo se actualiza correctamente
+
+        // Registro del log
+        logger.info("Fecha: {}, Número de cuenta: {}, Monto: {}, Tipo de operación: Consignación",
+                    LocalDate.now(), numeroCuenta, monto);
+    } */
+
     
     @GetMapping("/cuenta")
     public String listarOficina(Model model) {

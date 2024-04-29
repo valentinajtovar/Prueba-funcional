@@ -67,17 +67,13 @@ public class ProyectoApplication implements CommandLineRunner {
 		usuarioRepository.crearUsuario(idMaximo,"CC",123456778,"pepe ruiz","Canadiense","unicentro","pepe@hotmail.com",3058155499L,67890,"CLIENTE NATURAL",13);
 		
 	 */
-		System.out.println("----------------------------------");
-		System.out.println("error");
-		System.out.println("----------------------------------");
 		Collection<Prestamo> prestamos= prestamoRepository.darPrestamos();
 
-		System.out.println(prestamos);
 		for (Prestamo u: prestamos)
 		{
 			System.out.println("------------------------");
 			System.out.println(u.getValorCuota());
-			System.out.println(u.getIdPrestamo());
+			System.out.println(u.getMonto());
 			System.out.println("------------------------");
 		}
 
