@@ -40,8 +40,7 @@ public class CuentaController {
     }
     @PostMapping("/cuenta/new/save")
     public String guardarCuenta(@ModelAttribute("tipo_Cuenta") String tipoCuenta,@ModelAttribute("estado_cuenta") String estadoCuenta,@ModelAttribute("saldo") String saldo) {
-        /*puntosAtencionRepository.insertarPuntosAtencion(nombre, tipo, locacion, horarioApertura, horarioCierre, idOficinaNumero);
-        */
+       
         java.sql.Date fechaUltimaTransaccion = new java.sql.Date(System.currentTimeMillis());
 
 
@@ -51,9 +50,16 @@ public class CuentaController {
         
         return "redirect:/cuenta";
     }
-    @GetMapping("/cuenta/new")
-    public String formularioNuevoCuenta(Model model) {
-        model.addAttribute("cuentas", new Cuenta());
-        return "CuentaNuevo";
+
+    @GetMapping("/cuenta/{id_cuenta}/desactivar_Cuenta")
+    public String desactivarCuenta(@PathVariable("id_cuenta") Integer idCuenta,Model model) {
+        cuentaRepository.cambiarEstadoCerrada(idCuenta);
+        return "redirect:/cuenta";
+    }
+
+    @GetMapping("/cuenta/{id_cuenta}/cerrar_cuenta")
+    public String cerrarCuenta(@PathVariable("id_cuenta") Integer idCuenta,Model model) {
+        cuentaRepository.cambiarEstadoDesactivada(idCuenta);
+        return "redirect:/cuenta";
     }
 }

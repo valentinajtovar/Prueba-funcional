@@ -16,14 +16,15 @@ public interface PrestamoRepository extends JpaRepository<Prestamo, Integer> {
     @Query(value = "SELECT * FROM PRESTAMO", nativeQuery = true)
     Collection<Prestamo> darPrestamos();
 
-
-    @Query(value = "SELECT * FROM PRESTAMO WHERE id_prestamo = :id_prestamo", nativeQuery = true)
-    void buscarPrestamoPorId(@Param("id_prestamo") Integer id_prestamo);
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE PRESTAMO SET  ESTADO_PRESTAMO ='CERRADO' WHERE ID_PRESTAMO  = :id_prestamo", nativeQuery = true)
+    void estadoPrestamoCerrado(@Param("id_prestamo") Integer id_prestamo);
 
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO PRESTAMO ( fecha, pagado, valor, estado, tipo_prestamo) VALUES ( :fecha, :pagado, :valor, :estado, :tipo_prestamo)", nativeQuery = true)
-    void insertarPrestamo(@Param("fecha") Date fecha, @Param("pagado") Integer pagado,@Param("valor") double valor,  @Param("estado") String estado, @Param("tipo_prestamo") String tipo_prestamo);
+    @Query(value = "INSERT INTO PRESTAMO ( FECHA_CREACION, MONTO,ESTADO_PRESTAMO,TIPO_PRESTAMO,INTERES,CUOTAS,DIA_MES_CUOTA,VALOR_CUOTA) VALUES ( :fecha, :monto, :estado_prestamo, :tipo_prestamo, :interes, :cuota, :dia_Mes_Cuota, :valor_Cuota)", nativeQuery = true)
+    void insertarPrestamo(@Param("fecha") Date fecha, @Param("monto") Float monto,@Param("estado_prestamo") String estado_prestamo,  @Param("tipo_prestamo") String tipo_prestamo, @Param("interes") Float interes, @Param("cuota") Integer cuota, @Param("dia_Mes_Cuota") Integer dia_Mes_Cuota, @Param("valor_Cuota") Float valor_Cuota);
 
     @Modifying
     @Transactional

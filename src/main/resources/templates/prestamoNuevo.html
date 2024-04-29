@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Crear Servicio</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}" />
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary" >
+        <div class="container-fluid">
+            <a class="navbar-brand" th:href='@{/}'>
+            <img th:src="@{/images/logoPrincipal.png}" width="200" height="60">
+            </a>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" th:href="@{/oficina}" style="color: #78288c;">Oficinas</a>
+                    </li>
+                </ul>
+          </div>
+        </div>
+    </nav>
+
+    <h1 style="color: #78288c;">Estas Creando Un Prestamo:</h1>
+    <br>
+
+    <br>
+    <div class="center-text">
+    <form th:action="@{/prestamo/new/save}" method="post">
+        <div class="form-group">
+            <label for="monto" style="color: #78288c;">Monto:</label>
+            <input type="text" class="form-control" style="color: #78288c;" id="monto" placeholder="monto" name="monto" />
+        </div>
+        <div class="form-group">
+            <label for="estado_prestamo" style="color: #78288c;">estado prestamo:</label>
+            <input type="text" class="form-control" style="color: #78288c;" id="estado_prestamo" placeholder="estado_prestamo" name="estado_prestamo" />
+        </div>
+        <div class="form-group">
+            <label for="tipo_prestamo" style="color: #78288c;">tipo prestamo:</label>
+            <input type="text" class="form-control" style="color: #78288c;" id="tipo_prestamo" placeholder="tipo prestamo" name="tipo_prestamo" />
+        </div>
+        <div class="form-group">
+            <label for="interes" style="color: #78288c;">interes:</label>
+            <input type="text" class="form-control" style="color: #78288c;" id="interes" placeholder="interes" name="interes" />
+        </div>
+        <div class="form-group">
+            <label for="cuota" style="color: #78288c;">cuota:</label>
+            <input type="text" class="form-control" style="color: #78288c;" id="cuota" placeholder="cuota" name="cuota" />
+        </div>
+        <div class="form-group">
+            <label for="dia_Mes_Cuota" style="color: #78288c;">dia Mes Cuota:</label>
+            <input type="text" class="form-control" style="color: #78288c;" id="dia_Mes_Cuota" placeholder="dia Mes Cuota" name="dia_Mes_Cuota" />
+        </div>
+        <div class="form-group">
+            <label for="valor_Cuota" style="color: #78288c;">valor Cuota:</label>
+            <input type="text" class="form-control" style="color: #78288c;" id="valor_Cuota" placeholder="valor Cuota" name="valor_Cuota" />
+        </div>
+        <button type="submit" class="btn" style="background-color: #78288c; color: white;">Guardar</button>
+        <a th:href="@{/prestamo}" class="btn" style="background-color: #ee0e0e; color: white;">Cancelar</a>
+    </form>
+    </div>
+</body>
+
+</html>

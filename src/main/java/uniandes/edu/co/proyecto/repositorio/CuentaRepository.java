@@ -34,5 +34,15 @@ public interface CuentaRepository extends JpaRepository<Cuenta, Integer> {
     @Modifying
     @Transactional
     @Query(value = "DELETE FROM CUENTA WHERE id_cuenta = :id_cuenta", nativeQuery = true)
-    void eliminarDatosUsuario(@Param("id_cuenta") Integer id_cuenta);
+    void eliminarCuenta(@Param("id_cuenta") Integer id_cuenta);
+
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE CUENTA SET  ESTADO_CUENTA ='CERRADA' WHERE id_cuenta = :id_cuenta", nativeQuery = true)
+    void cambiarEstadoCerrada(@Param("id_cuenta") Integer id_cuenta);
+
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE CUENTA SET  ESTADO_CUENTA ='DESACTIVADA' WHERE id_cuenta = :id_cuenta", nativeQuery = true)
+    void cambiarEstadoDesactivada(@Param("id_cuenta") Integer id_cuenta);
 }

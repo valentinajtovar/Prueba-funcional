@@ -115,19 +115,19 @@ public class Prestamo {
         this.cuotas = cuotas;
     }
 
-    public Integer getDiaMesCuota(Integer diaMesCuota){
-        return diaMesCuota;
-    }
-
-    public void setDiaMesCuota(Integer diaMesCuota){
-        this.diaMesCuota = diaMesCuota;
-    }
-
     public float getValorCuota() {
         return valorCuota;
     }
 
     public void setValorCuota(float valorCuota) {
         this.valorCuota = valorCuota;
+    }
+
+    public Integer getDiaMesCuota(){
+        return diaMesCuota;
+    }
+
+    public void setDiaMesCuota(Integer diaMesCuota) {
+        this.diaMesCuota = diaMesCuota;
     }
 }
