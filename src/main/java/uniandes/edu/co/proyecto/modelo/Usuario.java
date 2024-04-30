@@ -40,15 +40,13 @@ public class Usuario {
 
     private Integer codigoPostal;
 
+    private String login;
+
+    private String clave;
+
     @ManyToOne
     @JoinColumn(name ="tipo_usuario", referencedColumnName = "tipoUsuario")
     private TipoUsuario tipoUsuario;
-
-    
-    @OneToOne()
-    @JoinColumn(name ="DATOS_USUARIO", referencedColumnName = "idDatosUsuario")
-    private DatosUsuario datosUsuario; 
-
  
 
     public Usuario(){;}
@@ -56,7 +54,7 @@ public class Usuario {
     
     public Usuario(Integer idUsuario,TipoDocumento tipoDocumento, Integer numeroDocumento, String nombre,
             String nacionalidad, String direccionFisica, String direccionDigital, Long telefono,
-            Integer codigoPostal, TipoUsuario tipoUsuario, DatosUsuario datosUsuario) {
+            Integer codigoPostal, TipoUsuario tipoUsuario, String login, String clave) {
         this.idUsuario=idUsuario;
         this.tipoDocumento = tipoDocumento;
         this.numeroDocumento = numeroDocumento;
@@ -67,7 +65,8 @@ public class Usuario {
         this.telefono = telefono;
         this.codigoPostal = codigoPostal;
         this.tipoUsuario = tipoUsuario;
-        this.datosUsuario = datosUsuario;
+        this.login = login;
+        this.clave = clave;
     }
 
     public Integer getId() {
@@ -150,16 +149,25 @@ public class Usuario {
         this.tipoUsuario = tipoUsuario;
     }
     
-    public DatosUsuario getDatosUsuario() {
-        return datosUsuario;
-    }
-
-    public void setDatosUsuario(DatosUsuario datosUsuario) {
-        this.datosUsuario = datosUsuario;
-    }
 
     public Integer getIdUsuario() {
         return idUsuario;
+    }
+
+    public String getClave() {
+        return clave;
+    }
+
+    public void setClave(String clave) {
+        this.clave = clave;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setIdUsuario(Integer idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
 }

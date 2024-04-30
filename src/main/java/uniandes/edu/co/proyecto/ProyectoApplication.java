@@ -67,6 +67,7 @@ public class ProyectoApplication implements CommandLineRunner {
 		usuarioRepository.crearUsuario(idMaximo,"CC",123456778,"pepe ruiz","Canadiense","unicentro","pepe@hotmail.com",3058155499L,67890,"CLIENTE NATURAL",13);
 		
 	 */
+	/* 
 		Collection<Prestamo> prestamos= prestamoRepository.darPrestamos();
 
 		for (Prestamo u: prestamos)
@@ -75,7 +76,7 @@ public class ProyectoApplication implements CommandLineRunner {
 			System.out.println(u.getValorCuota());
 			System.out.println(u.getMonto());
 			System.out.println("------------------------");
-		}
+		}*/
 
 /* 
 		Collection<Cuenta> cuentas = cuentaRepository.darCuentas();
@@ -86,7 +87,7 @@ public class ProyectoApplication implements CommandLineRunner {
 			System.out.println(u.getIdCuenta());
 			System.out.println(u.getEstadoCuenta().getEstadoCuenta());
 			System.out.println("------------------------");
-		}*/
+		}
  
 /*
 		Integer idPuntoAtencion = 0;
@@ -110,7 +111,6 @@ public class ProyectoApplication implements CommandLineRunner {
 		*/
 		
 		/*
-
 		Collection<Usuario> usuarios = usuarioRepository.darUsuarios();
 		System.out.println(usuarios);
 		for (Usuario u: usuarios)
@@ -119,13 +119,12 @@ public class ProyectoApplication implements CommandLineRunner {
 			System.out.println(u.getNombre());
 			System.out.println(u.getDireccionFisica());
 			System.out.println(u.getNacionalidad());
-			System.out.println(u.getNumeroDocumento());
+			System.out.println(u.getLogin());
+			System.out.println(u.getClave());
 			System.out.println("------------------------");
 		}
-
+ */
 		
-
-*/
 
 		/* 
 		Collection<Usuario> usuarios = usuarioRepository.darUsuarios();
