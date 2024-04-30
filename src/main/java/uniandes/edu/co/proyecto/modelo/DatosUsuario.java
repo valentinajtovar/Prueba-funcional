@@ -19,6 +19,9 @@ public class DatosUsuario {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer idDatosUsuario;
 
+    @OneToOne(mappedBy = "idUsuario", cascade = CascadeType.ALL)
+    private Usuario usuario;
+
     private String login;
 
     private String clave;
@@ -53,14 +56,5 @@ public class DatosUsuario {
     public void setIdDatosUsuario(Integer idDatosUsuario) {
         this.idDatosUsuario = idDatosUsuario;
     }
-
-    
-
-
-
-
-    
-
-
 
 }

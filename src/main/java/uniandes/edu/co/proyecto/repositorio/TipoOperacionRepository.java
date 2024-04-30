@@ -1,6 +1,6 @@
-package uniandes.edu.co.proyecto.repositorio;
+/*package uniandes.edu.co.proyecto.repositorio;
 
-
+ 
 import java.util.Collection;
 import java.util.Optional;
 
@@ -34,4 +34,4 @@ public interface TipoOperacionRepository extends JpaRepository<TipoOperacion, St
     @Transactional
     @Query(value = "DELETE FROM TIPO_OPERACION WHERE tipoOperacion = :tipoOperacion", nativeQuery = true)
     void eliminarTipoOperacion(@Param("tipoOperacion") String tipoOperacion);
-}
+}*/
