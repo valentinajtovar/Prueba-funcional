@@ -40,8 +40,13 @@ public interface UsuarioRepository extends JpaRepository<Usuario, String> {
     @Query(value = "SELECT TIPO_USUARIO FROM USUARIO", nativeQuery = true)
     Collection<String> darTIPO_USUARIO();
 
-    @Query(value = "SELECT ID_DATOS_USUARIO FROM USUARIO", nativeQuery = true)
-    Collection<Integer> darID_DATOS_USUARIO();
+    @Query(value = "SELECT LOGIN FROM USUARIO", nativeQuery = true)
+    Collection<String> darLogin();
+
+    @Query(value = "SELECT * FROM USUARIO WHERE LOGIN=:login", nativeQuery = true)
+    Usuario darUsuarioPorLogin(@Param("login") String login);
+
+    
 
 
 
