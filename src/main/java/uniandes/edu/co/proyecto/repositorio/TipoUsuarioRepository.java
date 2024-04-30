@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
+import uniandes.edu.co.proyecto.modelo.TipoDocumento;
 import uniandes.edu.co.proyecto.modelo.TipoUsuario;
 
 public interface TipoUsuarioRepository extends JpaRepository<TipoUsuario, String> {
@@ -17,7 +18,13 @@ public interface TipoUsuarioRepository extends JpaRepository<TipoUsuario, String
         Collection<TipoUsuario> darTipoUsuarios();
 
         @Query(value = "SELECT * FROM TIPO_USUARIO WHERE TIPO_USUARIO = :tipoUsuario", nativeQuery = true)
-        Optional<TipoUsuario> darTipoUsuario(@Param("tipoUsuario") String tipoUsuario);
+        TipoUsuario darTipoUsuario(@Param("tipoUsuario") String tipoUsuario);
+
+        @Query(value = "SELECT * FROM TIPO_USUARIO WHERE TIPO_USUARIO=:tipoDocumento OR TIPO_USUARIO=:tipoDocumento1", nativeQuery = true)
+        Collection<TipoUsuario>  darTipoUsuarioGerente(@Param("tipoDocumento") String tipoDocumento, @Param("tipoDocumento1") String tipoDocumento1);
+
+        @Query(value = "SELECT * FROM TIPO_USUARIO WHERE TIPO_USUARIO=:tipoDocumento OR TIPO_USUARIO=:tipoDocumento1 or TIPO_USUARIO=:tipoDocumento2 ", nativeQuery = true)
+        Collection<TipoUsuario>  darTipoUsuarioAdmi(@Param("tipoDocumento") String tipoDocumento, @Param("tipoDocumento1") String tipoDocumento1, @Param("tipoDocumento2") String tipoDocumento2);
 
         @Modifying
         @Transactional

@@ -8,48 +8,12 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import uniandes.edu.co.proyecto.repositorio.CuentaRepository;
-import uniandes.edu.co.proyecto.repositorio.OficinaRepository;
-import uniandes.edu.co.proyecto.repositorio.PrestamoRepository;
-import uniandes.edu.co.proyecto.repositorio.PuntosAtencionRepository;
-import uniandes.edu.co.proyecto.repositorio.TiposPuntosAtencionRepository;
-import uniandes.edu.co.proyecto.repositorio.UsuarioRepository;
-import uniandes.edu.co.proyecto.modelo.Cuenta;
-import uniandes.edu.co.proyecto.modelo.Oficina;
-import uniandes.edu.co.proyecto.modelo.Prestamo;
-import uniandes.edu.co.proyecto.modelo.PuntosAtencion;
-/*
-import uniandes.edu.co.proyecto.repositorio.PuntosAtencionRepository;
-import uniandes.edu.co.proyecto.repositorio.OficinaRepository;
-import uniandes.edu.co.proyecto.modelo.Oficina;
-import uniandes.edu.co.proyecto.modelo.PuntosAtencion;
-*/
-import uniandes.edu.co.proyecto.modelo.TiposPuntosAtencion;
-import uniandes.edu.co.proyecto.modelo.Usuario;
+
 
 
 @SpringBootApplication
 public class ProyectoApplication implements CommandLineRunner {
-	/*@Autowired
-	private PuntosAtencionRepository puntosAtencionRepository;
-	*/
-	@Autowired
-	private OficinaRepository oficinaRepository; 
 
-	@Autowired
-	private UsuarioRepository usuarioRepository;
-	
-	@Autowired
-	private PuntosAtencionRepository puntosAtencionRepository;
-
-	@Autowired
-	private TiposPuntosAtencionRepository tiposPuntosAtencionRepository;
-
-	@Autowired
-	private CuentaRepository cuentaRepository;
-
-	@Autowired
-	private PrestamoRepository prestamoRepository;
 	 
 
 	public static void main(String[] args) 
@@ -66,7 +30,7 @@ public class ProyectoApplication implements CommandLineRunner {
 		Integer idMaximo = usuarioRepository.encontrarIdMaximo()+1;
 		usuarioRepository.crearUsuario(idMaximo,"CC",123456778,"pepe ruiz","Canadiense","unicentro","pepe@hotmail.com",3058155499L,67890,"CLIENTE NATURAL",13);
 		
-	 */
+	 
 		System.out.println("----------------------------------");
 		System.out.println("error");
 		System.out.println("----------------------------------");
