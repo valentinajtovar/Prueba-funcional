@@ -41,6 +41,7 @@
                 <div class="card-footer">
                   <a th:href="@{cuenta/{id_cuenta}/desactivar_Cuenta(id_cuenta=${cuenta.idCuenta})}" class="btn" style="background-color: #b659cd ; color: white;" onclick="return confirm('¿Estás seguro de desactivar esta cuenta?')">Desativar</a>
                   <a th:href="@{cuenta/{id_cuenta}/cerrar_cuenta(id_cuenta=${cuenta.idCuenta})}" class="btn" style="background-color: #b659cd ; color: white;" onclick="return confirm('¿Estás seguro de cerrar esta cuenta?')">Cerrar</a>
+                  <a th:href="@{cuenta/{id_cuenta}/cuenta_retirar(id_cuenta=${cuenta.idCuenta})}" class="btn" style="background-color: #b659cd ; color: white;">Retirar</a>
                 </div>
             </div>
         </div>

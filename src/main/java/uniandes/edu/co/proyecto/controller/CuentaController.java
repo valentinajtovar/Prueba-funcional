@@ -17,9 +17,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import uniandes.edu.co.proyecto.modelo.Cuenta;
 import uniandes.edu.co.proyecto.modelo.Oficina;
+import uniandes.edu.co.proyecto.modelo.Prestamo;
 import uniandes.edu.co.proyecto.modelo.PuntosAtencion;
 import uniandes.edu.co.proyecto.repositorio.CuentaRepository;
 import uniandes.edu.co.proyecto.repositorio.OficinaRepository;
@@ -82,4 +84,27 @@ public class CuentaController {
         cuentaRepository.cambiarEstadoDesactivada(idCuenta);
         return "redirect:/cuenta";
     }
+
+    @GetMapping("/cuenta/{id_cuenta}/cuenta_retirar")
+    public String pagoCuotaPrestamo(@PathVariable("id_cuenta") Integer idCuenta, Model model) {
+        Cuenta cuenta = cuentaRepository.buscarCuentaPorId(idCuenta);
+        if (cuenta != null) {
+            model.addAttribute("cuentas", cuenta);
+            return "cuentaRetirar";
+        }          
+         else {
+        return "redirect:/cuenta";
+    }
+    }    
+
+    @PostMapping("/cuenta/{id_cuenta}/cuenta_retirar/save")
+    public String retirarCuentaGuardar(@PathVariable("id_cuenta") Integer idCuenta, @RequestParam("monto") String monto) {
+        Cuenta cuenta = cuentaRepository.buscarCuentaPorId(idCuenta);
+        Double montoFloat = Double.parseDouble(monto);
+        Double montoFinal = cuenta.getSaldo()-montoFloat;
+        cuentaRepository.actutalizarMontoPrestamo(idPrestamo,montoFinal);
+        logger.info("Fecha: {}, Número de prestamo: {}, Monto: {}, Tipo de operación: pago ordinario",
+                    LocalDate.now(), idPrestamo, monto);
+        return "redirect:/prestamo";
+}
 }
