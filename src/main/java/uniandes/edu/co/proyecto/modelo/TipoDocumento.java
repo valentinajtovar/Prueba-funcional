@@ -1,7 +1,12 @@
 package uniandes.edu.co.proyecto.modelo;
 
+import java.util.Collection;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -9,6 +14,9 @@ import jakarta.persistence.Table;
 public class TipoDocumento {
     @Id
     private String tipoDocumento;
+
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "tipoDocumento", cascade = CascadeType.ALL)
+    Collection<Usuario> usuarios;
 
     public TipoDocumento(){;}
 
