@@ -110,7 +110,7 @@ public class ProyectoApplication implements CommandLineRunner {
 		System.out.println("se elimino");
 		*/
 		
-		/*
+		
 		Collection<Usuario> usuarios = usuarioRepository.darUsuarios();
 		System.out.println(usuarios);
 		for (Usuario u: usuarios)
@@ -123,7 +123,7 @@ public class ProyectoApplication implements CommandLineRunner {
 			System.out.println(u.getClave());
 			System.out.println("------------------------");
 		}
- */
+ 
 		
 
 		/* 
