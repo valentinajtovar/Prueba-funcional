@@ -4,50 +4,68 @@
 <head>
   <title>Lista de Usuarios</title>
   <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}" />
-  <script th:src="@{/js/jquery.min.js}"></script>
-  <script th:src="@{/js/bootstrap.min.js}"></script>
+  <script th:src="@{/css/jquery.min.js}"></script>
+  <script th:src="@{/css/bootstrap.min.js}"></script>
 </head>
 
 <body>
-  
-  <nav class="navbar navbar-expand-lg bg-body-tertiary" >
-    <div class="container-fluid">
-      <a class="navbar-brand" th:href='@{/}'>
-        <img th:src="@{/images/logoPrincipal.png}" width="200" height="60">
-      </a>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" th:href="@{/oficina}" style="color: #78288c;">Oficinas</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
+  <div class="text-center">
+    <h1>Lista de Usuarios</h1>
 
-  <h1 style="color: #78288c;">Listado de Usuarios:</h1>
+
+
+    <div class="container w-25">
+      <div class="card border border-2 mx-auto">
+
+        <h5 class="card-header" role='button' id="headingOne">
+          <a href="#" class="collapsed d-block" data-toggle="collapse" data-target="#busqueda">
+
+    <table class="table table-condensed table-hover table-bordered">
+      <thead class="thead-dark">
+        <tr>
+          <th>ID</th>
+          <th>Tipo Documento</th>
+          <th>Numero Documento</th>
+          <th>Nombre</th>
+          <th>Nacionalidad</th>
+          <th>Direccion</th>
+          <th>Correo</th>
+          <th>Telefono</th>
+          <th>codigo Postal</th>
+          <th>Tipo Usuario</th>
+          
+
+        </tr>
+      </thead>
+      <th:block th:each="usuario : ${usuario}">
+        <tr>
+          <td th:text="${usuario.idUsuario}">buttononcli</td>
+          <td th:text="${usuario.tipoDocumento.tipoDocumento}"></td>
+          <td th:text="${usuario.numeroDocumento}"></td>
+          <td th:text="${usuario.nombre}"></td>
+          <td th:text="${usuario.nacionalidad}"></td>
+          <td th:text="${usuario.direccionFisica}"></td>
+          <td th:text="${usuario.direccionDigital}"></td>
+          <td th:text="${usuario.telefono}"></td>
+          <td th:text="${usuario.codigoPostal}"></td>
+          <td th:text="${usuario.tipoUsuario.tipoUsuario}"></td>
+          <td>
+            <a th:href="@{'/usuario/' + ${usuario.idUsuario} + '/edit'}">Editar</a>
+            <a th:href="@{'/usuario/' + usuario.idUsuario + '/delete'}"
+   onclick="return confirm('¿Estás seguro de borrar este usuario?')">Borrar</a>
+
+            <td>
+        </tr>
+      </th:block>
+    </table>
+    <div class="text-center">
+      <a th:href="@{usuario/new}" class="btn btn-primary">Añadir Usuario como Dios</a>
+      <a th:href="@{usuario/gerente}" class="btn btn-primary">Añadir Usuario como Gerente General</a>
+      <a th:href="@{usuario/admi}" class="btn btn-primary">Añadir Usuario como Admi</a>
+      <a th:href="@{/}" class="btn btn-primary">Volver Atrás</a>
+    </div>
   </div>
   <br />
-
-  <div class="card-columns">
-    <div th:each="usuario : ${usuario}" th:object="${usuario}">
-      <div class="card" style="background-color: #78288c;">
-        <div class="card-header">
-          <h5 class="card-title" th:text="${usuario.nombre}" style="color: #c7cac8;"></h5>
-        </div>
-        <div class="card-body">
-          <p class="card-text">
-
-          <span class="font-weight-bold" style="color: #c7cac8;">Id:</span> <span th:text="${usuario.idUsuario}" style="color: #c7cac8;"></span><br>
-          <span class="font-weight-bold" style="color: #c7cac8;">Numero De Documento:</span> <span th:text="${usuario.numeroDocumento}" style="color: #c7cac8;"></span><br>
-          <span class="font-weight-bold" style="color: #c7cac8;">Nacionalidad:</span> <span th:text="${usuario.nacionalidad}" style="color: #c7cac8;"></span>
-        </div>
-      </div>
-    </div>    
-  </div>
-    <div class="text-center">
-      <a th:href="@{/usuario/new}" class="btn btn" style="background-color: #78288c ; color: white;" >Añadir Usuario</a>
-      <a th:href="@{/}" class="btn " style="background-color: #ee0e0e; color: white;" >Volver Atrás</a>
-    </div>
 </body>
+
 </html>
