@@ -53,9 +53,7 @@ public class UsuarioController {
 
     @PostMapping("/login_usuario/verificacionLogin")
     public String verificarLogin(@RequestParam("login") String login,@RequestParam("clave") String clave,RedirectAttributes redirectAttributes) {
-        
         Collection<String> logins = usuarioRepository.darLogin();
-        
         boolean existeLogin = false;
         Usuario usuario = new Usuario();
         for (String elementoLogin: logins)
@@ -66,28 +64,38 @@ public class UsuarioController {
                 break;
             }
 		}
-
         if(existeLogin){
             
             if(usuario.getClave().equals(clave)){
                 System.out.println("------------------------");
                 System.out.println("clave correcta");
                 System.out.println("------------------------");
+                return "redirect:/login_usuario/verificacionLogin/" + usuario.getIdUsuario();
             }
             else{
                 redirectAttributes.addFlashAttribute("errorLogin", "Usuario o contraseña no coincide");
                 return "redirect:/login_usuario";
             }
-            
         }
         else{
             redirectAttributes.addFlashAttribute("errorLogin", "Usuario o contraseña no coincide");
             return "redirect:/login_usuario";
         }
         
-        return "redirect:/login_usuario";
-}
+    }
 
+    @GetMapping("/login_usuario/verificacionLogin/{id_usuario}")
+    public String sesionIniciada(@PathVariable("id_usuario") Integer idUsuario,Model model) {
+        Usuario usuario = usuarioRepository.buscarUsuarioId(idUsuario);
+
+        if (usuario != null) {
+            
+            return "sesionIniciada";
+        }          
+         else {
+        return "redirect:/login_usuario";
+        }
+    }
     
     @Transactional
     @PostMapping("/usuario/new/save")

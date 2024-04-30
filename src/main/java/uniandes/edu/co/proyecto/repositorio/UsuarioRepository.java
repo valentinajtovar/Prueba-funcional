@@ -51,7 +51,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, String> {
 
 
     @Query(value = "SELECT * FROM USUARIO WHERE ID_USUARIO = :id_usuario", nativeQuery = true)
-    void buscarUsuarioPorId(@Param("id_usuario") String id_usuario);
+    Usuario buscarUsuarioId(@Param("id_usuario") Integer id_usuario);
 
 
     @Modifying
