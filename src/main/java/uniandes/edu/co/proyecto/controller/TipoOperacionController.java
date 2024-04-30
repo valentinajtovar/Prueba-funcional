@@ -1,4 +1,4 @@
-package uniandes.edu.co.proyecto.controller;
+/*package uniandes.edu.co.proyecto.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,3 +58,4 @@ public class TipoOperacionController {
         return "redirect:/tiposOperacion";
     }
 }
+*/

@@ -1,4 +1,4 @@
-
+/* 
 package uniandes.edu.co.proyecto.controller;
 
 import java.util.Optional;
@@ -62,3 +62,4 @@ public class TiposPuntosAtencionController {
         return "redirect:/tiposPuntosAtencion";
     }
 }
+*/

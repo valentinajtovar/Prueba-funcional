@@ -35,6 +35,13 @@ public interface PrestamoRepository extends JpaRepository<Prestamo, Integer> {
     @Transactional
     @Query(value = "DELETE FROM PRESTAMO WHERE id_prestamo = :id_prestamo", nativeQuery = true)
     void eliminarPrestamo(@Param("id_prestamo") Integer id_prestamo);
+
+    @Query(value = "SELECT * FROM PRESTAMO WHERE ID_PRESTAMO = :id_prestamo", nativeQuery = true)
+    Prestamo buscarPrestamoId(@Param("id_prestamo") Integer id_prestamo);
     
-    
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE PRESTAMO SET MONTO =:monto  WHERE ID_PRESTAMO =:id_prestamo", nativeQuery = true)
+    void actutalizarMontoPrestamo(@Param("id_prestamo") Integer id_prestamo, @Param("monto") Float monto);
+
 }

@@ -30,18 +30,21 @@ public class ProyectoApplication implements CommandLineRunner {
 		Integer idMaximo = usuarioRepository.encontrarIdMaximo()+1;
 		usuarioRepository.crearUsuario(idMaximo,"CC",123456778,"pepe ruiz","Canadiense","unicentro","pepe@hotmail.com",3058155499L,67890,"CLIENTE NATURAL",13);
 		
+<<<<<<< HEAD
 	 
 		System.out.println("----------------------------------");
 		System.out.println("error");
 		System.out.println("----------------------------------");
+=======
+	 */
+>>>>>>> 103500953955b29b6843a944031d113d0c4fefe5
 		Collection<Prestamo> prestamos= prestamoRepository.darPrestamos();
 
-		System.out.println(prestamos);
 		for (Prestamo u: prestamos)
 		{
 			System.out.println("------------------------");
 			System.out.println(u.getValorCuota());
-			System.out.println(u.getIdPrestamo());
+			System.out.println(u.getMonto());
 			System.out.println("------------------------");
 		}
 
