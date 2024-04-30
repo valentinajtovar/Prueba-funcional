@@ -86,25 +86,48 @@ public class CuentaController {
     }
 
     @GetMapping("/cuenta/{id_cuenta}/cuenta_retirar")
-    public String pagoCuotaPrestamo(@PathVariable("id_cuenta") Integer idCuenta, Model model) {
+    public String cuentaRetirar(@PathVariable("id_cuenta") Integer idCuenta, Model model) {
         Cuenta cuenta = cuentaRepository.buscarCuentaPorId(idCuenta);
         if (cuenta != null) {
-            model.addAttribute("cuentas", cuenta);
+            model.addAttribute("cuenta", cuenta);
             return "cuentaRetirar";
         }          
          else {
         return "redirect:/cuenta";
     }
-    }    
+    } 
+    
+    @GetMapping("/cuenta/{id_cuenta}/cuenta_consignar")
+    public String cuentaConsignar(@PathVariable("id_cuenta") Integer idCuenta, Model model) {
+        Cuenta cuenta = cuentaRepository.buscarCuentaPorId(idCuenta);
+        if (cuenta != null) {
+            model.addAttribute("cuenta", cuenta);
+            return "cuentaConsignar";
+        }          
+         else {
+        return "redirect:/cuenta";
+    }
+    } 
 
     @PostMapping("/cuenta/{id_cuenta}/cuenta_retirar/save")
     public String retirarCuentaGuardar(@PathVariable("id_cuenta") Integer idCuenta, @RequestParam("monto") String monto) {
         Cuenta cuenta = cuentaRepository.buscarCuentaPorId(idCuenta);
         Double montoFloat = Double.parseDouble(monto);
         Double montoFinal = cuenta.getSaldo()-montoFloat;
-        cuentaRepository.actutalizarMontoPrestamo(idPrestamo,montoFinal);
-        logger.info("Fecha: {}, Número de prestamo: {}, Monto: {}, Tipo de operación: pago ordinario",
-                    LocalDate.now(), idPrestamo, monto);
-        return "redirect:/prestamo";
+        cuentaRepository.cambiarSaldo(idCuenta,montoFinal);
+        logger.info("Fecha: {}, Número de cuenta: {}, Monto: {}, Tipo de operación: rertiro",
+                    LocalDate.now(), idCuenta, monto);
+        return "redirect:/cuenta";
+}
+
+@PostMapping("/cuenta/{id_cuenta}/cuenta_consignar/save")
+    public String consignarCuentaGuardar(@PathVariable("id_cuenta") Integer idCuenta, @RequestParam("monto") String monto) {
+        Cuenta cuenta = cuentaRepository.buscarCuentaPorId(idCuenta);
+        Double montoFloat = Double.parseDouble(monto);
+        Double montoFinal = cuenta.getSaldo()+montoFloat;
+        cuentaRepository.cambiarSaldo(idCuenta,montoFinal);
+        logger.info("Fecha: {}, Número de cuenta: {}, Monto: {}, Tipo de operación: rertiro",
+                    LocalDate.now(), idCuenta, monto);
+        return "redirect:/cuenta";
 }
 }

@@ -22,16 +22,15 @@
         </div>
     </nav>
 
-    <h1 style="color: #78288c;">Vas a realizar un retiro:</h1>
+    <h1 style="color: #78288c;">Vas a realizar una consignacion:</h1>
     <br>
-
     <div class="center-text">
-        <form th:action="@{/cuenta/{id_cuenta}/cuenta_retirar/save(id_cuenta=${cuenta.idCuenta})}" method="post" >
+        <form th:action="@{/cuenta/{id_cuenta}/cuenta_consignar/save(id_cuenta=${cuenta.idCuenta})}" method="post" >
             <div class="form-group">
                 <label for="monto" style="color: #78288c;">Monto:</label>
                 <input type="text" class="form-control" style="color: #78288c;" id="monto" name="monto" placeholder="Ingrese el monto"/>
             </div>
-            <button type="submit" class="btn btn-primary" style="background-color: #78288c; color: white;">Retirar</button>
+            <button type="submit" class="btn btn-primary" style="background-color: #78288c; color: white;">Consignar</button>
             <a th:href="@{/cuenta}" class="btn" style="background-color: #ee0e0e; color: white;">Cancelar</a>
         </form>
     </div>
