@@ -16,6 +16,9 @@ public interface TipoDocumentoRepository extends JpaRepository<TipoDocumento, St
         @Query(value = "SELECT * FROM TIPO_DOCUMENTO", nativeQuery = true)
         Collection<TipoDocumento> darTipoDocumentos();
 
+        @Query(value = "SELECT TIPO_DOCUMENTO FROM TIPO_DOCUMENTO", nativeQuery = true)
+        Collection<String> darTipoDocumentosNombres();
+
         @Query(value = "SELECT * FROM TIPO_DOCUMENTO WHERE TIPO_DOCUMENTO = :tipoDocumento", nativeQuery = true)
         Optional<TipoDocumento> darTipoDocumento(@Param("tipoDocumento") String tipoDocumento);
 

@@ -56,8 +56,8 @@ public interface UsuarioRepository extends JpaRepository<Usuario, String> {
 
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO USUARIO (ID_USUARIO,TIPO_DOCUMENTO, NUMERO_DOCUMENTO, NOMBRE, NACIONALIDAD, DIRECCION_FISICA, DIRECCION_DIGITAL, TELEFONO, CODIGO_POSTAL, TIPO_USUARIO,DATOS_USUARIO) VALUES (:id_usuario,:tipo_documento, :numero_documento, :nombre, :nacionalidad, :direccion_fisica, :direccion_digital, :telefono, :codigo_postal, :tipo_usuario,:datos_usuario)", nativeQuery = true)
-    void crearUsuario(@Param("id_usuario") Integer id_usuario,@Param("tipo_documento") String tipo_documento, @Param("numero_documento") Integer numero_documento,@Param("nombre") String nombre,  @Param("nacionalidad") String nacionalidad, @Param("direccion_fisica") String direccion_fisica, @Param("direccion_digital") String direccion_digital, @Param("telefono") Long telefono, @Param("codigo_postal") Integer codigo_postal, @Param("tipo_usuario") String tipo_usuario,@Param("datos_usuario") Integer datos_usuario);
+    @Query(value = "INSERT INTO USUARIO (TIPO_DOCUMENTO, NUMERO_DOCUMENTO, NOMBRE, NACIONALIDAD, DIRECCION_FISICA, DIRECCION_DIGITAL, TELEFONO, CODIGO_POSTAL, TIPO_USUARIO,LOGIN,CLAVE) VALUES (:tipo_documento, :numero_documento,:nombre , :nacionalidad, :direccion_fisica, :direccion_digital, :telefono, :codigo_postal, :tipo_usuario,:login,:clave)", nativeQuery = true)
+    void crearUsuario(@Param("tipo_documento") String tipo_documento, @Param("numero_documento") Integer numero_documento,@Param("nombre") String nombre,  @Param("nacionalidad") String nacionalidad, @Param("direccion_fisica") String direccion_fisica, @Param("direccion_digital") String direccion_digital, @Param("telefono") Long telefono, @Param("codigo_postal") Integer codigo_postal, @Param("tipo_usuario") String tipo_usuario,@Param("login") String login,@Param("clave") String clave);
 
     @Query(value = "SELECT MAX(ID_USUARIO) FROM USUARIO", nativeQuery = true)
     Integer encontrarIdMaximo();

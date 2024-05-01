@@ -1,5 +1,6 @@
 package uniandes.edu.co.proyecto.controller;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -17,12 +18,16 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import uniandes.edu.co.proyecto.modelo.Cuenta;
 import uniandes.edu.co.proyecto.modelo.DatosUsuario;
 import uniandes.edu.co.proyecto.modelo.Oficina;
 import uniandes.edu.co.proyecto.modelo.Prestamo;
+import uniandes.edu.co.proyecto.modelo.TipoUsuario;
 import uniandes.edu.co.proyecto.modelo.Usuario;
 import uniandes.edu.co.proyecto.repositorio.DatosUsuarioRepository;
 import uniandes.edu.co.proyecto.repositorio.OficinaRepository;
+import uniandes.edu.co.proyecto.repositorio.TipoDocumentoRepository;
+import uniandes.edu.co.proyecto.repositorio.TipoUsuarioRepository;
 import uniandes.edu.co.proyecto.repositorio.UsuarioRepository;
 
 @Controller
@@ -31,7 +36,10 @@ public class UsuarioController {
     private UsuarioRepository usuarioRepository;
 
     @Autowired
-    private DatosUsuarioRepository datosUsuarioRepository;
+    private TipoUsuarioRepository tipoUsuarioRepository;
+
+    @Autowired
+    private TipoDocumentoRepository tipoDocumentoRepository;
     
     @GetMapping("/usuario")
     public String listarUsuario(Model model) {
@@ -67,9 +75,6 @@ public class UsuarioController {
         if(existeLogin){
             
             if(usuario.getClave().equals(clave)){
-                System.out.println("------------------------");
-                System.out.println("clave correcta");
-                System.out.println("------------------------");
                 return "redirect:/login_usuario/verificacionLogin/" + usuario.getIdUsuario();
             }
             else{
@@ -89,40 +94,64 @@ public class UsuarioController {
         Usuario usuario = usuarioRepository.buscarUsuarioId(idUsuario);
 
         if (usuario != null) {
-            
+            model.addAttribute("idUsuario", idUsuario);
             return "sesionIniciada";
         }          
          else {
         return "redirect:/login_usuario";
         }
     }
-    
-    @Transactional
-    @PostMapping("/usuario/new/save")
-    public String guardarUsuario( @ModelAttribute("tipo_Documento") String tipo_Documento,@ModelAttribute("numero_documento") String numero_documento,@ModelAttribute("nombre") String nombre,@ModelAttribute("nacionalidad") String nacionalidad,@ModelAttribute("direccion_fisica") String direccion_fisica,@ModelAttribute("direccion_digital") String direccion_digital,@ModelAttribute("telefono") String telefono,@ModelAttribute("codigo_postal") String codigo_postal,@ModelAttribute("tipo_usuario") String tipo_usuario,@ModelAttribute("datos_usuario") String datos_usuario,@ModelAttribute("login") String login,@ModelAttribute("clave") String clave) {
-                
-                Integer id = usuarioRepository.encontrarIdMaximo()+1;
-                
-                int numeroDocumento = Integer.parseInt(numero_documento);
-                
-                int codigoPostal = Integer.parseInt(codigo_postal);
-                
-                long telefonoLong = Long.parseLong(telefono);
 
-                
-                Collection<String> datosUsuarios = datosUsuarioRepository.darLogin();/*esta linea es para poder verificar si existe el nombre escogido, te trae la lista */
-                datosUsuarioRepository.insertarDatosUsuario(login, clave);
-                Collection<DatosUsuario> listaDatos = datosUsuarioRepository.darDatosUsuarios();
-                
-                /*for(DatosUsuario dato: listaDatos){
-                    if(dato.getLogin().equals(login)){
-                        datoUsuario= dato;
+    @GetMapping("/login_usuario/verificacionLogin/{id_usuario}/crear_usuario")
+    public String crearUsuario(@PathVariable("id_usuario") Integer idUsuario,Model model,RedirectAttributes redirectAttributes) {
+        Usuario usuario = usuarioRepository.buscarUsuarioId(idUsuario);
+        Collection<String> tipoUsuarios= new ArrayList<>();
+        if (usuario.getTipoUsuario().getTipoUsuario().equals("CAJERO") || (usuario.getTipoUsuario().getTipoUsuario().equals("GERENTE DE OFICINA"))|| (usuario.getTipoUsuario().getTipoUsuario().equals("GERENTE GENERAL"))) {
+            Collection<String> tiposUsuarios = tipoUsuarioRepository.darNombres();
+            Collection<String> tiposDocumentos = tipoDocumentoRepository.darTipoDocumentosNombres();
+            for (String tipo: tiposUsuarios)
+		    {
+                if(usuario.getTipoUsuario().getTipoUsuario().equals("GERENTE DE OFICINA")){
+                    tipoUsuarios.add(tipo);
+                }
+                else {
+                    if(tipo.contains("CLIENTE") != true){
+                        tipoUsuarios.add(tipo);
                     }
-                }*/
-                
-                /*usuarioRepository.crearUsuario(id,tipo_Documento,numeroDocumento,nombre,nacionalidad,direccion_fisica,direccion_digital,telefonoLong,codigoPostal,tipo_usuario,idDatosUsuario);
-                 */
-                return "redirect:/usuario";} 
+                }
+		    }
+            model.addAttribute("tiposUsuarios", tipoUsuarios);
+            model.addAttribute("tiposDocumentos", tiposDocumentos);
+            model.addAttribute("idUsuario", idUsuario);
+            return "CrearUsuarioCliente";
+        }
+         else {
+            redirectAttributes.addFlashAttribute("errorCreacionUsuario", "No tienes permisos para crear ningun tipo de usuario");
+            return "redirect:/login_usuario/verificacionLogin/" + usuario.getIdUsuario();
+        }
+    }
 
+    @PostMapping("/login_usuario/verificacionLogin/{id_usuario}/crear_usuario/save")
+    public String crearUsuario(@PathVariable("id_usuario") Integer idUsuario,Model model,RedirectAttributes redirectAttributes ,@RequestParam("nombre") String nombre,@RequestParam("numeroDocumento") String numeroDocumento,@RequestParam("nacionalidad") String nacionalidad,@RequestParam("direccionFisica") String direccionFisica,@RequestParam("direccionDigital") String direccionDigital,@RequestParam("telefono") String telefono,@RequestParam("codigoPostal") String codigoPostal,@RequestParam("login") String login,@RequestParam("clave") String clave,@RequestParam("tipoDocumento") String tipoDocumento,@RequestParam("tipoUsuario") String tipoUsuario) {
+        Collection<String> listaLogins = usuarioRepository.darLogin();
+        Boolean loginExiste = false;
+        for (String elementoLogin: listaLogins){
+            if (elementoLogin.equals(login)){
+                loginExiste = true;
+            }
+        }
+        if (loginExiste){
+            redirectAttributes.addFlashAttribute("errorCreacionUsuario", "El login ya existe, cambie de login y reintentelo");
+            return "redirect:/login_usuario/verificacionLogin/" + idUsuario + "/crear_usuario";
+        }
+        else{
+            model.addAttribute("idUsuario", idUsuario);
+            int numeroDocumentoInteger = Integer.parseInt(numeroDocumento);
+            Long telefonoLong = Long.parseLong(telefono);
+            int codigoPostalInteger = Integer.parseInt(codigoPostal);
+            usuarioRepository.crearUsuario(tipoDocumento,numeroDocumentoInteger,nombre,nacionalidad,direccionFisica,direccionDigital,telefonoLong,codigoPostalInteger,tipoUsuario,login,clave);
+            return "redirect:/login_usuario/verificacionLogin/" + idUsuario ;
+        } 
+    }
 
 }

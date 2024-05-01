@@ -16,6 +16,9 @@ public interface TipoUsuarioRepository extends JpaRepository<TipoUsuario, String
         @Query(value = "SELECT * FROM TIPO_USUARIO", nativeQuery = true)
         Collection<TipoUsuario> darTipoUsuarios();
 
+        @Query(value = "SELECT TIPO_USUARIO FROM TIPO_USUARIO", nativeQuery = true)
+        Collection<String> darNombres();
+
         @Query(value = "SELECT * FROM TIPO_USUARIO WHERE TIPO_USUARIO = :tipoUsuario", nativeQuery = true)
         Optional<TipoUsuario> darTipoUsuario(@Param("tipoUsuario") String tipoUsuario);
 

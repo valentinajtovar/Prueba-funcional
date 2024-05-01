@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>BancAndes</title>
+        <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}" />
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg bg-body-tertiary" >
+            <div class="container-fluid">
+                <a class="navbar-brand" th:href="@{|/login_usuario/verificacionLogin/${idUsuario}|}">
+                    <img th:src="@{/images/logoPrincipal.png}" width="200" height="60">
+                </a>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" th:href="@{/oficina}" style="color: #78288c;">Oficinas</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" th:href="@{/usuario}" style="color: #78288c;">Usuarios</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" th:href="@{/puntosAtencion}" style="color: #78288c;">Puntos De Atencion</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" th:href="@{/cuenta}" style="color: #78288c;">Cuentas</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" th:href="@{/prestamo}" style="color: #78288c;">Prestamos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" th:href="@{/login_usuario/verificacionLogin/{id_usuario}/crear_usuario(id_usuario=${idUsuario})}" style="color: #78288c;">Crear Usuario</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <h1 style="color: #78288c;">Vas a crear un usuario:</h1>
+        
+        
+        <div th:if="${errorCreacionUsuario}" class="alert alert-danger" role="alert">
+            <p th:text="${errorCreacionUsuario}"></p>
+        </div>
+        <div class="col" style="text-align: center;">
+            <form th:action="@{|/login_usuario/verificacionLogin/${id_usuario}/crear_usuario/save|}" method="post">
+                <div class="form-group">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col col-lg-2">
+                                <label for="nombre" style="color: #78288c;">Nombre:</label>
+                            </div>
+                            <div class="col">
+                                <input type="text" class="form-control" style="color: #78288c;" id="nombre" placeholder="Nombre" name="nombre" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col col-lg-2">
+                                <label for="numeroDocumento" style="color: #78288c;">Numero De Documento:</label>
+                            </div>
+                            <div class="col">
+                                <input type="text" class="form-control" style="color: #78288c;" id="numeroDocumento" placeholder="Numero De Documento" name="numeroDocumento" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col col-lg-2">
+                                <label for="nacionalidad" style="color: #78288c;">Nacionalidad:</label>
+                            </div>
+                            <div class="col">
+                                <input type="text" class="form-control" style="color: #78288c;" id="nacionalidad" placeholder="nacionalidad" name="nacionalidad" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col col-lg-2">
+                                <label for="direccionFisica" style="color: #78288c;">Direccion Fisica:</label>
+                            </div>
+                            <div class="col">
+                                <input type="text" class="form-control" style="color: #78288c;" id="direccionFisica" placeholder="Direccion Fisica" name="direccionFisica"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col col-lg-2">
+                                <label for="direccionDigital" style="color: #78288c;">Direccion Digital:</label>
+                            </div>
+                            <div class="col">
+                                <input type="text" class="form-control" style="color: #78288c;" id="direccionDigital" placeholder="Direccion Digital" name="direccionDigital" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col col-lg-2">
+                                <label for="telefono" style="color: #78288c;">Telefono:</label>
+                            </div>
+                            <div class="col">
+                                <input type="text" class="form-control" style="color: #78288c;" id="telefono" placeholder="telefono" name="telefono" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col col-lg-2">
+                                <label for="codigoPostal" style="color: #78288c;">Codigo Postal:</label>
+                            </div>
+                            <div class="col">
+                                <input type="text" class="form-control" style="color: #78288c;" id="codigoPostal" placeholder="Codigo Postal" name="codigoPostal" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col col-lg-2">
+                                <label for="login" style="color: #78288c;">Login:</label>
+                            </div>
+                            <div class="col">
+                                <input type="text" class="form-control" style="color: #78288c;" id="login" placeholder="login" name="login" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col col-lg-2">
+                                <label for="clave" style="color: #78288c;">Clave:</label>
+                            </div>
+                            <div class="col">
+                                <input type="text" class="form-control" style="color: #78288c;" id="clave" placeholder="clave" name="clave" />
+                            </div>
+                        </div>
+                        <div class="input-group mb-3 row">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" style="color: #78288c;" for="inputGroupSelect01">Tipo Documento</label>
+                            </div>
+                            <select class="custom-select" id="inputGroupSelect01" name="tipoDocumento" >
+                                <option style="color: #78288c;" value="" selected>Escoge el tipo de Documento que quieras crear</option>
+                                <th:block th:each="tipoDocumento : ${tiposDocumentos}" style="color: #78288c;">
+                                    <option th:value="${tipoDocumento}" th:text="${tipoDocumento}" style="color: #78288c;"></option>
+                                </th:block>
+                            </select>
+                        </div>
+                        <div class="input-group mb-3 row">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" style="color: #78288c;" for="inputGroupSelect01">Tipo Usuario</label>
+                            </div>
+                            <select class="custom-select" id="inputGroupSelect01" name="tipoUsuario">
+                                <option value="" selected style="color: #78288c;">Escoge el tipo de usuario que quieras crear</option>
+                                <th:block th:each="tipoUsuario : ${tiposUsuarios}" style="color: #78288c;">
+                                    <option th:value="${tipoUsuario}" th:text="${tipoUsuario}" style="color: #78288c;"></option>
+                                </th:block>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn" style="background-color: #78288c; color: white;">Guardar</button>
+                <a th:href="@{|/login_usuario/verificacionLogin/${id_usuario}|}" class="btn" style="background-color: #ee0e0e; color: white;">Cancelar</a>
+            </form>
+        </div>
+    </body>
+</html>
