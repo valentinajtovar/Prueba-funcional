@@ -21,6 +21,10 @@ public class TipoUsuario {
         return tipoUsuario;
     } 
 
+    public String getTipoUsuarioSinEspacios(){
+        return tipoUsuario.replaceAll("\\s+", "");
+    } 
+
     public void setTipoUsuario(String tipoUsuario){
         this.tipoUsuario = tipoUsuario;
     } 

@@ -19,7 +19,7 @@ public interface EstadoCuentaRepository extends JpaRepository<EstadoCuenta, Stri
 
     // Consulta para obtener un estado de cuenta por su ID
     @Query(value = "SELECT * FROM ESTADO_CUENTA WHERE ESTADO_CUENTA = :estadoCuenta", nativeQuery = true)
-    Optional<EstadoCuenta> darEstadoCuenta(@Param("estadoCuenta") String estadoCuenta);
+    EstadoCuenta darEstadoCuenta(@Param("estadoCuenta") String estadoCuenta);
 
     // Método para insertar un nuevo estado de cuenta
     @Modifying

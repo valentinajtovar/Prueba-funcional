@@ -17,11 +17,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import uniandes.edu.co.proyecto.modelo.Oficina;
 import uniandes.edu.co.proyecto.repositorio.OficinaRepository;
+import uniandes.edu.co.proyecto.repositorio.UsuarioRepository;
 
 @Controller
 public class OficinaController {
     @Autowired
     private OficinaRepository oficinaRepository;
+
+    @Autowired 
+    private UsuarioRepository usuarioRepository;
     
     @GetMapping("/oficina")
     public String listarOficina(Model model) {
@@ -33,13 +37,13 @@ public class OficinaController {
     @GetMapping("/oficina/new")
     public String formularioNuevaOficina(Model model) {
         model.addAttribute("oficina", new Oficina());
+        model.addAttribute("gerentes", usuarioRepository.darListaTipoUsuario("GERENTE DE OFICINA"));
         return "oficinaNueva";
     }
 
     @PostMapping("/oficina/new/save")
-    public String guardarOficina( @ModelAttribute("nombre") String nombre,
-            @ModelAttribute("locacion") String locacion, @ModelAttribute("gerente") Integer gerente) {
-        oficinaRepository.insertarOficina(nombre, locacion, gerente);
+    public String guardarOficina( @ModelAttribute Oficina oficina) {
+        oficinaRepository.insertarOficina(oficina.getNombre(),oficina.getDireccion(), oficina.getNumeroPuntosDisponibles(), oficina.getGerente().getIdUsuario());
         return "redirect:/oficina";} 
 
 

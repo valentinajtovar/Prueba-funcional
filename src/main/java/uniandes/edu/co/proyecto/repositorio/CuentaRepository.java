@@ -50,4 +50,6 @@ public interface CuentaRepository extends JpaRepository<Cuenta, Integer> {
     @Transactional
     @Query(value = "UPDATE CUENTA SET  SALDO =:saldo WHERE id_cuenta = :id_cuenta", nativeQuery = true)
     void cambiarSaldo(@Param("id_cuenta") Integer id_cuenta,@Param("saldo") Double saldo);
+
+    
 }

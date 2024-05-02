@@ -8,6 +8,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -25,9 +27,14 @@ public class Oficina {
     private String direccion;
     
     private Integer numeroPuntosDisponibles;
+
+    @ManyToOne
+    @JoinColumn(name ="gerente", referencedColumnName = "idUsuario")
+    private Usuario gerente;
     
     public Oficina(){;}
 
+    
     public Oficina( String nombre, String direccion, Integer numeroPuntosDisponibles) {
         this.nombre = nombre;
         this.direccion = direccion;
@@ -72,5 +79,15 @@ public class Oficina {
 
     public void setNumeroPuntosDisponibles(Integer numeroPuntosDisponibles) {
         this.numeroPuntosDisponibles = numeroPuntosDisponibles;
+    }
+
+
+    public Usuario getGerente() {
+        return gerente;
+    }
+
+
+    public void setGerente(Usuario gerente) {
+        this.gerente = gerente;
     }
 }

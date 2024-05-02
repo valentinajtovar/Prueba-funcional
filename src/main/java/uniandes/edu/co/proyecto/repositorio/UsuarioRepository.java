@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import uniandes.edu.co.proyecto.modelo.Usuario;
 
-public interface UsuarioRepository extends JpaRepository<Usuario, String> {
+public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 
     @Query(value = "SELECT * FROM USUARIO", nativeQuery = true)
     Collection<Usuario> darUsuarios();
@@ -48,7 +48,11 @@ public interface UsuarioRepository extends JpaRepository<Usuario, String> {
 
     
 
+    @Query(value = "SELECT * FROM USUARIO WHERE TIPO_USUARIO=:tipo_usuario", nativeQuery = true)
+    Collection<Usuario> darListaTipoUsuario(@Param("tipo_usuario") String tipo_usuario);
 
+    @Query(value = "SELECT * FROM USUARIO WHERE TIPO_USUARIO=:tipo_usuario OR TIPO_USUARIO=:tipo_usuario1", nativeQuery = true)
+    Collection<Usuario> darListaUsuarios(@Param("tipo_usuario") String tipo_usuario, @Param("tipo_usuario1") String tipo_usuario1);
 
     @Query(value = "SELECT * FROM USUARIO WHERE ID_USUARIO = :id_usuario", nativeQuery = true)
     Usuario buscarUsuarioId(@Param("id_usuario") Integer id_usuario);

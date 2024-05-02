@@ -59,6 +59,21 @@ public class UsuarioController {
         return "usuarioNuevo";
     }
 
+
+    @GetMapping("/login_usuario/verificacionLogin/{tipoUsuario}/{idUsuario}")
+    public String sesionIniciada(@PathVariable("tipoUsuario") String tipo,@PathVariable("idUsuario") Integer idUsuario, Model model, RedirectAttributes redirectAttributes) {
+        Usuario usuario = usuarioRepository.buscarUsuarioId(idUsuario);
+        if (usuario != null) {
+            model.addAttribute("usuario",usuarioRepository.buscarUsuarioId(idUsuario));
+            return tipo;
+        }          
+         else {
+            
+        return "redirect:/login_usuario";
+        }
+    }
+
+
     @PostMapping("/login_usuario/verificacionLogin")
     public String verificarLogin(@RequestParam("login") String login,@RequestParam("clave") String clave,RedirectAttributes redirectAttributes) {
         Collection<String> logins = usuarioRepository.darLogin();
@@ -75,7 +90,8 @@ public class UsuarioController {
         if(existeLogin){
             
             if(usuario.getClave().equals(clave)){
-                return "redirect:/login_usuario/verificacionLogin/" + usuario.getIdUsuario();
+                redirectAttributes.addFlashAttribute("idUsuario", usuario.getIdUsuario());
+                return "redirect:/login_usuario/verificacionLogin/" + usuario.getTipoUsuario().getTipoUsuarioSinEspacios()+ "/" + usuario.getIdUsuario();
             }
             else{
                 redirectAttributes.addFlashAttribute("errorLogin", "Usuario o contraseña no coincide");
@@ -89,69 +105,7 @@ public class UsuarioController {
         
     }
 
-    @GetMapping("/login_usuario/verificacionLogin/{id_usuario}")
-    public String sesionIniciada(@PathVariable("id_usuario") Integer idUsuario,Model model) {
-        Usuario usuario = usuarioRepository.buscarUsuarioId(idUsuario);
 
-        if (usuario != null) {
-            model.addAttribute("idUsuario", idUsuario);
-            return "sesionIniciada";
-        }          
-         else {
-        return "redirect:/login_usuario";
-        }
-    }
 
-    @GetMapping("/login_usuario/verificacionLogin/{id_usuario}/crear_usuario")
-    public String crearUsuario(@PathVariable("id_usuario") Integer idUsuario,Model model,RedirectAttributes redirectAttributes) {
-        Usuario usuario = usuarioRepository.buscarUsuarioId(idUsuario);
-        Collection<String> tipoUsuarios= new ArrayList<>();
-        if (usuario.getTipoUsuario().getTipoUsuario().equals("CAJERO") || (usuario.getTipoUsuario().getTipoUsuario().equals("GERENTE DE OFICINA"))|| (usuario.getTipoUsuario().getTipoUsuario().equals("GERENTE GENERAL"))) {
-            Collection<String> tiposUsuarios = tipoUsuarioRepository.darNombres();
-            Collection<String> tiposDocumentos = tipoDocumentoRepository.darTipoDocumentosNombres();
-            for (String tipo: tiposUsuarios)
-		    {
-                if(usuario.getTipoUsuario().getTipoUsuario().equals("GERENTE DE OFICINA")){
-                    tipoUsuarios.add(tipo);
-                }
-                else {
-                    if(tipo.contains("CLIENTE") != true){
-                        tipoUsuarios.add(tipo);
-                    }
-                }
-		    }
-            model.addAttribute("tiposUsuarios", tipoUsuarios);
-            model.addAttribute("tiposDocumentos", tiposDocumentos);
-            model.addAttribute("idUsuario", idUsuario);
-            return "CrearUsuarioCliente";
-        }
-         else {
-            redirectAttributes.addFlashAttribute("errorCreacionUsuario", "No tienes permisos para crear ningun tipo de usuario");
-            return "redirect:/login_usuario/verificacionLogin/" + usuario.getIdUsuario();
-        }
-    }
-
-    @PostMapping("/login_usuario/verificacionLogin/{id_usuario}/crear_usuario/save")
-    public String crearUsuario(@PathVariable("id_usuario") Integer idUsuario,Model model,RedirectAttributes redirectAttributes ,@RequestParam("nombre") String nombre,@RequestParam("numeroDocumento") String numeroDocumento,@RequestParam("nacionalidad") String nacionalidad,@RequestParam("direccionFisica") String direccionFisica,@RequestParam("direccionDigital") String direccionDigital,@RequestParam("telefono") String telefono,@RequestParam("codigoPostal") String codigoPostal,@RequestParam("login") String login,@RequestParam("clave") String clave,@RequestParam("tipoDocumento") String tipoDocumento,@RequestParam("tipoUsuario") String tipoUsuario) {
-        Collection<String> listaLogins = usuarioRepository.darLogin();
-        Boolean loginExiste = false;
-        for (String elementoLogin: listaLogins){
-            if (elementoLogin.equals(login)){
-                loginExiste = true;
-            }
-        }
-        if (loginExiste){
-            redirectAttributes.addFlashAttribute("errorCreacionUsuario", "El login ya existe, cambie de login y reintentelo");
-            return "redirect:/login_usuario/verificacionLogin/" + idUsuario + "/crear_usuario";
-        }
-        else{
-            model.addAttribute("idUsuario", idUsuario);
-            int numeroDocumentoInteger = Integer.parseInt(numeroDocumento);
-            Long telefonoLong = Long.parseLong(telefono);
-            int codigoPostalInteger = Integer.parseInt(codigoPostal);
-            usuarioRepository.crearUsuario(tipoDocumento,numeroDocumentoInteger,nombre,nacionalidad,direccionFisica,direccionDigital,telefonoLong,codigoPostalInteger,tipoUsuario,login,clave);
-            return "redirect:/login_usuario/verificacionLogin/" + idUsuario ;
-        } 
-    }
 
 }

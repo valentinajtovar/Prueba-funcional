@@ -10,8 +10,10 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import uniandes.edu.co.proyecto.modelo.*;
-public interface CredencialesCuentaRepository extends JpaRepository<CredencialesCuenta, String>{
+public interface CredencialesCuentaRepository extends JpaRepository<CredencialesCuenta, Integer>{
     
+
+
     @Query(value = "SELECT * FROM CREDENCIALES_CUENTA", nativeQuery = true)
     Collection<CredencialesCuenta> darCredencialesCuenta();
 
@@ -20,7 +22,7 @@ public interface CredencialesCuentaRepository extends JpaRepository<Credenciales
 
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO CREDENCIALES_CUENTA (id_usuario, id_gerente, id_cuenta) VALUES (:id_usuario, :id_gerente, :id_cuenta)", nativeQuery = true)
+    @Query(value = "INSERT INTO CREDENCIALES_CUENTA ( id_cuenta, id_usuario, id_gerente) VALUES (:id_cuenta, :id_usuario, :id_gerente)", nativeQuery = true)
     void insertarCredencialesCuenta(@Param("id_usuario") Integer id_usuario, @Param("id_gerente") Integer id_gerente, @Param("id_cuenta") Integer id_cuenta);
 
     @Modifying
@@ -32,5 +34,10 @@ public interface CredencialesCuentaRepository extends JpaRepository<Credenciales
     @Transactional
     @Query(value = "DELETE FROM CREDENCIALES_CUENTA WHERE ID_USUARIO = :id_usuario AND ID_GERENTE =:id_gerente AND ID_CUENTA =:id_cuenta", nativeQuery = true)
     void eliminarCredencialesCuenta(@Param("id_usuario") Integer id_usuario, @Param("id_gerente") Integer id_gerente, @Param("id_cuenta") Integer id_cuenta);
+    
 
+    @Query(value = "SELECT C.id_cuenta FROM CUENTA C\r\n" + //
+                " LEFT JOIN CREDENCIALES_CUENTA D ON C.id_cuenta = D.id_cuenta\r\n" + //
+                                        " WHERE D.id_gerente=:idGerente", nativeQuery = true)
+    Collection<Integer> darCuentasGerente(@Param("idGerente") Integer idGerente);
 }

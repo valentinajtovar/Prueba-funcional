@@ -3,6 +3,8 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Optional;
 
 import org.slf4j.LoggerFactory;
@@ -19,12 +21,17 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import uniandes.edu.co.proyecto.modelo.CredencialesCuenta;
 import uniandes.edu.co.proyecto.modelo.Cuenta;
 import uniandes.edu.co.proyecto.modelo.Oficina;
 import uniandes.edu.co.proyecto.modelo.Prestamo;
 import uniandes.edu.co.proyecto.modelo.PuntosAtencion;
+import uniandes.edu.co.proyecto.repositorio.CredencialesCuentaRepository;
 import uniandes.edu.co.proyecto.repositorio.CuentaRepository;
+import uniandes.edu.co.proyecto.repositorio.EstadoCuentaRepository;
 import uniandes.edu.co.proyecto.repositorio.OficinaRepository;
+import uniandes.edu.co.proyecto.repositorio.TipoCuentaRepository;
+import uniandes.edu.co.proyecto.repositorio.UsuarioRepository;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,6 +41,17 @@ public class CuentaController {
     @Autowired
     private CuentaRepository cuentaRepository;
 
+    @Autowired
+    private CredencialesCuentaRepository credencialesCuentaRepository;
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private TipoCuentaRepository tipoCuentaRepository;
+
+    @Autowired
+    private EstadoCuentaRepository estadoCuentaRepository;
     private static final Logger logger = LoggerFactory.getLogger(CuentaController.class);
 
     //logger.debug("Agregando cuenta: {}", cuenta);
@@ -129,5 +147,38 @@ public class CuentaController {
         logger.info("Fecha: {}, Número de cuenta: {}, Monto: {}, Tipo de operación: rertiro",
                     LocalDate.now(), idCuenta, monto);
         return "redirect:/cuenta";
+}
+
+
+@GetMapping("{idUsuario}/gerenteoficina/cuentagerenteoficina")
+public String listarCuentasGerente(Model model,@PathVariable("idUsuario") Integer idUsuario) {
+    Collection<Integer> cuentas = credencialesCuentaRepository.darCuentasGerente(idUsuario);
+    Collection<Cuenta> cuentasFinales = new ArrayList<>();
+    for (Integer cuenta : cuentas) {
+        cuentasFinales.add(cuentaRepository.buscarCuentaPorId(cuenta));}
+    model.addAttribute("cuentas", cuentasFinales);
+
+    return "cuentagerenteoficina";
+}
+
+@GetMapping("{idUsuario}/gerenteoficina/cuentagerenteoficina/cuentanuevogerente/new")
+public String formularioNuevoCuentaGerenteOficina(Model model, @PathVariable("idUsuario") Integer idUsuario) {
+    model.addAttribute("tipoCuentas", tipoCuentaRepository.darTiposCuenta());
+    model.addAttribute("estadoCuentas", estadoCuentaRepository.darEstadoCuenta("ACTIVA"));
+    model.addAttribute("clientes", usuarioRepository.darListaUsuarios("CLIENTE NATURAL", "CLIENTE JURIDICO"));
+    model.addAttribute("idGerente", idUsuario);
+    model.addAttribute("cuenta", new Cuenta());
+    model.addAttribute("credenciales", new CredencialesCuenta());
+    return "cuentanuevogerente";
+}
+
+@PostMapping("{idUsuario}/gerenteoficina/cuentagerenteoficina/cuentanuevogerente/new/save")
+public String guardarCuentaGerenteDeOficina(@ModelAttribute Cuenta cuenta, @ModelAttribute CredencialesCuenta credenciales, @PathVariable("idUsuario") Integer idUsuario){
+    
+    cuentaRepository.insertarCuenta(cuenta.getTipoCuenta().getTipoCuenta(), cuenta.getEstadoCuenta().getEstadoCuenta(), cuenta.getSaldo(), cuenta.getFechaUltimaTransaccion());
+    credencialesCuentaRepository.insertarCredencialesCuenta(cuenta.getIdCuenta(), credenciales.getCliente().getIdUsuario(),idUsuario);
+    return "cuentanuevogerente";
+
+
 }
 }
