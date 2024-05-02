@@ -41,10 +41,26 @@ public class OficinaController {
         return "oficinaNueva";
     }
 
+    @GetMapping("/login_usuario/verificacionLogin/{id_usuario}/oficina/nueva")
+    public String NuevaOficinaSesionIniciada(@PathVariable("id_usuario") Integer idUsuario,Model model) {
+        model.addAttribute("oficina", new Oficina());
+        model.addAttribute("idUsuario", idUsuario);
+        return "oficinaNuevaSesionIniciada";
+    }
+
     @PostMapping("/oficina/new/save")
     public String guardarOficina( @ModelAttribute Oficina oficina) {
         oficinaRepository.insertarOficina(oficina.getNombre(),oficina.getDireccion(), oficina.getNumeroPuntosDisponibles(), oficina.getGerente().getIdUsuario());
         return "redirect:/oficina";} 
+
+    @PostMapping("/login_usuario/verificacionLogin/{id_usuario}/oficina/nueva/save")
+    public String guardarOficinaSesionIniciada( @PathVariable("id_usuario") Integer idUsuario,@ModelAttribute("nombre") String nombre,
+            @ModelAttribute("locacion") String locacion, @ModelAttribute("gerente") String gerente) {
+        System.out.println("---------------------");
+        System.out.println("entro");
+        System.out.println("---------------------");
+        return "redirect:/login_usuario/verificacionLogin/" + idUsuario;
+    }
 
 
 

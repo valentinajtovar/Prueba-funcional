@@ -38,7 +38,7 @@
         <h1 style="color: #78288c;">Estas Creando Una Oficina:</h1>
         <br>
         <div class="center-text">
-            <form th:action="@{/login_usuario/verificacionLogin/{id_usuario}/oficina/new/save}" method="post">
+            <form th:action="@{/login_usuario/verificacionLogin/{id_usuario}/oficina/nueva/save(id_usuario=${idUsuario})}" method="post">
                 <div class="form-group">
                     <label for="nombre" style="color: #78288c;">Nombre:</label>
                     <input type="text" class="form-control" style="color: #78288c;" id="nombre" placeholder="Nombre" name="nombre" />
