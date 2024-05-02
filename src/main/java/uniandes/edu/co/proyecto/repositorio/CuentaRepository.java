@@ -18,6 +18,11 @@ public interface CuentaRepository extends JpaRepository<Cuenta, Integer> {
     @Query(value = "SELECT * FROM CUENTA", nativeQuery = true)
     Collection<Cuenta> darCuentas();
 
+    @Query(value = "SELECT MAX(ID_CUENTA) FROM cuenta", nativeQuery = true)
+    Integer DarIdMaximo();
+    
+
+
     @Query(value = "SELECT * FROM CUENTA WHERE id_cuenta =:id_cuenta", nativeQuery = true)
     Cuenta buscarCuentaPorId(@Param("id_cuenta") Integer id_cuenta);
 

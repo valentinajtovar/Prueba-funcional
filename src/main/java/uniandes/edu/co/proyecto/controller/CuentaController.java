@@ -173,11 +173,11 @@ public String formularioNuevoCuentaGerenteOficina(@PathVariable("idUsuario") Int
 }
 
 @PostMapping("/{idUsuario}/gerenteoficina/cuentagerenteoficina/cuentanuevogerente/new/save")
-public String guardarCuentaGerenteDeOficina(@ModelAttribute Cuenta cuenta, @ModelAttribute CredencialesCuenta credenciales, @PathVariable("idUsuario") Integer idUsuario){
-    System.out.println(idUsuario);
-    System.out.println(cuenta);
-    //cuentaRepository.insertarCuenta(cuenta.getTipoCuenta().getTipoCuenta(), cuenta.getEstadoCuenta().getEstadoCuenta(), cuenta.getSaldo(), cuenta.getFechaUltimaTransaccion());
-    //credencialesCuentaRepository.insertarCredencialesCuenta(cuenta.getIdCuenta(), credenciales.getCliente().getIdUsuario(),idUsuario);
-    return "cuentanuevogerente";
+public String guardarCuentaGerenteDeOficina(@ModelAttribute Cuenta cuenta, @ModelAttribute CredencialesCuenta credenciales, @PathVariable("idUsuario") Integer idGerente,@RequestParam("tipoCuenta") String tipoCuenta,@RequestParam("estadoCuenta") String estadoCuenta,@RequestParam("saldo") String saldo,@RequestParam("fechaUltimaTransaccion") Date fechaUltimaTransaccion,@RequestParam("idUsuario") Integer idCliente){
+    double saldoDouble = Double.parseDouble(saldo);
+    cuentaRepository.insertarCuenta(tipoCuenta,estadoCuenta,saldoDouble,fechaUltimaTransaccion);
+    Integer idCuenta = cuentaRepository.DarIdMaximo();
+    credencialesCuentaRepository.insertarCredencialesCuenta(idCliente, idGerente, idCuenta);;
+    return "sesionIniciada";
 }
 }
