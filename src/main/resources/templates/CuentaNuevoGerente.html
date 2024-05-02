@@ -22,13 +22,12 @@
         </div>
     </nav>
 
-    <h1 style="color: #78288c;">Gerente:</h1>
+    <h1 style="color: #78288c;">Vas a crear una cuenta:</h1>
     <br>
 
     <br>
     <div class="center-text">
-        <form th:action="@{/cuentanuevogerente/new/save}" method="post">
-
+        <form th:action="@{'/' + ${idUsuario} + '/gerenteoficina/cuentagerenteoficina/cuentanuevogerente/new/save'}" method="post">
        
         <label for="tipoCuenta" style="color: #78288c;">Tipo Cuenta:</label>
         <select class="form-control" id="tipoCuenta" name="tipoCuenta" required>

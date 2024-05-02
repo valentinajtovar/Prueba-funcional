@@ -162,7 +162,7 @@ public String listarCuentasGerente(Model model,@PathVariable("idUsuario") Intege
 }
 
 @GetMapping("{idUsuario}/gerenteoficina/cuentagerenteoficina/cuentanuevogerente/new")
-public String formularioNuevoCuentaGerenteOficina(Model model, @PathVariable("idUsuario") Integer idUsuario) {
+public String formularioNuevoCuentaGerenteOficina(@PathVariable("idUsuario") Integer idUsuario,Model model) {
     model.addAttribute("tipoCuentas", tipoCuentaRepository.darTiposCuenta());
     model.addAttribute("estadoCuentas", estadoCuentaRepository.darEstadoCuenta("ACTIVA"));
     model.addAttribute("clientes", usuarioRepository.darListaUsuarios("CLIENTE NATURAL", "CLIENTE JURIDICO"));
@@ -172,13 +172,12 @@ public String formularioNuevoCuentaGerenteOficina(Model model, @PathVariable("id
     return "cuentanuevogerente";
 }
 
-@PostMapping("{idUsuario}/gerenteoficina/cuentagerenteoficina/cuentanuevogerente/new/save")
+@PostMapping("/{idUsuario}/gerenteoficina/cuentagerenteoficina/cuentanuevogerente/new/save")
 public String guardarCuentaGerenteDeOficina(@ModelAttribute Cuenta cuenta, @ModelAttribute CredencialesCuenta credenciales, @PathVariable("idUsuario") Integer idUsuario){
-    
-    cuentaRepository.insertarCuenta(cuenta.getTipoCuenta().getTipoCuenta(), cuenta.getEstadoCuenta().getEstadoCuenta(), cuenta.getSaldo(), cuenta.getFechaUltimaTransaccion());
-    credencialesCuentaRepository.insertarCredencialesCuenta(cuenta.getIdCuenta(), credenciales.getCliente().getIdUsuario(),idUsuario);
+    System.out.println(idUsuario);
+    System.out.println(cuenta);
+    //cuentaRepository.insertarCuenta(cuenta.getTipoCuenta().getTipoCuenta(), cuenta.getEstadoCuenta().getEstadoCuenta(), cuenta.getSaldo(), cuenta.getFechaUltimaTransaccion());
+    //credencialesCuentaRepository.insertarCredencialesCuenta(cuenta.getIdCuenta(), credenciales.getCliente().getIdUsuario(),idUsuario);
     return "cuentanuevogerente";
-
-
 }
 }
