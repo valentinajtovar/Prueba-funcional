@@ -128,11 +128,35 @@ public class CuentaController {
         return "redirect:/{idUsuario}/gerenteoficina/cuentagerenteoficina/lista_cuentas";
     }
 
-    @GetMapping("/cuenta/{id_cuenta}/cerrar_cuenta")
+    @GetMapping("/cuenta/{id_cuenta}/{idUsuario}/cerrar_cuenta")
+    public String cerrarCuenta(@PathVariable("id_cuenta") Integer idCuenta, @PathVariable("idUsuario") Integer idGerente, Model model,RedirectAttributes redirectAttributes) {
+        CredencialesCuenta credencialesCuenta = credencialesCuentaRepository.buscarCredencialesCuentaPorIdCuenta(idCuenta);
+        Cuenta cuenta = cuentaRepository.buscarCuentaPorId(idCuenta);
+        if(credencialesCuenta.getGerente().getId().equals(idGerente)){
+            if(cuenta.getEstadoCuenta().getEstadoCuenta().equals("ACTIVA")){
+                if (cuenta.getSaldo() == 0){
+                    cuentaRepository.cambiarEstadoCerrada(idCuenta);
+                }
+                else{
+                    redirectAttributes.addFlashAttribute("errorSaldo", "El saldo de la cuenta es diferente a 0");
+                }
+            }
+            else{
+                redirectAttributes.addFlashAttribute("errorEstadoCuenta", "El estado de cuenta es diferente a ACTIVA");
+            }
+        }
+        else{
+            redirectAttributes.addFlashAttribute("errorGerente", "El gerente no es el mismo que intenta hacer la modificacion");
+        }
+        System.out.println("entro");
+        return "redirect:/{idUsuario}/gerenteoficina/cuentagerenteoficina/lista_cuentas";
+    }
+
+    /*@GetMapping("/cuenta/{id_cuenta}/cerrar_cuenta")
     public String cerrarCuenta(@PathVariable("id_cuenta") Integer idCuenta,Model model) {
         cuentaRepository.cambiarEstadoDesactivada(idCuenta);
         return "redirect:/cuenta";
-    }
+    }*/
 
     @GetMapping("/cuenta/{id_cuenta}/cuenta_retirar")
     public String cuentaRetirar(@PathVariable("id_cuenta") Integer idCuenta, Model model) {
