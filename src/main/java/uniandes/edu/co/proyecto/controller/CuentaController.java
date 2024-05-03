@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import jakarta.persistence.criteria.CriteriaBuilder.In;
 import uniandes.edu.co.proyecto.modelo.CredencialesCuenta;
 import uniandes.edu.co.proyecto.modelo.Cuenta;
 import uniandes.edu.co.proyecto.modelo.Oficina;
@@ -84,6 +85,18 @@ public class CuentaController {
             model.addAttribute("idUsuario", idUsuario);
             return "cuenta";
         }
+        else if ((usuario.getTipoUsuario().getTipoUsuario().equals("CLIENTE JURIDICO")) || (usuario.getTipoUsuario().getTipoUsuario().equals("CLIENTE NATURAL"))){
+            Collection<Integer> idCuentas = credencialesCuentaRepository.buscarCredencialesCuentaPorIdUsuario(idUsuario);
+            Collection<Cuenta> cuentas = new ArrayList<Cuenta>();
+            for (Integer idCuenta:idCuentas){
+                Cuenta cuenta = cuentaRepository.buscarCuentaPorId(idCuenta);
+                cuentas.add(cuenta);
+            }
+            
+            model.addAttribute("cuentasUsuario", cuentas);
+            model.addAttribute("idUsuario", idUsuario);
+            return "Usuariocuenta";
+        }
         else{
             redirectAttributes.addFlashAttribute("noPermisos", "No tienes permiso para ver esta página.");
             return "redirect:/login_usuario/verificacionLogin/" + idUsuario;
@@ -100,7 +113,6 @@ public class CuentaController {
     public String guardarCuenta(@ModelAttribute("tipo_Cuenta") String tipoCuenta,@ModelAttribute("estado_cuenta") String estadoCuenta,@ModelAttribute("saldo") String saldo) {
        
         java.sql.Date fechaUltimaTransaccion = new java.sql.Date(System.currentTimeMillis());
-
 
         double saldoNumero = Double.parseDouble(saldo);
         
@@ -152,26 +164,20 @@ public class CuentaController {
         return "redirect:/{idUsuario}/gerenteoficina/cuentagerenteoficina/lista_cuentas";
     }
 
-    /*@GetMapping("/cuenta/{id_cuenta}/cerrar_cuenta")
-    public String cerrarCuenta(@PathVariable("id_cuenta") Integer idCuenta,Model model) {
-        cuentaRepository.cambiarEstadoDesactivada(idCuenta);
-        return "redirect:/cuenta";
-    }*/
-
-    @GetMapping("/cuenta/{id_cuenta}/cuenta_retirar")
-    public String cuentaRetirar(@PathVariable("id_cuenta") Integer idCuenta, Model model) {
+    @GetMapping("/cuenta/{id_cuenta}/{idUsuario}/cuenta_retirar")
+    public String cuentaRetirar(@PathVariable("id_cuenta") Integer idCuenta, @PathVariable("idUsuario") Integer idGerente, Model model) {
         Cuenta cuenta = cuentaRepository.buscarCuentaPorId(idCuenta);
         if (cuenta != null) {
             model.addAttribute("cuenta", cuenta);
             return "cuentaRetirar";
         }          
          else {
-        return "redirect:/cuenta";
+            return "redirect:/{idUsuario}/gerenteoficina/cuentagerenteoficina/lista_cuentas";
     }
     } 
     
-    @GetMapping("/cuenta/{id_cuenta}/cuenta_consignar")
-    public String cuentaConsignar(@PathVariable("id_cuenta") Integer idCuenta, Model model) {
+    @GetMapping("/cuenta/{id_cuenta}/{idUsuario}/cuenta_consignar")
+    public String cuentaConsignar(@PathVariable("id_cuenta") Integer idCuenta,@PathVariable("idUsuario") Integer idUsuario, Model model) {
         Cuenta cuenta = cuentaRepository.buscarCuentaPorId(idCuenta);
         if (cuenta != null) {
             model.addAttribute("cuenta", cuenta);
@@ -182,26 +188,41 @@ public class CuentaController {
     }
     } 
 
-    @PostMapping("/cuenta/{id_cuenta}/cuenta_retirar/save")
-    public String retirarCuentaGuardar(@PathVariable("id_cuenta") Integer idCuenta, @RequestParam("monto") String monto) {
+    @PostMapping("/cuenta/{id_cuenta}/{idUsuario}/cuenta_retirar/save")
+    public String retirarCuentaGuardar(@PathVariable("idUsuario") Integer idUsuario,@PathVariable("id_cuenta") Integer idCuenta, @RequestParam("monto") String monto, RedirectAttributes redirectAttributes) {
         Cuenta cuenta = cuentaRepository.buscarCuentaPorId(idCuenta);
         Double montoFloat = Double.parseDouble(monto);
         Double montoFinal = cuenta.getSaldo()-montoFloat;
-        cuentaRepository.cambiarSaldo(idCuenta,montoFinal);
-        logger.info("Fecha: {}, Número de cuenta: {}, Monto: {}, Tipo de operación: rertiro",
+        if (cuenta.getSaldo() > montoFloat){
+            if(cuenta.getEstadoCuenta().getEstadoCuenta().equals("ACTIVA")){
+                cuentaRepository.cambiarSaldo(idCuenta,montoFinal);
+                logger.info("Fecha: {}, Número de cuenta: {}, Monto: {}, Tipo de operación: rertiro",
                     LocalDate.now(), idCuenta, monto);
-        return "redirect:/cuenta";
+            }
+            else{
+                redirectAttributes.addFlashAttribute("errorEstadoCuenta", "El estado de cuenta es diferente a activa");
+            }
+        }
+        else{
+            redirectAttributes.addFlashAttribute("errorSaldo", "El saldo es menor al que pretendes retirar");
+        }
+        return "redirect:/{idUsuario}/gerenteoficina/cuentagerenteoficina/lista_cuentas";
 }
 
-@PostMapping("/cuenta/{id_cuenta}/cuenta_consignar/save")
-    public String consignarCuentaGuardar(@PathVariable("id_cuenta") Integer idCuenta, @RequestParam("monto") String monto) {
+@PostMapping("/cuenta/{id_cuenta}/{idUsuario}/cuenta_consignar/save")
+    public String consignarCuentaGuardar(@PathVariable("id_cuenta") Integer idCuenta,@PathVariable("idUsuario") Integer idUsuario, @RequestParam("monto") String monto,RedirectAttributes redirectAttributes) {
         Cuenta cuenta = cuentaRepository.buscarCuentaPorId(idCuenta);
         Double montoFloat = Double.parseDouble(monto);
         Double montoFinal = cuenta.getSaldo()+montoFloat;
-        cuentaRepository.cambiarSaldo(idCuenta,montoFinal);
-        logger.info("Fecha: {}, Número de cuenta: {}, Monto: {}, Tipo de operación: rertiro",
-                    LocalDate.now(), idCuenta, monto);
-        return "redirect:/cuenta";
+        if(cuenta.getEstadoCuenta().getEstadoCuenta().equals("ACTIVA")){
+            cuentaRepository.cambiarSaldo(idCuenta,montoFinal);
+            logger.info("Fecha: {}, Número de cuenta: {}, Monto: {}, Tipo de operación: rertiro",
+                LocalDate.now(), idCuenta, monto);
+        }
+        else{
+            redirectAttributes.addFlashAttribute("errorEstadoCuenta", "El estado de cuenta es diferente a activa");
+        }
+        return "redirect:/{idUsuario}/gerenteoficina/cuentagerenteoficina/lista_cuentas";
 }
 
 
