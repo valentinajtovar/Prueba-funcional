@@ -18,8 +18,10 @@ import uniandes.edu.co.proyecto.modelo.Oficina;
 import uniandes.edu.co.proyecto.modelo.Prestamo;
 import uniandes.edu.co.proyecto.modelo.PuntosAtencion;
 import uniandes.edu.co.proyecto.modelo.Usuario;
+import uniandes.edu.co.proyecto.repositorio.EstadoPrestamoRepository;
 import uniandes.edu.co.proyecto.repositorio.PrestamoRepository;
 import uniandes.edu.co.proyecto.repositorio.PuntosAtencionRepository;
+import uniandes.edu.co.proyecto.repositorio.TipoPrestamoRepository;
 import uniandes.edu.co.proyecto.repositorio.UsuarioRepository;
 
 @Controller
@@ -30,6 +32,12 @@ public class PrestamoController {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private EstadoPrestamoRepository estadoPrestamoRepository;
+
+    @Autowired
+    private TipoPrestamoRepository tipoPrestamoRepository;
 
     private static final Logger logger = LoggerFactory.getLogger(PrestamoController.class);
     
@@ -60,8 +68,17 @@ public class PrestamoController {
         return "prestamoNuevo";
     }
 
-    @PostMapping("/prestamo/new/save")
-    public String guardarPrestamo(@ModelAttribute("monto") String monto,@ModelAttribute("estado_prestamo") String estado_prestamo,@ModelAttribute("tipo_prestamo") String tipo_prestamo,@ModelAttribute("interes") String interes,@ModelAttribute("cuota") String cuota,@ModelAttribute("dia_Mes_Cuota") String dia_Mes_Cuota,@ModelAttribute("valor_Cuota") String valor_Cuota) {
+    @GetMapping("/login_usuario/verificacionLogin/{id_usuario}/prestamos/nuevo")
+    public String NuevoPrestamoSesionIniciada(Model model,@PathVariable("id_usuario") Integer idUsuario) {
+        model.addAttribute("prestamos", new Prestamo());
+        model.addAttribute("idUsuario", idUsuario);
+        model.addAttribute("estadosPrestamo", estadoPrestamoRepository.darEstadosPrestamo());
+        model.addAttribute("tiposPrestamoNombre", tipoPrestamoRepository.darTiposPrestamoNombre());
+        return "prestamoNuevo";
+    }
+
+    @PostMapping("/prestamo/new/save/{id_usuario}")
+    public String guardarPrestamo(@ModelAttribute("monto") String monto,@ModelAttribute("estadoPrestamo") String estado_prestamo,@ModelAttribute("tipoPrestamo") String tipo_prestamo,@ModelAttribute("interes") String interes,@ModelAttribute("cuota") String cuota,@ModelAttribute("dia_Mes_Cuota") String dia_Mes_Cuota,@ModelAttribute("valor_Cuota") String valor_Cuota,@PathVariable("id_usuario") Integer idUsuario) {
         java.sql.Date fecha = new java.sql.Date(System.currentTimeMillis());
         Float montoFloat = Float.parseFloat(monto);
         Float interesFloat = Float.parseFloat(interes);
@@ -69,7 +86,7 @@ public class PrestamoController {
         Integer cuotaInteger = Integer.parseInt(cuota);
         Integer diaMesCuotaInteger = Integer.parseInt(dia_Mes_Cuota);
         prestamoRepository.insertarPrestamo(fecha,montoFloat,estado_prestamo,tipo_prestamo,interesFloat,cuotaInteger,diaMesCuotaInteger,valorCuotaFloat);
-        return "redirect:/prestamo";
+        return "redirect:/login_usuario/verificacionLogin/" + idUsuario;
     }
 
     @GetMapping("/prestamo/{id_Prestamo}/estado_cerrado")

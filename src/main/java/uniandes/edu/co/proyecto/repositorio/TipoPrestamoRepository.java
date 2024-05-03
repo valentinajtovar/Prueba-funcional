@@ -17,6 +17,9 @@ public interface TipoPrestamoRepository extends JpaRepository<TipoPrestamo, Stri
     @Query(value = "SELECT * FROM TIPO_PRESTAMO", nativeQuery = true)
     Collection<TipoPrestamo> darTiposPrestamo();
 
+    @Query(value = "SELECT TIPO_PRESTAMO FROM TIPO_PRESTAMO", nativeQuery = true)
+    Collection<String> darTiposPrestamoNombre();
+
     @Query(value = "SELECT * FROM TIPO_PRESTAMO WHERE tipoPrestamo = :tipoPrestamo", nativeQuery = true)
     Optional<TipoPrestamo> buscarTipoPrestamoPorNombre(@Param("tipoPrestamo") String tipoPrestamo);
 

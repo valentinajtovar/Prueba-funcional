@@ -27,18 +27,10 @@
 
     <br>
     <div class="center-text">
-    <form th:action="@{/prestamo/new/save}" method="post">
+    <form th:action="@{/prestamo/new/save/{id_usuario}(id_usuario=${idUsuario})}" method="post">
         <div class="form-group">
             <label for="monto" style="color: #78288c;">Monto:</label>
             <input type="text" class="form-control" style="color: #78288c;" id="monto" placeholder="monto" name="monto" />
-        </div>
-        <div class="form-group">
-            <label for="estado_prestamo" style="color: #78288c;">estado prestamo:</label>
-            <input type="text" class="form-control" style="color: #78288c;" id="estado_prestamo" placeholder="estado_prestamo" name="estado_prestamo" />
-        </div>
-        <div class="form-group">
-            <label for="tipo_prestamo" style="color: #78288c;">tipo prestamo:</label>
-            <input type="text" class="form-control" style="color: #78288c;" id="tipo_prestamo" placeholder="tipo prestamo" name="tipo_prestamo" />
         </div>
         <div class="form-group">
             <label for="interes" style="color: #78288c;">interes:</label>
@@ -56,8 +48,34 @@
             <label for="valor_Cuota" style="color: #78288c;">valor Cuota:</label>
             <input type="text" class="form-control" style="color: #78288c;" id="valor_Cuota" placeholder="valor Cuota" name="valor_Cuota" />
         </div>
+        
+        <div class="input-group mb-3 row">
+            <div class="input-group-prepend">
+                <label class="input-group-text" style="color: #78288c;" for="inputGroupSelect01">Estado del Prestamo</label>
+            </div>
+            <select class="custom-select" id="inputGroupSelect01" name="estadoPrestamo" >
+                <option style="color: #78288c;" value="" selected>Escoge el estado del prestamo</option>
+                <th:block th:each="estadoPrestamo : ${estadosPrestamo}" style="color: #78288c;">
+                    <option th:value="${estadoPrestamo.estadoPrestamo}" th:text="${estadoPrestamo.estadoPrestamo}" style="color: #78288c;"></option>
+                </th:block>
+            </select>
+        </div>
+
+        <div class="input-group mb-3 row">
+            <div class="input-group-prepend">
+                <label class="input-group-text" style="color: #78288c;" for="inputGroupSelect01">Tipo del Prestamo</label>
+            </div>
+            <select class="custom-select" id="inputGroupSelect01" name="tipoPrestamo" >
+                <option style="color: #78288c;" value="" selected>Escoge el tipo del prestamo</option>
+                <th:block th:each="tipoPrestamo : ${tiposPrestamoNombre}" style="color: #78288c;">
+                    <option th:value="${tipoPrestamo}" th:text="${tipoPrestamo}" style="color: #78288c;"></option>
+                </th:block>
+            </select>
+        </div>
+        
         <button type="submit" class="btn" style="background-color: #78288c; color: white;">Guardar</button>
         <a th:href="@{/prestamo}" class="btn" style="background-color: #ee0e0e; color: white;">Cancelar</a>
+        
     </form>
     </div>
 </body>

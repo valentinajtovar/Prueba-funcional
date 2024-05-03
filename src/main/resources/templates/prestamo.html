@@ -59,8 +59,9 @@
         </div>
     </div>
     <div class="text-center">
-        <a th:href="@{/prestamo/new}" class="btn btn" style="background-color: #78288c ; color: white;" >Añadir Prestamo</a>
-        <a th:href="@{/}" class="btn " style="background-color: #ee0e0e; color: white;" >Volver Atrás</a>
+      
+      <a th:href="@{/login_usuario/verificacionLogin/{id_usuario}/prestamos/nuevo(id_usuario=${idUsuario})}" class="btn btn" style="background-color: #78288c ; color: white;" >Añadir Prestamo</a>
+      <a th:href="@{/login_usuario/verificacionLogin/{id_usuario}(id_usuario=${idUsuario})}" class="btn " style="background-color: #ee0e0e; color: white;" >Volver Atrás</a>
     </div>
 <!--
     <div class="card-columns">
