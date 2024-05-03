@@ -38,6 +38,9 @@
         <div th:if="${errorCreacionUsuario}" class="alert alert-danger" role="alert">
             <p th:text="${errorCreacionUsuario}"></p>
         </div>
+        <div th:if="${errorMontoPrestamo}" class="alert alert-danger" role="alert">
+            <p th:text="${errorMontoPrestamo}"></p>
+        </div>
         <div id="carouselExampleInterval" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
                 <div class="carousel-item active" data-interval="10000">

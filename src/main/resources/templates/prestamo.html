@@ -27,6 +27,9 @@
 
     <h1 style="color: #78288c;">Listado de Prestamos:</h1>
     <br>
+    <div th:if="${errorMontoPrestamo}" class="alert alert-danger" role="alert">
+      <p th:text="${errorMontoPrestamo}"></p>
+  </div>
     <div class="card-columns">
         <div th:each="prestamo : ${prestamos}" th:object="${prestamo}">
             <div class="card" style="background-color: #78288c;">
@@ -47,10 +50,10 @@
                     
                 </div>
                 <div class="card-footer">
-                    <a th:href="@{prestamo/{id_Prestamo}/estado_cerrado(id_Prestamo=${prestamo.idPrestamo})}" class="btn" style="background-color: #ee0e0e; color: white;"  onclick="return confirm('¿Estás seguro de cerrar este prestamo ?')">Cerrar</a>
+                    <a th:href="@{/prestamo/{id_Prestamo}/{id_usuario}/estado_cerrado(id_Prestamo=${prestamo.idPrestamo},id_usuario=${idUsuario})}" class="btn" style="background-color: #ee0e0e; color: white;" >Cerrar</a>
                 </div>
                 <div class="card-footer">
-                    <a th:href="@{/prestamo/{id_Prestamo}/{id_usuario}/prestamo_pago_cuota(id_Prestamo=${prestamo.idPrestamo}, id_usuario=${idUsuario})}" class="btn" style="background-color: #ee0e0e; color: white;" >Pago Cuota</a>
+                    <a th:href="@{/prestamo/{id_Prestamo}/{id_usuario}/prestamo_pago_cuota(id_Prestamo=${prestamo.idPrestamo},id_usuario=${idUsuario})}" class="btn" style="background-color: #ee0e0e; color: white;" >Pago Cuota</a>
                 </div>
                 <div class="card-footer">
                   <a th:href="@{/prestamo/{id_Prestamo}/{id_usuario}/prestamo_pago_cuota_extraordinaria(id_Prestamo=${prestamo.idPrestamo}, id_usuario=${idUsuario})}" class="btn" style="background-color: #ee0e0e; color: white;" >Pago Cuota Extraordinaria</a>

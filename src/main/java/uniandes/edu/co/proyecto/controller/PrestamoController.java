@@ -89,10 +89,19 @@ public class PrestamoController {
         return "redirect:/login_usuario/verificacionLogin/" + idUsuario;
     }
 
-    @GetMapping("/prestamo/{id_Prestamo}/estado_cerrado")
-    public String estadoCerradoPrestamo(@PathVariable("id_Prestamo") Integer idPrestamo,Model model) {
-        prestamoRepository.estadoPrestamoCerrado(idPrestamo);
-        return "redirect:/prestamo";
+    @GetMapping("/prestamo/{id_Prestamo}/{id_usuario}/estado_cerrado")
+    public String estadoCerradoPrestamo(@PathVariable("id_Prestamo") Integer idPrestamo,@PathVariable("id_usuario") Integer idUsuario,Model model,RedirectAttributes redirectAttributes) {
+        Prestamo prestamo = prestamoRepository.buscarPrestamoId(idPrestamo);
+        if (prestamo.getMonto() == 0){
+            prestamoRepository.estadoPrestamoCerrado(idPrestamo);
+            return "redirect:/login_usuario/verificacionLogin/" + idUsuario;
+        }
+        else{
+            redirectAttributes.addFlashAttribute("errorMontoPrestamo", "aun hay monto pendiente");
+            return "redirect:/login_usuario/verificacionLogin/" + idUsuario;
+        }
+        
+        
     }
 
     @GetMapping("/prestamo/{id_Prestamo}/{id_usuario}/prestamo_pago_cuota")
