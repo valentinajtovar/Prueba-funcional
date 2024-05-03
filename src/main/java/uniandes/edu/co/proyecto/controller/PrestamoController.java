@@ -95,50 +95,52 @@ public class PrestamoController {
         return "redirect:/prestamo";
     }
 
-    @GetMapping("/prestamo/{id_Prestamo}/prestamo_pago_cuota")
-    public String pagoCuotaPrestamo(@PathVariable("id_Prestamo") Integer idPrestamo, Model model) {
+    @GetMapping("/prestamo/{id_Prestamo}/{id_usuario}/prestamo_pago_cuota")
+    public String pagoCuotaPrestamo(@PathVariable("id_Prestamo") Integer idPrestamo,@PathVariable("id_usuario") Integer idUsuario, Model model) {
         Prestamo prestamo = prestamoRepository.buscarPrestamoId(idPrestamo);
         if (prestamo != null) {
             model.addAttribute("prestamo", prestamo);
+            model.addAttribute("idUsuario", idUsuario);
             return "prestamoPagoCuota";
         }          
          else {
-        return "redirect:/prestamo";
+            return "redirect:/login_usuario/verificacionLogin/" + idUsuario;
     }
     }
 
-    @GetMapping("/prestamo/{id_Prestamo}/prestamo_pago_cuota_extraordinaria")
-    public String pagoCuotaExtraordinariaPrestamo(@PathVariable("id_Prestamo") Integer idPrestamo, Model model) {
+    @GetMapping("/prestamo/{id_Prestamo}/{id_usuario}/prestamo_pago_cuota_extraordinaria")
+    public String pagoCuotaExtraordinariaPrestamo(@PathVariable("id_usuario") Integer idUsuario,@PathVariable("id_Prestamo") Integer idPrestamo, Model model) {
         Prestamo prestamo = prestamoRepository.buscarPrestamoId(idPrestamo);
         if (prestamo != null) {
             model.addAttribute("prestamo", prestamo);
+            model.addAttribute("idUsuario", idUsuario);
             return "prestamoPagoCuotaExtraordinaria";
         }          
          else {
-        return "redirect:/prestamo";
+            return "redirect:/login_usuario/verificacionLogin/" + idUsuario;
     }
     }
 
-    @PostMapping("/prestamo/{id_Prestamo}/prestamo_pago_cuota/save")
-    public String pagoCuotaGuardar(@PathVariable("id_Prestamo") Integer idPrestamo, @RequestParam("monto") String monto) {
+    @PostMapping("/prestamo/{id_Prestamo}/{id_usuario}/prestamo_pago_cuota/save")
+    public String pagoCuotaGuardar(@PathVariable("id_usuario") Integer idUsuario,@PathVariable("id_Prestamo") Integer idPrestamo, @RequestParam("monto") String monto) {
         Prestamo prestamo = prestamoRepository.buscarPrestamoId(idPrestamo);
         float montoFloat = Float.parseFloat(monto);
         float montoFinal = prestamo.getMonto()-montoFloat;
         prestamoRepository.actutalizarMontoPrestamo(idPrestamo,montoFinal);
         logger.info("Fecha: {}, Número de prestamo: {}, Monto: {}, Tipo de operación: pago ordinario",
-                    LocalDate.now(), idPrestamo, monto);
-        return "redirect:/prestamo";
+            LocalDate.now(), idPrestamo, monto);
+        return "redirect:/login_usuario/verificacionLogin/" + idUsuario;
 }
 
-@PostMapping("/prestamo/{id_Prestamo}/prestamo_pago_cuota_extraordinaria/save")
-    public String pagoCuotaExtraordinariaGuardar(@PathVariable("id_Prestamo") Integer idPrestamo, @RequestParam("monto") String monto) {
+@PostMapping("/prestamo/{id_Prestamo}/{id_usuario}/prestamo_pago_cuota_extraordinaria/save")
+    public String pagoCuotaExtraordinariaGuardar(@PathVariable("id_usuario") Integer idUsuario,@PathVariable("id_Prestamo") Integer idPrestamo, @RequestParam("monto") String monto) {
         Prestamo prestamo = prestamoRepository.buscarPrestamoId(idPrestamo);
         float montoFloat = Float.parseFloat(monto);
         float montoFinal = prestamo.getMonto()-montoFloat;
         prestamoRepository.actutalizarMontoPrestamo(idPrestamo,montoFinal);
         logger.info("Fecha: {}, Número de prestamo: {}, Monto: {}, Tipo de operación: pago extraordinario",
-                    LocalDate.now(), idPrestamo, monto);
-        return "redirect:/prestamo";
+                LocalDate.now(), idPrestamo, monto);
+        return "redirect:/login_usuario/verificacionLogin/" + idUsuario;
 }
 
 

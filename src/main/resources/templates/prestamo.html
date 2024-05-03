@@ -50,10 +50,10 @@
                     <a th:href="@{prestamo/{id_Prestamo}/estado_cerrado(id_Prestamo=${prestamo.idPrestamo})}" class="btn" style="background-color: #ee0e0e; color: white;"  onclick="return confirm('¿Estás seguro de cerrar este prestamo ?')">Cerrar</a>
                 </div>
                 <div class="card-footer">
-                    <a th:href="@{prestamo/{id_Prestamo}/prestamo_pago_cuota(id_Prestamo=${prestamo.idPrestamo})}" class="btn" style="background-color: #ee0e0e; color: white;" >Pago Cuota</a>
+                    <a th:href="@{/prestamo/{id_Prestamo}/{id_usuario}/prestamo_pago_cuota(id_Prestamo=${prestamo.idPrestamo}, id_usuario=${idUsuario})}" class="btn" style="background-color: #ee0e0e; color: white;" >Pago Cuota</a>
                 </div>
                 <div class="card-footer">
-                  <a th:href="@{prestamo/{id_Prestamo}/prestamo_pago_cuota_extraordinaria(id_Prestamo=${prestamo.idPrestamo})}" class="btn" style="background-color: #ee0e0e; color: white;" >Pago Cuota Extraordinaria</a>
+                  <a th:href="@{/prestamo/{id_Prestamo}/{id_usuario}/prestamo_pago_cuota_extraordinaria(id_Prestamo=${prestamo.idPrestamo}, id_usuario=${idUsuario})}" class="btn" style="background-color: #ee0e0e; color: white;" >Pago Cuota Extraordinaria</a>
                 </div>
             </div>
         </div>

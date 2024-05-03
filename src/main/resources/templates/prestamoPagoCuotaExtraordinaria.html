@@ -26,7 +26,7 @@
     <br>
 
     <div class="center-text">
-        <form th:action="@{/prestamo/{id_Prestamo}/prestamo_pago_cuota/save(id_Prestamo=${prestamo.idPrestamo})}" method="post" th:object="${prestamo}">
+        <form th:action="@{/prestamo/{id_Prestamo}/{id_usuario}/prestamo_pago_cuota_extraordinaria/save(id_Prestamo=${prestamo.idPrestamo}, id_usuario=${idUsuario})}" method="post" th:object="${prestamo}">
             <div class="form-group">
                 <label for="monto" style="color: #78288c;">Monto:</label>
                 <input type="text" class="form-control" style="color: #78288c;" id="monto" name="monto" placeholder="Ingrese el monto"/>
