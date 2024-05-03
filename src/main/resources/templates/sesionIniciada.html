@@ -23,7 +23,7 @@
                             <a class="nav-link active" aria-current="page" th:href="@{/puntosAtencion}" style="color: #78288c;">Puntos De Atencion</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" th:href="@{'/' + ${idUsuario} + '/gerenteoficina/cuentagerenteoficina/cuentanuevogerente/new'}" style="color: #78288c;">Crear Cuenta</a>
+                            <a class="nav-link active" aria-current="page" th:href="@{'/' + ${idUsuario} + '/gerenteoficina/cuentagerenteoficina/lista_cuentas'}" style="color: #78288c;">Cuentas</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" th:href="@{/login_usuario/verificacionLogin/{id_usuario}/oficina/nueva(id_usuario=${idUsuario})}" style="color: #78288c;">Crear Oficina</a>
@@ -35,6 +35,9 @@
                 </div>
             </div>
         </nav>
+        <div th:if="${noPermisos}" class="alert alert-warning" role="alert">
+            <p th:text="${noPermisos}"></p>
+        </div>
         <div th:if="${errorCreacionUsuario}" class="alert alert-danger" role="alert">
             <p th:text="${errorCreacionUsuario}"></p>
         </div>

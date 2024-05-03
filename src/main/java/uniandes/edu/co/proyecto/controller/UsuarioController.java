@@ -69,7 +69,7 @@ public class UsuarioController {
         }          
          else {
             
-        return "redirect:/login_usuario";
+            return "redirect:/login_usuario";
         }
     }
 

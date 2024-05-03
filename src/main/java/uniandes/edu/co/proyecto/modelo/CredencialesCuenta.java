@@ -19,13 +19,16 @@ public class CredencialesCuenta {
     private Integer idCredencialesCuenta;
 
     @ManyToOne
-    @JoinColumn(name ="cliente", referencedColumnName = "idUsuario")
+    @JoinColumn(name ="ID_USUARIO", referencedColumnName = "idUsuario")
     private Usuario cliente;
 
     @ManyToOne
-    @JoinColumn(name ="gerente", referencedColumnName = "idUsuario")
+    @JoinColumn(name ="ID_GERENTE", referencedColumnName = "idUsuario")
     private Usuario gerente;
 
+    @OneToOne
+    @JoinColumn(name ="ID_CUENTA", referencedColumnName = "idCuenta")
+    private Cuenta cuenta;
 
     public CredencialesCuenta(){;}
 
@@ -65,6 +68,11 @@ public class CredencialesCuenta {
         this.gerente = gerente;
     }
 
-    
+    public Cuenta getCuenta() {
+        return cuenta;
+    }
 
+    public void setCuenta(Cuenta cuenta) {
+        this.cuenta = cuenta;
+    }
 }

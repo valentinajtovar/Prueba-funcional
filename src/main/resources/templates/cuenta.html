@@ -12,7 +12,7 @@
   
   <nav class="navbar navbar-expand-lg bg-body-tertiary" >
     <div class="container-fluid">
-      <a class="navbar-brand" th:href='@{/}'>
+      <a class="navbar-brand" th:href="@{|/login_usuario/verificacionLogin/${idUsuario}|}">
         <img th:src="@{/images/logoPrincipal.png}" width="200" height="60">
       </a>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -27,6 +27,12 @@
 
     <h1 style="color: #78288c;">Listado de Cuentas:</h1>
     <br>
+    <div th:if="${errorEstadoCuenta}" class="alert alert-danger" role="alert">
+      <p th:text="${errorEstadoCuenta}"></p>
+    </div>
+    <div th:if="${errorGerente}" class="alert alert-danger" role="alert">
+      <p th:text="${errorGerente}"></p>
+    </div>
     <div class="card-columns">
         <div th:each="cuenta : ${cuentas}">
             <div class="card" style="background-color: #78288c;">
@@ -39,7 +45,7 @@
                     <span class="font-weight-bold" style="color: #c7cac8;">saldo:</span> <span th:text="${cuenta.saldo}" style="color: #c7cac8;"></span><br>
                 </div>
                 <div class="card-footer">
-                  <a th:href="@{cuenta/{id_cuenta}/desactivar_Cuenta(id_cuenta=${cuenta.idCuenta})}" class="btn" style="background-color: #b659cd ; color: white;" onclick="return confirm('¿Estás seguro de desactivar esta cuenta?')">Desativar</a>
+                  <a th:href="@{/cuenta/{id_cuenta}/{idUsuario}/desactivar_Cuenta(id_cuenta=${cuenta.idCuenta}, idUsuario=${idUsuario})}" class="btn" style="background-color: #b659cd; color: white;" onclick="return confirm('¿Estás seguro de desactivar esta cuenta?')">Desactivar</a>
                   <a th:href="@{cuenta/{id_cuenta}/cerrar_cuenta(id_cuenta=${cuenta.idCuenta})}" class="btn" style="background-color: #b659cd ; color: white;" onclick="return confirm('¿Estás seguro de cerrar esta cuenta?')">Cerrar</a>
                   <a th:href="@{cuenta/{id_cuenta}/cuenta_retirar(id_cuenta=${cuenta.idCuenta})}" class="btn" style="background-color: #b659cd ; color: white;">Retirar</a>
                   <a th:href="@{cuenta/{id_cuenta}/cuenta_consignar(id_cuenta=${cuenta.idCuenta})}" class="btn" style="background-color: #b659cd ; color: white;">Consignar</a>
@@ -48,8 +54,8 @@
         </div>
     </div>
     <div class="text-center">
-        <a th:href="@{/cuenta/new}" class="btn btn" style="background-color: #78288c ; color: white;" >Añadir Pünto De Atencion</a>
-        <a th:href="@{/}" class="btn " style="background-color: #ee0e0e; color: white;" >Volver Atrás</a>
+      <a class="nav-link active" aria-current="page" th:href="@{'/' + ${idUsuario} + '/gerenteoficina/cuentagerenteoficina/cuentanuevogerente/new'}" style="color: #78288c;">Crear Cuenta</a>
+      <a th:href="@{|/login_usuario/verificacionLogin/${idUsuario}|}" class="btn " style="background-color: #ee0e0e; color: white;" >Volver Atrás</a>
     </div>
 
 </body>

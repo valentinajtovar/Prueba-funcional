@@ -18,7 +18,10 @@ public interface CredencialesCuentaRepository extends JpaRepository<Credenciales
     Collection<CredencialesCuenta> darCredencialesCuenta();
 
     @Query(value = "SELECT * FROM CREDENCIALES_CUENTA WHERE ID_USUARIO =:id_usuario" , nativeQuery = true)
-    CredencialesPrestamo buscarCredencialesCuentaPorIdUsuario(@Param("id_usuario") Integer id_usuario);
+    CredencialesCuenta buscarCredencialesCuentaPorIdUsuario(@Param("id_usuario") Integer id_usuario);
+
+    @Query(value = "SELECT * FROM CREDENCIALES_CUENTA WHERE ID_CUENTA =:id_cuenta" , nativeQuery = true)
+    CredencialesCuenta buscarCredencialesCuentaPorIdCuenta(@Param("id_cuenta") Integer id_cuenta);
 
     @Modifying
     @Transactional

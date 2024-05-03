@@ -14,6 +14,8 @@ import uniandes.edu.co.proyecto.repositorio.PrestamoRepository;
 import uniandes.edu.co.proyecto.repositorio.PuntosAtencionRepository;
 import uniandes.edu.co.proyecto.repositorio.TiposPuntosAtencionRepository;
 import uniandes.edu.co.proyecto.repositorio.UsuarioRepository;
+import uniandes.edu.co.proyecto.repositorio.CredencialesCuentaRepository;
+import uniandes.edu.co.proyecto.modelo.CredencialesCuenta;
 import uniandes.edu.co.proyecto.modelo.Cuenta;
 import uniandes.edu.co.proyecto.modelo.Oficina;
 import uniandes.edu.co.proyecto.modelo.Prestamo;
@@ -50,6 +52,9 @@ public class ProyectoApplication implements CommandLineRunner {
 
 	@Autowired
 	private PrestamoRepository prestamoRepository;
+
+	@Autowired
+	private CredencialesCuentaRepository credencialesCuentaRepository;
 	 
 
 	public static void main(String[] args) 
@@ -61,6 +66,8 @@ public class ProyectoApplication implements CommandLineRunner {
 	
 	@Override
 	public void run(String... args)  {
+
+		//Collection<CredencialesCuenta> credencialesCuentas= credencialesCuentaRepository.darCredencialesCuenta();
 
 /**
 		Integer idMaximo = usuarioRepository.encontrarIdMaximo()+1;

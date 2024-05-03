@@ -20,12 +20,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import uniandes.edu.co.proyecto.modelo.CredencialesCuenta;
 import uniandes.edu.co.proyecto.modelo.Cuenta;
 import uniandes.edu.co.proyecto.modelo.Oficina;
 import uniandes.edu.co.proyecto.modelo.Prestamo;
 import uniandes.edu.co.proyecto.modelo.PuntosAtencion;
+import uniandes.edu.co.proyecto.modelo.Usuario;
 import uniandes.edu.co.proyecto.repositorio.CredencialesCuentaRepository;
 import uniandes.edu.co.proyecto.repositorio.CuentaRepository;
 import uniandes.edu.co.proyecto.repositorio.EstadoCuentaRepository;
@@ -73,6 +75,22 @@ public class CuentaController {
         model.addAttribute("cuentas", cuentaRepository.darCuentas());
         return "cuenta";
     }
+
+    @GetMapping("/{idUsuario}/gerenteoficina/cuentagerenteoficina/lista_cuentas")
+    public String listaCuentasSesionIniciada(Model model,@PathVariable("idUsuario") Integer idUsuario, RedirectAttributes redirectAttributes) {
+        Usuario usuario = usuarioRepository.buscarUsuarioId(idUsuario);
+        if ((usuario.getTipoUsuario().getTipoUsuario().equals("GERENTE DE OFICINA")) || (usuario.getTipoUsuario().getTipoUsuario().equals("GERENTE GENERAL"))){
+            model.addAttribute("cuentas", cuentaRepository.darCuentas());
+            model.addAttribute("idUsuario", idUsuario);
+            return "cuenta";
+        }
+        else{
+            redirectAttributes.addFlashAttribute("noPermisos", "No tienes permiso para ver esta página.");
+            return "redirect:/login_usuario/verificacionLogin/" + idUsuario;
+        }
+        
+    }
+
     @GetMapping("/cuenta/new")
     public String formularioNuevoCuenta(Model model) {
         model.addAttribute("cuentas", new Cuenta());
@@ -91,10 +109,23 @@ public class CuentaController {
         return "redirect:/cuenta";
     }
 
-    @GetMapping("/cuenta/{id_cuenta}/desactivar_Cuenta")
-    public String desactivarCuenta(@PathVariable("id_cuenta") Integer idCuenta,Model model) {
-        cuentaRepository.cambiarEstadoCerrada(idCuenta);
-        return "redirect:/cuenta";
+    @GetMapping("/cuenta/{id_cuenta}/{idUsuario}/desactivar_Cuenta")
+    public String desactivarCuenta(@PathVariable("id_cuenta") Integer idCuenta, @PathVariable("idUsuario") Integer idGerente, Model model,RedirectAttributes redirectAttributes) {
+        
+        CredencialesCuenta credencialesCuenta = credencialesCuentaRepository.buscarCredencialesCuentaPorIdCuenta(idCuenta);
+        Cuenta cuenta = cuentaRepository.buscarCuentaPorId(idCuenta);
+        if(credencialesCuenta.getGerente().getId().equals(idGerente)){
+            if(cuenta.getEstadoCuenta().getEstadoCuenta().equals("ACTIVA")){
+                cuentaRepository.cambiarEstadoDesactivada(idCuenta);
+            }
+            else{
+                redirectAttributes.addFlashAttribute("errorEstadoCuenta", "El estado de cuenta es diferente a ACTIVA");
+            }
+        }
+        else{
+            redirectAttributes.addFlashAttribute("errorGerente", "El gerente no es el mismo que intenta hacer la modificacion");
+        }
+        return "redirect:/{idUsuario}/gerenteoficina/cuentagerenteoficina/lista_cuentas";
     }
 
     @GetMapping("/cuenta/{id_cuenta}/cerrar_cuenta")
