@@ -12,12 +12,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import uniandes.edu.co.proyecto.modelo.Oficina;
 import uniandes.edu.co.proyecto.modelo.Prestamo;
 import uniandes.edu.co.proyecto.modelo.PuntosAtencion;
+import uniandes.edu.co.proyecto.modelo.Usuario;
 import uniandes.edu.co.proyecto.repositorio.PrestamoRepository;
 import uniandes.edu.co.proyecto.repositorio.PuntosAtencionRepository;
+import uniandes.edu.co.proyecto.repositorio.UsuarioRepository;
 
 @Controller
 public class PrestamoController {
@@ -25,12 +28,30 @@ public class PrestamoController {
     @Autowired
     private PrestamoRepository prestamoRepository;
 
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
     private static final Logger logger = LoggerFactory.getLogger(PrestamoController.class);
     
     @GetMapping("/prestamo")
     public String listarprestamo(Model model) {
         model.addAttribute("prestamos", prestamoRepository.darPrestamos());
         return "prestamo";
+    }
+
+    
+    @GetMapping("/login_usuario/verificacionLogin/{id_usuario}/prestamos")
+    public String listarprestamoSesionIniciada(Model model,@PathVariable("id_usuario") Integer idUsuario,RedirectAttributes redirectAttributes) {
+        Usuario usuario = usuarioRepository.buscarUsuarioId(idUsuario);
+        if ((usuario.getTipoUsuario().getTipoUsuario().equals("GERENTE DE OFICINA")) || (usuario.getTipoUsuario().getTipoUsuario().equals("GERENTE GENERAL"))){
+            model.addAttribute("prestamos", prestamoRepository.darPrestamos());
+            model.addAttribute("idUsuario", idUsuario);
+            return "prestamo";
+        }
+        else{
+            redirectAttributes.addFlashAttribute("noPermisos", "No tienes permiso para ver esta página.");
+            return "redirect:/login_usuario/verificacionLogin/" + idUsuario;
+        }
     }
 
     @GetMapping("/prestamo/new")

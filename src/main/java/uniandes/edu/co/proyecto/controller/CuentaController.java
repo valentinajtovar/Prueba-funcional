@@ -57,19 +57,6 @@ public class CuentaController {
     private EstadoCuentaRepository estadoCuentaRepository;
     private static final Logger logger = LoggerFactory.getLogger(CuentaController.class);
 
-    //logger.debug("Agregando cuenta: {}", cuenta);
-    // logger.debug("Eliminando cuenta con ID: {}", id);
-
-/*
-    public void consignarDinero(String numeroCuenta, double monto) {
-        // Lógica para consignar dinero
-        // Suponemos que el saldo se actualiza correctamente
-
-        // Registro del log
-        logger.info("Fecha: {}, Número de cuenta: {}, Monto: {}, Tipo de operación: Consignación",
-                    LocalDate.now(), numeroCuenta, monto);
-    } */
-
     
     @GetMapping("/cuenta")
     public String listarOficina(Model model) {
@@ -129,15 +116,18 @@ public class CuentaController {
         if(credencialesCuenta.getGerente().getId().equals(idGerente)){
             if(cuenta.getEstadoCuenta().getEstadoCuenta().equals("ACTIVA")){
                 cuentaRepository.cambiarEstadoDesactivada(idCuenta);
+                return "redirect:/{idUsuario}/gerenteoficina/cuentagerenteoficina/lista_cuentas";
             }
             else{
                 redirectAttributes.addFlashAttribute("errorEstadoCuenta", "El estado de cuenta es diferente a ACTIVA");
+                return "redirect:/{idUsuario}/gerenteoficina/cuentagerenteoficina/lista_cuentas";
             }
         }
         else{
             redirectAttributes.addFlashAttribute("errorGerente", "El gerente no es el mismo que intenta hacer la modificacion");
+            return "redirect:/{idUsuario}/gerenteoficina/cuentagerenteoficina/lista_cuentas";
         }
-        return "redirect:/{idUsuario}/gerenteoficina/cuentagerenteoficina/lista_cuentas";
+        
     }
 
     @GetMapping("/cuenta/{id_cuenta}/{idUsuario}/cerrar_cuenta")
@@ -184,9 +174,9 @@ public class CuentaController {
             return "cuentaConsignar";
         }          
          else {
-        return "redirect:/cuenta";
+            return "redirect:/{idUsuario}/gerenteoficina/cuentagerenteoficina/lista_cuentas";
     }
-    } 
+    }  
 
     @PostMapping("/cuenta/{id_cuenta}/{idUsuario}/cuenta_retirar/save")
     public String retirarCuentaGuardar(@PathVariable("idUsuario") Integer idUsuario,@PathVariable("id_cuenta") Integer idCuenta, @RequestParam("monto") String monto, RedirectAttributes redirectAttributes) {
@@ -207,9 +197,9 @@ public class CuentaController {
             redirectAttributes.addFlashAttribute("errorSaldo", "El saldo es menor al que pretendes retirar");
         }
         return "redirect:/{idUsuario}/gerenteoficina/cuentagerenteoficina/lista_cuentas";
-}
+    }
 
-@PostMapping("/cuenta/{id_cuenta}/{idUsuario}/cuenta_consignar/save")
+    @PostMapping("/cuenta/{id_cuenta}/{idUsuario}/cuenta_consignar/save")
     public String consignarCuentaGuardar(@PathVariable("id_cuenta") Integer idCuenta,@PathVariable("idUsuario") Integer idUsuario, @RequestParam("monto") String monto,RedirectAttributes redirectAttributes) {
         Cuenta cuenta = cuentaRepository.buscarCuentaPorId(idCuenta);
         Double montoFloat = Double.parseDouble(monto);
@@ -218,11 +208,55 @@ public class CuentaController {
             cuentaRepository.cambiarSaldo(idCuenta,montoFinal);
             logger.info("Fecha: {}, Número de cuenta: {}, Monto: {}, Tipo de operación: rertiro",
                 LocalDate.now(), idCuenta, monto);
+            return "redirect:/{idUsuario}/gerenteoficina/cuentagerenteoficina/lista_cuentas";
         }
         else{
             redirectAttributes.addFlashAttribute("errorEstadoCuenta", "El estado de cuenta es diferente a activa");
+            return "redirect:/{idUsuario}/gerenteoficina/cuentagerenteoficina/lista_cuentas";
         }
-        return "redirect:/{idUsuario}/gerenteoficina/cuentagerenteoficina/lista_cuentas";
+        
+}
+
+@GetMapping("/cuenta/{id_cuenta}/{idUsuario}/cuenta_transferir")
+    public String cuentaTransferir(@PathVariable("id_cuenta") Integer idCuenta,@PathVariable("idUsuario") Integer idUsuario, Model model) {
+        Cuenta cuenta = cuentaRepository.buscarCuentaPorId(idCuenta);
+        Collection<Cuenta> cuentasTransferir = cuentaRepository.darCuentasTransferir(idCuenta);
+        if (cuenta != null) {
+            model.addAttribute("cuenta", cuenta);
+            model.addAttribute("cuentasTransferir", cuentasTransferir);
+            return "cuentaTransferir";
+        }          
+         else {
+            return "redirect:/{idUsuario}/gerenteoficina/cuentagerenteoficina/lista_cuentas";
+    }
+    }
+
+@PostMapping("/cuenta/{id_cuenta}/{idUsuario}/cuenta_transferir/save")
+    public String transferirCuentaGuardar(@PathVariable("id_cuenta") Integer idCuenta,@PathVariable("idUsuario") Integer idUsuario, @RequestParam("cuentaDestino") Integer idCuentaDestino,@RequestParam("monto") String monto,RedirectAttributes redirectAttributes) {
+        Cuenta cuentaOrigen = cuentaRepository.buscarCuentaPorId(idCuenta);
+        Cuenta cuentaDestino = cuentaRepository.buscarCuentaPorId(idCuentaDestino);
+        double montoDouble = Double.parseDouble(monto);
+        
+        if(cuentaOrigen.getSaldo() > montoDouble){
+            if (cuentaOrigen.getEstadoCuenta().getEstadoCuenta().equals("ACTIVA")){
+                double saldoNuevoOrigen = cuentaOrigen.getSaldo() - montoDouble;
+                double saldoNuevoDestino = cuentaDestino.getSaldo() + montoDouble;
+                logger.info("Fecha: {}, Número de cuenta origen: {},Número de cuenta destino: {}, Monto: {}, Tipo de operación: transferencia",
+                LocalDate.now(), cuentaOrigen.getIdCuenta(), cuentaDestino.getIdCuenta(), montoDouble);
+                cuentaOrigen.setSaldo(saldoNuevoOrigen);
+                cuentaDestino.setSaldo(saldoNuevoDestino);
+                return "redirect:/{idUsuario}/gerenteoficina/cuentagerenteoficina/lista_cuentas";
+            }
+            else{
+                redirectAttributes.addFlashAttribute("errorEstadoCuenta", "El estado de tu cuenta es distinto a activa");
+                return "redirect:/{idUsuario}/gerenteoficina/cuentagerenteoficina/lista_cuentas";
+            }
+
+        }
+        else{
+            redirectAttributes.addFlashAttribute("errorSaldoCuenta", "El Saldo de tu cuenta es menor al que quieres transferir");
+            return "redirect:/{idUsuario}/gerenteoficina/cuentagerenteoficina/lista_cuentas";
+        }
 }
 
 

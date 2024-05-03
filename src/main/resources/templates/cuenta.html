@@ -52,6 +52,7 @@
                   <a th:href="@{/cuenta/{id_cuenta}/{idUsuario}/cerrar_cuenta(id_cuenta=${cuenta.idCuenta}, idUsuario=${idUsuario})}" class="btn" style="background-color: #b659cd ; color: white;" onclick="return confirm('¿Estás seguro de cerrar esta cuenta?')">Cerrar</a>
                   <a th:href="@{/cuenta/{id_cuenta}/{idUsuario}/cuenta_retirar(id_cuenta=${cuenta.idCuenta}, idUsuario=${idUsuario})}" class="btn" style="background-color: #b659cd ; color: white;">Retirar</a>
                   <a th:href="@{/cuenta/{id_cuenta}/{idUsuario}/cuenta_consignar(id_cuenta=${cuenta.idCuenta}, idUsuario=${idUsuario})}" class="btn" style="background-color: #b659cd ; color: white;">Consignar</a>
+                  <a th:href="@{/cuenta/{id_cuenta}/{idUsuario}/cuenta_transferir(id_cuenta=${cuenta.idCuenta}, idUsuario=${idUsuario})}" class="btn" style="background-color: #b659cd ; color: white;">Transferir</a>
                 </div>
             </div>
         </div>
