@@ -50,15 +50,5 @@ public class TiposPuntosAtencionController {
         }
     }
 
-    @PostMapping("/tiposPuntosAtencion/{idTiposPuntosAtencion}/edit/save")
-    public String guardarEdicionTiposPuntosAtencion(@PathVariable("idTiposPuntosAtencion") Integer idTiposPuntosAtencion, @ModelAttribute TiposPuntosAtencion tiposPuntosAtencion) {
-        tiposPuntosAtencionRepository.actualizarTiposPuntosAtencion(idTiposPuntosAtencion, tiposPuntosAtencion.getTipoPuntoAtencion());
-        return "redirect:/tiposPuntosAtencion";
-    }
 
-    @GetMapping("/tiposPuntosAtencion/{idTiposPuntosAtencion}/delete")
-    public String eliminarTiposPuntosAtencion(@PathVariable("idTiposPuntosAtencion") Integer idTiposPuntosAtencion) {
-        tiposPuntosAtencionRepository.eliminarTiposPuntosAtencion(idTiposPuntosAtencion);
-        return "redirect:/tiposPuntosAtencion";
-    }
 }

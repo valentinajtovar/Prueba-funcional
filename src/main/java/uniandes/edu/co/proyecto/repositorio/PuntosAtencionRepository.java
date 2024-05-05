@@ -20,21 +20,21 @@ public interface PuntosAtencionRepository extends JpaRepository<PuntosAtencion, 
     @Query(value = "SELECT * FROM PUNTO_ATENCION", nativeQuery = true)
     List<PuntosAtencion> darPuntosAtencion();
 
-    @Query(value = "SELECT * FROM PUNTO_ATENCION WHERE ID_PUNTO_ATENCION = :idPuntosAtencion", nativeQuery = true)
+    @Query(value = "SELECT * FROM PUNTO_ATENCION WHERE ID_PUNTO_ATENCION=:idPuntosAtencion", nativeQuery = true)
     PuntosAtencion buscarPuntosAtencionPorId(@Param("idPuntosAtencion") Integer idPuntosAtencion);
 
     @Modifying
     @Transactional
     @Query(value = "INSERT INTO PUNTO_ATENCION (NOMBRE, TIPO_PUNTO_ATENCION, LOCACION,HORARIO_APERTURA,HORARIO_CIERRE,ID_OFICINA) VALUES (:nombre, :tipo, :locacion,:horario_apertura,:horario_cierre,:id_oficina)", nativeQuery = true)
-    void insertarPuntosAtencion(@Param("nombre") String nombre, @Param("tipo") String tipo, @Param("locacion") String locacion,@Param("horario_apertura") String horarioApertura,@Param("horario_cierre") String horarioCierre,@Param("id_oficina") Integer idOficina);
+    void insertarPuntosAtencion(@Param("nombre") String nombre, @Param("tipo") String tipo, @Param("locacion") String locacion,@Param("horario_apertura") String horario_apertura,@Param("horario_cierre") String horario_cierre,@Param("id_oficina") Integer id_oficina);
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE PUNTO_ATENCION SET nombre = :nombre, tipo = :tipo, locacion = :locacion WHERE idPuntosAtencion = :idPuntosAtencion", nativeQuery = true)
+    @Query(value = "UPDATE PUNTO_ATENCION SET nombre =:nombre, tipo =:tipo, locacion =:locacion WHERE idPuntosAtencion =:idPuntosAtencion", nativeQuery = true)
     void actualizarPuntosAtencion(@Param("idPuntosAtencion") Integer idPuntosAtencion, @Param("nombre") String nombre, @Param("tipo") String tipo, @Param("locacion") String locacion);
 
     @Modifying
     @Transactional
-    @Query(value = "DELETE FROM PUNTO_ATENCION WHERE ID_PUNTO_ATENCION = :id", nativeQuery = true)
-    void eliminarPuntosAtencion(@Param("id") Integer idPuntosAtencion);
+    @Query(value = "DELETE FROM PUNTO_ATENCION WHERE ID_PUNTO_ATENCION = :idPuntosAtencion", nativeQuery = true)
+    void eliminarPuntosAtencion(@Param("idPuntosAtencion") Integer idPuntosAtencion);
 }

@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import uniandes.edu.co.proyecto.modelo.*;
 
 //TODO FUNCIONA, NO SE PORQUE MARCAERROR
-public interface CredencialesPrestamoRepository extends JpaRepository<CredencialesPrestamo, String > {
+public interface CredencialesPrestamoRepository extends JpaRepository<CredencialesPrestamo, Integer > {
 
 
     @Query(value = "SELECT * FROM CREDENCIALES_PRESTAMO", nativeQuery = true)

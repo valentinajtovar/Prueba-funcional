@@ -14,28 +14,24 @@ import org.springframework.transaction.annotation.Transactional;
 import uniandes.edu.co.proyecto.modelo.TiposPuntosAtencion;
 
 
-public interface TiposPuntosAtencionRepository extends JpaRepository<TiposPuntosAtencion, Integer> {
+public interface TiposPuntosAtencionRepository extends JpaRepository<TiposPuntosAtencion, String> {
 
 
-    @Query(value = "SELECT * FROM TIPOS_PUNTOS_ATENCION", nativeQuery = true)
+    @Query(value = "SELECT * FROM TIPO_PUNTO_ATENCION", nativeQuery = true)
     Collection<TiposPuntosAtencion> darTiposPuntosAtencion();
 
-    @Query(value = "SELECT * FROM TIPOS_PUNTOS_ATENCION WHERE id_Tipos_Puntos_Atencion = (:id_Tipos_Puntos_Atencion)", nativeQuery = true)
-    Optional<TiposPuntosAtencion> darTipoPuntosAtencion(@Param("id_Tipos_Puntos_Atencion") Integer id_Tipos_Puntos_Atencion);
+    @Query(value = "SELECT * FROM TIPO_PUNTO_ATENCION WHERE TIPO_PUNTO_ATENCION = (:TIPO_PUNTO_ATENCION)", nativeQuery = true)
+    Optional<TiposPuntosAtencion> darTipoPuntosAtencion(@Param("TIPO_PUNTO_ATENCION") Integer TIPO_PUNTO_ATENCION);
 
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO TIPOS_PUNTOS_ATENCION (nombre) VALUES (:nombre)", nativeQuery = true)
-    void insertarTiposPuntosAtencion(@Param("nombre") String nombre);    
+    @Query(value = "INSERT INTO TIPO_PUNTO_ATENCION (TIPO_PUNTO_ATENCION) VALUES (:TIPO_PUNTO_ATENCION)", nativeQuery = true)
+    void insertarTiposPuntosAtencion(@Param("TIPO_PUNTO_ATENCION") String TIPO_PUNTO_ATENCION);    
+
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE TIPOS_PUNTOS_ATENCION SET nombre = :nombre WHERE id_Tipos_Puntos_Atencion = :id_Tipos_Puntos_Atencion", nativeQuery = true)
-    void actualizarTiposPuntosAtencion(@Param("id_Tipos_Puntos_Atencion") Integer idTiposPuntosAtencion,  @Param("nombre") String nombre);
-
-    @Modifying
-    @Transactional
-    @Query(value = "DELETE FROM TIPOS_PUNTOS_ATENCION WHERE id_Tipos_Puntos_Atencion = :id_Tipos_Puntos_Atencion", nativeQuery = true)
-    void eliminarTiposPuntosAtencion(@Param("id_Tipos_Puntos_Atencion") Integer idTiposPuntosAtencion);
+    @Query(value = "DELETE FROM TIPO_PUNTO_ATENCION WHERE TIPO_PUNTO_ATENCION =:TIPO_PUNTO_ATENCION", nativeQuery = true)
+    void eliminarTiposPuntosAtencion(@Param("TIPO_PUNTO_ATENCION") String TIPO_PUNTO_ATENCION);
 
 }

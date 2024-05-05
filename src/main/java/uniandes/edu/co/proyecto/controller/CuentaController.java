@@ -9,6 +9,7 @@ import java.util.Optional;
 
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -57,10 +58,43 @@ public class CuentaController {
     private EstadoCuentaRepository estadoCuentaRepository;
     private static final Logger logger = LoggerFactory.getLogger(CuentaController.class);
 
-    
+    // , Date fechaUltimoMov 
     @GetMapping("/cuenta")
-    public String listarOficina(Model model) {
-        model.addAttribute("cuentas", cuentaRepository.darCuentas());
+    public String listarOficina(Model model, String tipoCuenta, Float saldoMin, Float saldoMax, Date ultimoMov) {
+        model.addAttribute("tipoCuenta", tipoCuentaRepository.darTiposCuenta());
+
+        if (tipoCuenta != null && saldoMin != null && saldoMax != null && ultimoMov != null) {
+            model.addAttribute("cuentas", cuentaRepository.busquedaAvanzada(tipoCuenta, saldoMin, saldoMax,ultimoMov));
+            return "cuenta";
+        } 
+  
+        else if((tipoCuenta != null))
+        {
+            model.addAttribute("cuentas", cuentaRepository.cuentasPorTipo(tipoCuenta));
+            return "cuenta";
+        }
+
+        else if((saldoMin != null && saldoMax !=null))
+        {
+            model.addAttribute("cuentas", cuentaRepository.cuentaSaldoRango(saldoMin, saldoMax));
+            return "cuenta";
+        }
+
+        else if((ultimoMov!= null ))
+        {
+            model.addAttribute("cuentas", cuentaRepository.cuentasFechaUltimoMov(ultimoMov));
+            return "cuenta";
+        }
+
+
+
+        model.addAttribute("cuentas", cuentaRepository.busquedaAvanzada(tipoCuenta, saldoMin, saldoMax,ultimoMov));
+
+
+        
+   
+        
+          
         return "cuenta";
     }
 
@@ -285,9 +319,11 @@ public String formularioNuevoCuentaGerenteOficina(@PathVariable("idUsuario") Int
 @PostMapping("/{idUsuario}/gerenteoficina/cuentagerenteoficina/cuentanuevogerente/new/save")
 public String guardarCuentaGerenteDeOficina(@ModelAttribute Cuenta cuenta, @ModelAttribute CredencialesCuenta credenciales, @PathVariable("idUsuario") Integer idGerente,@RequestParam("tipoCuenta") String tipoCuenta,@RequestParam("estadoCuenta") String estadoCuenta,@RequestParam("saldo") String saldo,@RequestParam("fechaUltimaTransaccion") Date fechaUltimaTransaccion,@RequestParam("idUsuario") Integer idCliente){
     double saldoDouble = Double.parseDouble(saldo);
+    fechaUltimaTransaccion = new java.sql.Date(System.currentTimeMillis());
     cuentaRepository.insertarCuenta(tipoCuenta,estadoCuenta,saldoDouble,fechaUltimaTransaccion);
     Integer idCuenta = cuentaRepository.DarIdMaximo();
     credencialesCuentaRepository.insertarCredencialesCuenta(idCliente, idGerente, idCuenta);;
     return "sesionIniciada";
 }
+
 }

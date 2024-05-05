@@ -1,7 +1,9 @@
 package uniandes.edu.co.proyecto.modelo;
 
 
-import java.sql.Date;
+
+
+import java.util.Date;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -11,6 +13,9 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
+
 
 
 @Entity
@@ -29,7 +34,8 @@ public class Cuenta {
     @JoinColumn(name ="ESTADO_CUENTA", referencedColumnName = "estadoCuenta")
     private EstadoCuenta estadoCuenta;
 
-    private double saldo;
+    private Double saldo;
+
 
     private Date fechaUltimaTransaccion;
 

@@ -32,10 +32,14 @@
             <label for="nombre" style="color: #78288c;">Nombre:</label>
             <input type="text" class="form-control" style="color: #78288c;" id="nombre" placeholder="Nombre" name="nombre" />
         </div>
-        <div class="form-group">
-            <label for="tipo" style="color: #78288c;">Tipo Punto Atencion:</label>
-            <input type="text" class="form-control" style="color: #78288c;" id="tipo" placeholder="Tipo Punto Atencion" name="tipo" />
-        </div>
+
+        <label for="tipo" style="color: #78288c;">Tipo Punto Atencion:</label>
+        <select class="form-control" id="tipo" name="tipo" required>
+            <th:block th:each="tipos : ${tiposPuntosAtencion}" >
+                <option th:value="${tipos.tipoPuntoAtencion}" th:text="${tipos.tipoPuntoAtencion}" th:selected="${puntosAtencion!=null || puntosAtencion.tiposPuntosAtencion.tipoPuntoAtencion == tiposPuntosAtencion.tipoPuntoAtencion}"></option>
+            </th:block>
+        </select><br>
+
         <div class="form-group">
             <label for="locacion" style="color: #78288c;">Locacion:</label>
             <input type="text" class="form-control" style="color: #78288c;" id="locacion" placeholder="Locacion" name="locacion" />
@@ -48,10 +52,13 @@
             <label for="horarioCierre" style="color: #78288c;">Horario De Cierre:</label>
             <input type="text" class="form-control" style="color: #78288c;" id="horarioCierre" placeholder="horarioCierre" name="horarioCierre" />
         </div>
-        <div class="form-group">
-            <label for="idOficina" style="color: #78288c;">Id De Oficina:</label>
-            <input type="text" class="form-control" style="color: #78288c;" id="idOficina" placeholder="idOficina" name="idOficina" />
-        </div>
+
+        <label for="idOficina" style="color: #78288c;">Oficina:</label>
+        <select class="form-control" id="idOficina" name="idOficina" >
+            <th:block th:each="oficina : ${oficinas}" >
+                <option th:value="${oficina.idOficina}"  th:text="${oficina.nombre}" th:selected="${puntosAtencion!=null || puntosAtencion.oficina.idOficina == oficina.idOficina}"></option>
+            </th:block>
+        </select><br>
         
         
         <button type="submit" class="btn" style="background-color: #78288c; color: white;">Guardar</button>
