@@ -2,6 +2,10 @@ package uniandes.edu.co.proyecto.controller;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -9,6 +13,7 @@ import java.util.Optional;
 
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +25,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -60,9 +66,8 @@ public class CuentaController {
 
     // , Date fechaUltimoMov 
     @GetMapping("/cuenta")
-    public String listarOficina(Model model, String tipoCuenta, Float saldoMin, Float saldoMax, Date ultimoMov) {
+    public String listarOficina(Model model, String tipoCuenta, Float saldoMin, Float saldoMax, Date ultimoMov,Date fechaCreacion) {
         model.addAttribute("tipoCuenta", tipoCuentaRepository.darTiposCuenta());
-
         if (tipoCuenta != null && saldoMin != null && saldoMax != null && ultimoMov != null) {
             model.addAttribute("cuentas", cuentaRepository.busquedaAvanzada(tipoCuenta, saldoMin, saldoMax,ultimoMov));
             return "cuenta";
@@ -80,23 +85,24 @@ public class CuentaController {
             return "cuenta";
         }
 
+
         else if((ultimoMov!= null ))
         {
             model.addAttribute("cuentas", cuentaRepository.cuentasFechaUltimoMov(ultimoMov));
             return "cuenta";
         }
 
-
+        else if((fechaCreacion!= null ))
+        {
+            model.addAttribute("cuentas", cuentaRepository.cuentasFechaCreacion(fechaCreacion));
+            return "cuenta";
+        }
 
         model.addAttribute("cuentas", cuentaRepository.busquedaAvanzada(tipoCuenta, saldoMin, saldoMax,ultimoMov));
-
-
-        
-   
-        
           
         return "cuenta";
     }
+
 
     @GetMapping("/{idUsuario}/gerenteoficina/cuentagerenteoficina/lista_cuentas")
     public String listaCuentasSesionIniciada(Model model,@PathVariable("idUsuario") Integer idUsuario, RedirectAttributes redirectAttributes) {
@@ -325,5 +331,8 @@ public String guardarCuentaGerenteDeOficina(@ModelAttribute Cuenta cuenta, @Mode
     credencialesCuentaRepository.insertarCredencialesCuenta(idCliente, idGerente, idCuenta);;
     return "sesionIniciada";
 }
+
+
+
 
 }

@@ -28,7 +28,7 @@
 
   <form action="/cuenta"  method="get">
     <div class="input-group input-group-sm mb-2 justify-content-center">
-        <input class='w-25' id="tipoCuenta" type="text" name="tipoCuenta">
+        <input class='w-25' id="tipoCuenta" type="text" name="tipoCuenta" oninput="this.value = this.value.toUpperCase()">
         
         <div class="input-group-append">
             <button type="submit" class="btn btn-secondary">Buscar por tipo de cuenta</button>
@@ -54,6 +54,17 @@
       </div>
   </div>
 </form>
+
+
+<form action="/cuenta" method="get">
+  <div class="input-group input-group-sm mb-2 justify-content-center">
+      <input class='w-25' id="fechaCreacion" type="date" name="fechaCreacion">
+      <div class="input-group-append">
+          <button type="submit" class="btn btn-secondary">Buscar por fecha de creación</button>
+      </div>
+  </div>
+</form>
+
 
   
 

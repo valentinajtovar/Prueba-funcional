@@ -37,7 +37,8 @@ public interface CuentaRepository extends JpaRepository<Cuenta, Integer> {
     @Query(value = "SELECT * FROM CUENTA WHERE fecha_ultima_transaccion=:fecha_ultima_transaccion", nativeQuery = true)
     Collection<Cuenta> cuentasFechaUltimoMov(@Param("fecha_ultima_transaccion") Date fecha_ultima_transaccion);
 
-    
+    @Query(value = "SELECT CUENTA.* FROM CUENTA  LEFT JOIN CREDENCIALES_CUENTA  ON (CUENTA.id_cuenta=CREDENCIALES_CUENTA.id_cuenta) WHERE CREDENCIALES_CUENTA.FECHA_CREACION=:fecha_creacion", nativeQuery = true)
+    Collection<Cuenta> cuentasFechaCreacion(@Param("fecha_creacion") Date fecha_creacion);
 
     
 
