@@ -6,10 +6,14 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -170,6 +174,33 @@ public class CuentaController {
         
     }
 
+    @GetMapping("/cuenta/{id_cuenta}/{idUsuario}/activar_Cuenta")
+    public String activarCuenta(@PathVariable("id_cuenta") Integer idCuenta, @PathVariable("idUsuario") Integer idGerente, Model model,RedirectAttributes redirectAttributes) {
+        
+        CredencialesCuenta credencialesCuenta = credencialesCuentaRepository.buscarCredencialesCuentaPorIdCuenta(idCuenta);
+        Cuenta cuenta = cuentaRepository.buscarCuentaPorId(idCuenta);
+        
+        if (credencialesCuenta != null|| !credencialesCuenta.equals("")) {
+            if (credencialesCuenta.getGerente().getId().equals(idGerente)) {
+                if (cuenta.getEstadoCuenta().getEstadoCuenta().equals("DESACTIVADA")) {
+                    cuentaRepository.cambiarEstadoActivado(idCuenta);
+                    return "redirect:/{idUsuario}/gerenteoficina/cuentagerenteoficina/lista_cuentas";
+                } else {
+                    redirectAttributes.addFlashAttribute("errorEstadoCuenta", "El estado de cuenta no puede ser activado");
+                    return "redirect:/{idUsuario}/gerenteoficina/cuentagerenteoficina/lista_cuentas";
+                }
+            } else {
+                redirectAttributes.addFlashAttribute("errorGerente", "El gerente no es el mismo que intenta hacer la modificacion");
+                return "redirect:/{idUsuario}/gerenteoficina/cuentagerenteoficina/lista_cuentas";
+            }
+        } else {
+            redirectAttributes.addFlashAttribute("errorGerente", "No hay credenciales para la cuenta");
+            return "redirect:/error";
+        }
+        
+        
+    }
+
     @GetMapping("/cuenta/{id_cuenta}/{idUsuario}/cerrar_cuenta")
     public String cerrarCuenta(@PathVariable("id_cuenta") Integer idCuenta, @PathVariable("idUsuario") Integer idGerente, Model model,RedirectAttributes redirectAttributes) {
         CredencialesCuenta credencialesCuenta = credencialesCuentaRepository.buscarCredencialesCuentaPorIdCuenta(idCuenta);
@@ -221,13 +252,14 @@ public class CuentaController {
     @PostMapping("/cuenta/{id_cuenta}/{idUsuario}/cuenta_retirar/save")
     public String retirarCuentaGuardar(@PathVariable("idUsuario") Integer idUsuario,@PathVariable("id_cuenta") Integer idCuenta, @RequestParam("monto") String monto, RedirectAttributes redirectAttributes) {
         Cuenta cuenta = cuentaRepository.buscarCuentaPorId(idCuenta);
+        Double saldo = cuenta.getSaldo();
         Double montoFloat = Double.parseDouble(monto);
         Double montoFinal = cuenta.getSaldo()-montoFloat;
         if (cuenta.getSaldo() > montoFloat){
             if(cuenta.getEstadoCuenta().getEstadoCuenta().equals("ACTIVA")){
                 cuentaRepository.cambiarSaldo(idCuenta,montoFinal);
-                logger.info("Fecha: {}, Número de cuenta: {}, Monto: {}, Tipo de operación: rertiro",
-                    LocalDate.now(), idCuenta, monto);
+                logger.info("Fecha: {}, Numero de cuenta: {}, Monto: {}, Tipo de operacion: retiro, Saldo: {}",
+                    LocalDate.now(), idCuenta, monto, saldo);
             }
             else{
                 redirectAttributes.addFlashAttribute("errorEstadoCuenta", "El estado de cuenta es diferente a activa");
@@ -244,10 +276,11 @@ public class CuentaController {
         Cuenta cuenta = cuentaRepository.buscarCuentaPorId(idCuenta);
         Double montoFloat = Double.parseDouble(monto);
         Double montoFinal = cuenta.getSaldo()+montoFloat;
+        Double saldo = cuenta.getSaldo();
         if(cuenta.getEstadoCuenta().getEstadoCuenta().equals("ACTIVA")){
             cuentaRepository.cambiarSaldo(idCuenta,montoFinal);
-            logger.info("Fecha: {}, Número de cuenta: {}, Monto: {}, Tipo de operación: rertiro",
-                LocalDate.now(), idCuenta, monto);
+            logger.info("Fecha: {}, Numero de cuenta: {}, Monto: {}, Tipo de operacion: rertiro, Saldo: {}",
+                LocalDate.now(), idCuenta, monto, saldo);
             return "redirect:/{idUsuario}/gerenteoficina/cuentagerenteoficina/lista_cuentas";
         }
         else{
@@ -258,13 +291,17 @@ public class CuentaController {
 }
 
 @GetMapping("/cuenta/{id_cuenta}/{idUsuario}/cuenta_transferir")
-    public String cuentaTransferir(@PathVariable("id_cuenta") Integer idCuenta,@PathVariable("idUsuario") Integer idUsuario, Model model) {
+    public String cuentaTransferir(@PathVariable("id_cuenta") Integer idCuenta,@PathVariable("idUsuario") Integer idUsuario, Model model, RedirectAttributes redirectAttributes) {
         Cuenta cuenta = cuentaRepository.buscarCuentaPorId(idCuenta);
-        Collection<Cuenta> cuentasTransferir = cuentaRepository.darCuentasTransferir(idCuenta);
-        if (cuenta != null) {
+        Collection<Cuenta> cuentasTransferir = cuentaRepository.darCuentasActivas(idCuenta,"ACTIVA");
+        if (cuenta != null && cuenta.getEstadoCuenta().getEstadoCuenta().equals("ACTIVA")) {
             model.addAttribute("cuenta", cuenta);
             model.addAttribute("cuentasTransferir", cuentasTransferir);
             return "cuentaTransferir";
+        } 
+        if (cuenta != null && (cuenta.getEstadoCuenta().getEstadoCuenta().equals("CERRADA")|| cuenta.getEstadoCuenta().getEstadoCuenta().equals("DESACTIVADA"))) {
+            redirectAttributes.addFlashAttribute("errorEstadoCuenta", "El estado de cuenta es diferente a activa");
+            return "redirect:/{idUsuario}/gerenteoficina/cuentagerenteoficina/lista_cuentas";
         }          
          else {
             return "redirect:/{idUsuario}/gerenteoficina/cuentagerenteoficina/lista_cuentas";
@@ -276,13 +313,15 @@ public class CuentaController {
         Cuenta cuentaOrigen = cuentaRepository.buscarCuentaPorId(idCuenta);
         Cuenta cuentaDestino = cuentaRepository.buscarCuentaPorId(idCuentaDestino);
         double montoDouble = Double.parseDouble(monto);
+        Double saldoO = cuentaOrigen.getSaldo();
+        Double saldoD = cuentaDestino.getSaldo();
         
         if(cuentaOrigen.getSaldo() > montoDouble){
-            if (cuentaOrigen.getEstadoCuenta().getEstadoCuenta().equals("ACTIVA")){
+            if (cuentaOrigen.getEstadoCuenta().getEstadoCuenta().equals("ACTIVA") && cuentaDestino.getEstadoCuenta().getEstadoCuenta().equals("ACTIVA")){
                 double saldoNuevoOrigen = cuentaOrigen.getSaldo() - montoDouble;
                 double saldoNuevoDestino = cuentaDestino.getSaldo() + montoDouble;
-                logger.info("Fecha: {}, Número de cuenta origen: {},Número de cuenta destino: {}, Monto: {}, Tipo de operación: transferencia",
-                LocalDate.now(), cuentaOrigen.getIdCuenta(), cuentaDestino.getIdCuenta(), montoDouble);
+                logger.info("Fecha: {}, Numero de cuenta origen: {},Numero de cuenta destino: {}, Monto: {}, Tipo de operación: transferencia, Saldo cuenta origen: {}, Saldo cuenta destino: {}",
+                LocalDate.now(), cuentaOrigen.getIdCuenta(), cuentaDestino.getIdCuenta(), montoDouble, saldoO, saldoD);
                 cuentaOrigen.setSaldo(saldoNuevoOrigen);
                 cuentaDestino.setSaldo(saldoNuevoDestino);
                 return "redirect:/{idUsuario}/gerenteoficina/cuentagerenteoficina/lista_cuentas";
@@ -330,6 +369,31 @@ public String guardarCuentaGerenteDeOficina(@ModelAttribute Cuenta cuenta, @Mode
     Integer idCuenta = cuentaRepository.DarIdMaximo();
     credencialesCuentaRepository.insertarCredencialesCuenta(idCliente, idGerente, idCuenta);;
     return "sesionIniciada";
+}
+
+
+@GetMapping("cuenta/movimientosCuenta")
+public String consultarMovimientos(Model model, Integer idCuenta) {
+    if (idCuenta != null) {
+        String id = idCuenta.toString();
+        String filePath = "logs/cuentas.log";
+        try {
+            Collection<String> lineasCoincidentes = Files.lines(Paths.get(filePath), StandardCharsets.UTF_8)
+                    .filter(linea -> linea.contains(id))
+                    .collect(Collectors.toList());
+            
+            if (!lineasCoincidentes.isEmpty()) {
+                model.addAttribute("lineasCoincidentes", lineasCoincidentes);
+            } else {
+                model.addAttribute("resultado", "No se encontraron movimientos para la cuenta");
+            }
+        } catch (IOException e) {
+            System.err.println("Error al leer el archivo: " + e.getMessage());
+        }
+    }
+    
+    model.addAttribute("cuentas", cuentaRepository.darCuentas());
+    return "movimientosCuenta";
 }
 
 

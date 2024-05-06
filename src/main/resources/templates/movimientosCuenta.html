@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Movimientos de Cuenta</title>
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
+</head>
+
+<body>
+
+    <div class="container">
+        <h1 style="color: #78288c;">Movimientos de Cuenta</h1>
+
+        <form action="/cuenta/movimientosCuenta" method="get">
+            <div class="form-group">
+                <label for="idCuenta" style="color: #78288c;">Cuenta:</label>
+                <select class="form-control" id="idCuenta" name="idCuenta" onchange="this.form.submit()">
+                    <option>Seleccionar Cuenta</option>
+                    <th:block th:each="cuenta : ${cuentas}">
+                        <option th:value="${cuenta.idCuenta}" th:text="${cuenta.idCuenta}" th:selected="${idCuenta} == ${cuenta.idCuenta}"></option>
+                    </th:block>
+                </select><br>
+            </div>
+        </form>
+
+        <div th:if="${lineasCoincidentes != null}">
+            <h4 style="color: #78288c;">Movimientos encontrados para la cuenta:</h4>
+            <ul>
+
+                <th:block th:each="linea : ${lineasCoincidentes}">
+                    <th:block th:each="parte : ${#strings.arraySplit(linea, ',')}">
+                        <li th:text="${parte}" style="color: #c7cac8;"></li>
+                    </th:block>
+                </th:block>
+            </ul>
+        </div>
+
+        <h5 class="card-title" th:if="${resultado != null}" th:text="${resultado}" style="color: #c7cac8;"></h5>
+
+    </div>
+
+</body>
+
+</html>

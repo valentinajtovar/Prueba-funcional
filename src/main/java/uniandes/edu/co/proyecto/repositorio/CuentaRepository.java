@@ -78,5 +78,11 @@ public interface CuentaRepository extends JpaRepository<Cuenta, Integer> {
     @Query(value = "UPDATE CUENTA SET  SALDO =:saldo WHERE id_cuenta = :id_cuenta", nativeQuery = true)
     void cambiarSaldo(@Param("id_cuenta") Integer id_cuenta,@Param("saldo") Double saldo);
 
+    @Query(value = "SELECT * FROM CUENTA WHERE ESTADO_CUENTA=:ESTADO_CUENTA AND ID_CUENTA !=:id_cuenta", nativeQuery = true)
+    Collection<Cuenta> darCuentasActivas(@Param("id_cuenta") Integer id_cuenta,@Param("ESTADO_CUENTA") String ESTADO_CUENTA);
     
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE CUENTA SET  ESTADO_CUENTA='ACTIVA' WHERE id_cuenta=:id_cuenta", nativeQuery = true)
+    void cambiarEstadoActivado(@Param("id_cuenta") Integer id_cuenta);
 }
