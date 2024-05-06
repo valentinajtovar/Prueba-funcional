@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Lista de Usuarios</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}" />
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" th:href='@{/}'>
+                <img th:src="@{/images/logoPrincipal.png}" width="200" height="60">
+            </a>
+        </div>
+    </nav>
+
+
+    <h1 style="color: #78288c;">Listado de Usuarios:</h1>
+    <br />
+
+    <div class="card-columns">
+        <div th:each="entry : ${cuentasCompletas}">
+            <!-- Obtener la información del usuario -->
+            <div class="card" style="background-color: #78288c;">
+                <div class="card-header">
+                    <h5 class="card-title" th:text="|Nombre: ${entry.key.nombre} |"
+                        style="color: #c7cac8;"></h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">
+                        <span class="font-weight-bold" style="color: #c7cac8;">ID:</span>
+                        <span th:text="|${entry.key.idUsuario}|" style="color: #c7cac8;"></span><br>
+                        <span class="font-weight-bold" style="color: #c7cac8;">Tipo Usuario:</span>
+                        <span th:text="|${entry.key.tipoUsuario.tipoUsuario}|" style="color: #c7cac8;"></span><br>
+
+                        <!-- Encabezado para cuentas -->
+                        <h2 style="color: #c7cac8;">Cuentas:</h2>
+                        <!-- Iterar sobre las cuentas del usuario -->
+                        <div th:each="cuenta : ${entry.value}">
+                            <!-- Mostrar la cuenta si no es nula -->
+                            <div th:if="${cuenta.split(',')[0] != 'null'}"
+                                th:text="|Cuenta: ${cuenta.split(',')[0]} |" style="color: #c7cac8;"></div>
+                            <!-- Mostrar el saldo si no es nulo -->
+                            <div th:if="${cuenta.split(',')[1] != 'null'}"
+                                th:text="|Saldo: ${cuenta.split(',')[1]} |" style="color: #c7cac8;"></div>
+                            <!-- Mostrar la oficina si no es nula -->
+                            <div th:if="${cuenta.split(',')[2] != 'null'}"
+                                th:text="|Oficina: ${cuenta.split(',')[2]} |" style="color: #c7cac8;"></div>
+                        </div>
+
+                        <!-- Encabezado para préstamos -->
+                        <h2 style="color: #c7cac8;">Préstamos:</h2>
+                        <!-- Iterar sobre los préstamos del usuario -->
+                        <div th:each="prestamo : ${prestamosCompletos[entry.key]}">
+                            <!-- Mostrar información del préstamo -->
+                            <div th:if="${prestamo.split(',')[0] != 'null'}" th:text="|ID Préstamo: ${prestamo.split(',')[0]} |"
+                                style="color: #c7cac8;"></div>
+                            <div th:if="${prestamo.split(',')[1] != 'null'}" th:text="|Monto: ${prestamo.split(',')[1]} |" style="color: #c7cac8;"></div>
+                            <!-- Agregar más campos según sea necesario -->
+                        </div>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="text-center">
+        <a th:href="@{/}" class="btn " style="background-color: #ee0e0e; color: white;">Volver Atrás</a>
+    </div>
+</body>
+
+</html>

@@ -2,8 +2,14 @@ package uniandes.edu.co.proyecto.controller;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import ch.qos.logback.core.joran.sanity.Pair;
+
+import org.hibernate.mapping.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,12 +24,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import uniandes.edu.co.proyecto.modelo.Cuenta;
-import uniandes.edu.co.proyecto.modelo.DatosUsuario;
-import uniandes.edu.co.proyecto.modelo.Oficina;
-import uniandes.edu.co.proyecto.modelo.Prestamo;
-import uniandes.edu.co.proyecto.modelo.TipoUsuario;
-import uniandes.edu.co.proyecto.modelo.Usuario;
+
+import uniandes.edu.co.proyecto.modelo.*;
+import uniandes.edu.co.proyecto.repositorio.CuentaRepository;
 import uniandes.edu.co.proyecto.repositorio.DatosUsuarioRepository;
 import uniandes.edu.co.proyecto.repositorio.OficinaRepository;
 import uniandes.edu.co.proyecto.repositorio.TipoDocumentoRepository;
@@ -40,10 +43,14 @@ public class UsuarioController {
 
     @Autowired
     private TipoDocumentoRepository tipoDocumentoRepository;
+
+    @Autowired
+    private CuentaRepository cuentaRepository;
     
     @GetMapping("/usuario")
     public String listarUsuario(Model model) {
         model.addAttribute("usuario", usuarioRepository.darUsuarios());
+  
         return "usuario";
     }
 
@@ -203,7 +210,37 @@ public class UsuarioController {
         } 
     }
 
+ @GetMapping("/login_usuario/verificacionLogin/{id_usuario}/usuario/usuarioInfoCompleta")
+ public String infoUsuarioCompleta(@PathVariable("id_usuario") Integer idUsuario, RedirectAttributes redirectAttributes, Model model) {
+    Usuario usuario = usuarioRepository.buscarUsuarioId(idUsuario);
+    model.addAttribute("usuarios", usuarioRepository.darUsuarios());
+    if ((usuario.getTipoUsuario().getTipoUsuario().equals("GERENTE GENERAL"))) {
+        Collection<Usuario> usuarios = usuarioRepository.darUsuarios();
+        Map<Usuario,Collection<String>> cuentasPorUsuario = new HashMap<>();
+        Map<Usuario,Collection<String>> prestamosPorUsuario = new HashMap<>();
+        for (Usuario usuari : usuarios) {
+            Integer id = usuari.getIdUsuario();
+            Collection<String> cuentasUsuario= usuarioRepository.darCuentasUsuario(id);
+            Collection<String> prestamosUsuario= usuarioRepository.darPrestamosUsuario(id);
+            
+            cuentasPorUsuario.put(usuari, cuentasUsuario);
+            prestamosPorUsuario.put(usuari,prestamosUsuario);
+        }
+        model.addAttribute("cuentasCompletas", cuentasPorUsuario);
+        model.addAttribute("prestamosCompletos", prestamosPorUsuario);
+        return "usuarioInfoCompleta";
+    }
+     else {
+        redirectAttributes.addFlashAttribute("errorCreacionUsuario", "No tienes permisos para crear ningun tipo de usuario" + usuario.getTipoUsuario().getTipoUsuario() );
+        return "redirect:/login_usuario/verificacionLogin/" + usuario.getIdUsuario();
+    }
+ }
 
-
+ @GetMapping("/login_usuario/verificacionLogin/{id_usuario}/usuario")
+    public String listarUsuarioSesionIniciada(Model model) {
+        model.addAttribute("usuario", usuarioRepository.darUsuarios());
+  
+        return "usuario";
+    }
 
 }
