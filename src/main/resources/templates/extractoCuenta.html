@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Movimientos de Cuenta</title>
+    <title>Extracto Cuenta</title>
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
 </head>
 
@@ -11,7 +11,7 @@
     <div class="container">
         <h1 style="color: #78288c;">Movimientos de Cuenta</h1>
 
-        <form action="movimientosCuenta" method="get">
+        <form action="extractoCuenta.html" method="get">
             <div class="form-group">
                 <label for="idCuenta" style="color: #78288c;">Cuenta:</label>
                 <select class="form-control" id="idCuenta" name="idCuenta" onchange="this.form.submit()">
@@ -20,23 +20,20 @@
                         <option th:value="${cuenta.idCuenta}" th:text="${cuenta.idCuenta}" th:selected="${idCuenta} == ${cuenta.idCuenta}"></option>
                     </th:block>
                 </select><br>
+
+                <label for="mes" style="color: #78288c;">Mes</label>
+                <select class="form-control" id="mes" name="mes" onchange="this.form.submit()">
+                    <option>Seleccionar Mes Para </option>
+                    <th:block th:each="mes : ${meses}">
+                        <option th:value="${mes}" th:text="${mes}" th:selected="${mes}"></option>
+                    </th:block>
+                </select><br>
             </div>
         </form>
 
-        <div th:if="${lineasCoincidentes != null}">
-            <h4 style="color: #78288c;">Movimientos encontrados para la cuenta:</h4>
-            <ul>
-                <th:block th:each="linea : ${lineasCoincidentes}">
-                    <div class="card" style="background-color: #78288c;">
-                        <div class="card-body">
-                            <th:block th:each="parte : ${#strings.arraySplit(linea, ',')}">
-                                <span th:text="${parte}" style="color: #c7cac8;"></span><br>
-                            </th:block>
-                        </div>
-                    </div>
-                </th:block>
-            </ul>
-        </div>
+        
+
+        
 
         <h5 class="card-title" th:if="${resultado != null}" th:text="${resultado}" style="color: #c7cac8;"></h5>
 

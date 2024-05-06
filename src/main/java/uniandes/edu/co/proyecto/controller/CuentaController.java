@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -141,9 +142,10 @@ public class CuentaController {
         return "CuentaNuevo";
     }
     @PostMapping("/cuenta/new/save")
-    public String guardarCuenta(@ModelAttribute("tipo_Cuenta") String tipoCuenta,@ModelAttribute("estado_cuenta") String estadoCuenta,@ModelAttribute("saldo") String saldo) {
+    public String guardarCuenta(@ModelAttribute("tipo_Cuenta") String tipoCuenta,@ModelAttribute("estado_cuenta") String estadoCuenta,@ModelAttribute("saldo") String saldo, Date fechaUltimaTransaccion) {
        
-        java.sql.Date fechaUltimaTransaccion = new java.sql.Date(System.currentTimeMillis());
+        //java.sql.Date fechaUltimaTransaccion = new java.sql.Date(fechaUltimaTransaccion);
+
 
         double saldoNumero = Double.parseDouble(saldo);
         
@@ -171,33 +173,6 @@ public class CuentaController {
             redirectAttributes.addFlashAttribute("errorGerente", "El gerente no es el mismo que intenta hacer la modificacion");
             return "redirect:/{idUsuario}/gerenteoficina/cuentagerenteoficina/lista_cuentas";
         }
-        
-    }
-
-    @GetMapping("/cuenta/{id_cuenta}/{idUsuario}/activar_Cuenta")
-    public String activarCuenta(@PathVariable("id_cuenta") Integer idCuenta, @PathVariable("idUsuario") Integer idGerente, Model model,RedirectAttributes redirectAttributes) {
-        
-        CredencialesCuenta credencialesCuenta = credencialesCuentaRepository.buscarCredencialesCuentaPorIdCuenta(idCuenta);
-        Cuenta cuenta = cuentaRepository.buscarCuentaPorId(idCuenta);
-        
-        if (credencialesCuenta != null|| !credencialesCuenta.equals("")) {
-            if (credencialesCuenta.getGerente().getId().equals(idGerente)) {
-                if (cuenta.getEstadoCuenta().getEstadoCuenta().equals("DESACTIVADA")) {
-                    cuentaRepository.cambiarEstadoActivado(idCuenta);
-                    return "redirect:/{idUsuario}/gerenteoficina/cuentagerenteoficina/lista_cuentas";
-                } else {
-                    redirectAttributes.addFlashAttribute("errorEstadoCuenta", "El estado de cuenta no puede ser activado");
-                    return "redirect:/{idUsuario}/gerenteoficina/cuentagerenteoficina/lista_cuentas";
-                }
-            } else {
-                redirectAttributes.addFlashAttribute("errorGerente", "El gerente no es el mismo que intenta hacer la modificacion");
-                return "redirect:/{idUsuario}/gerenteoficina/cuentagerenteoficina/lista_cuentas";
-            }
-        } else {
-            redirectAttributes.addFlashAttribute("errorGerente", "No hay credenciales para la cuenta");
-            return "redirect:/error";
-        }
-        
         
     }
 
@@ -362,17 +337,17 @@ public String formularioNuevoCuentaGerenteOficina(@PathVariable("idUsuario") Int
 }
 
 @PostMapping("/{idUsuario}/gerenteoficina/cuentagerenteoficina/cuentanuevogerente/new/save")
-public String guardarCuentaGerenteDeOficina(@ModelAttribute Cuenta cuenta, @ModelAttribute CredencialesCuenta credenciales, @PathVariable("idUsuario") Integer idGerente,@RequestParam("tipoCuenta") String tipoCuenta,@RequestParam("estadoCuenta") String estadoCuenta,@RequestParam("saldo") String saldo,@RequestParam("fechaUltimaTransaccion") Date fechaUltimaTransaccion,@RequestParam("idUsuario") Integer idCliente){
+public String guardarCuentaGerenteDeOficina(@ModelAttribute Cuenta cuenta, @ModelAttribute CredencialesCuenta credenciales, @PathVariable("idUsuario") Integer idGerente,@RequestParam("tipoCuenta") String tipoCuenta,@RequestParam("estadoCuenta") String estadoCuenta,@RequestParam("saldo") String saldo,Date fechaUltimaTransaccion,@RequestParam("idUsuario") Integer idCliente){
     double saldoDouble = Double.parseDouble(saldo);
-    fechaUltimaTransaccion = new java.sql.Date(System.currentTimeMillis());
+    //fechaUltimaTransaccion = new java.sql.Date(System.currentTimeMillis());
     cuentaRepository.insertarCuenta(tipoCuenta,estadoCuenta,saldoDouble,fechaUltimaTransaccion);
     Integer idCuenta = cuentaRepository.DarIdMaximo();
-    credencialesCuentaRepository.insertarCredencialesCuenta(idCliente, idGerente, idCuenta);;
+    credencialesCuentaRepository.insertarCredencialesCuenta(idCliente, idGerente, idCuenta, fechaUltimaTransaccion);;
     return "sesionIniciada";
 }
 
 
-@GetMapping("cuenta/movimientosCuenta")
+@GetMapping("/login_usuario/verificacionLogin/{idUsuario}/cuenta/movimientosCuenta")
 public String consultarMovimientos(Model model, Integer idCuenta) {
     if (idCuenta != null) {
         String id = idCuenta.toString();
@@ -388,7 +363,8 @@ public String consultarMovimientos(Model model, Integer idCuenta) {
                 model.addAttribute("resultado", "No se encontraron movimientos para la cuenta");
             }
         } catch (IOException e) {
-            System.err.println("Error al leer el archivo: " + e.getMessage());
+            model.addAttribute("cuentas", cuentaRepository.darCuentas());
+            return "movimientosCuenta";
         }
     }
     
@@ -396,6 +372,34 @@ public String consultarMovimientos(Model model, Integer idCuenta) {
     return "movimientosCuenta";
 }
 
+@GetMapping("/extractosCuenta")
+public String extractosGeneral(Model model, Integer idCuenta, Integer mes) {
+    if (idCuenta != null && mes != null) {
+        Collection<Integer> meses = IntStream.rangeClosed(1, 12)
+                                            .boxed()
+                                            .collect(Collectors.toList());
+        String id = idCuenta.toString();
+        String mesStr = String.format("%02d", mes); // Asegurar que el mes tenga dos dígitos
+        String filePath = "logs/cuentas.log";
+        try {
+            Collection<String> lineasCoincidentes = Files.lines(Paths.get(filePath), StandardCharsets.UTF_8)
+                    .filter(linea -> linea.contains(id) && linea.contains("-" + mesStr + "-"))
+                    .collect(Collectors.toList());
+            
+            if (!lineasCoincidentes.isEmpty()) {
+                model.addAttribute("lineasCoincidentes", lineasCoincidentes);
+            } else {
+                model.addAttribute("resultado", "No se encontraron movimientos para la cuenta en el mes especificado");
+            }
+        } catch (IOException e) {
+            model.addAttribute("cuentas", cuentaRepository.darCuentas());
+            return "movimientosCuenta";
+        }
+    }
+    
+    model.addAttribute("cuentas", cuentaRepository.darCuentas());
+    return "movimientosCuenta";
+}
 
 
 

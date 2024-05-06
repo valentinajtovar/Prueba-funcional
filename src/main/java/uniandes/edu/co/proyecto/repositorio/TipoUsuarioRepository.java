@@ -36,4 +36,10 @@ public interface TipoUsuarioRepository extends JpaRepository<TipoUsuario, String
         @Transactional
         @Query(value = "DELETE FROM TIPO_USUARIO WHERE TIPO_USUARIO = :tipoUsuario", nativeQuery = true)
         void eliminarTipoUsuario(@Param("tipoUsuario") String tipoUsuario);
+
+        @Query(value = "SELECT * FROM TIPO_USUARIO WHERE TIPO_USUARIO='CLIENTE NATURAL' OR TIPO_USUARIO='CLIENTE JURIDICO'", nativeQuery = true)
+        Collection<String> darTipoUsuarioGerenteOficina();
+
+        @Query(value = "SELECT * FROM TIPO_USUARIO WHERE TIPO_USUARIO='GERENTE GENERAL' OR TIPO_USUARIO='CAJERO' OR TIPO_USUARIO='GERENTE DE OFICINA'", nativeQuery = true)
+        Collection<String> darTipoUsuarioAdministrador();
 }

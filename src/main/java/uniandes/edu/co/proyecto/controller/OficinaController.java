@@ -45,7 +45,7 @@ public class OficinaController {
     @GetMapping("/login_usuario/verificacionLogin/{id_usuario}/oficina/nueva")
     public String NuevaOficinaSesionIniciada(@PathVariable("id_usuario") Integer idUsuario,RedirectAttributes redirectAttributes,Model model) {
         Usuario usuario = usuarioRepository.buscarUsuarioId(idUsuario);
-        if ((usuario.getTipoUsuario().getTipoUsuario().equals("GERENTE DE OFICINA")) || (usuario.getTipoUsuario().getTipoUsuario().equals("GERENTE GENERAL"))){
+        if ((usuario.getTipoUsuario().getTipoUsuario().equals("ADMINISTRADOR")) || (usuario.getTipoUsuario().getTipoUsuario().equals("GERENTE GENERAL"))){
             model.addAttribute("oficina", new Oficina());
             model.addAttribute("idUsuario", idUsuario);
             return "oficinaNuevaSesionIniciada";

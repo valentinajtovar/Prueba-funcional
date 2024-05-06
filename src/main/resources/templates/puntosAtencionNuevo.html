@@ -9,7 +9,7 @@
 <body>
     <nav class="navbar navbar-expand-lg bg-body-tertiary" >
         <div class="container-fluid">
-            <a class="navbar-brand" th:href='@{/}'>
+            <a class="navbar-brand" th:href="@{|/login_usuario/verificacionLogin/${idUsuario}|}">
             <img th:src="@{/images/logoPrincipal.png}" width="200" height="60">
             </a>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -27,7 +27,7 @@
 
     <br>
     <div class="center-text">
-    <form th:action="@{/puntosAtencion/new/save}" method="post">
+    <form th:action="@{/login_usuario/verificacionLogin/{id_usuario}/puntosAtencion/nueva/save(id_usuario=${idUsuario})}" method="post">
         <div class="form-group">
             <label for="nombre" style="color: #78288c;">Nombre:</label>
             <input type="text" class="form-control" style="color: #78288c;" id="nombre" placeholder="Nombre" name="nombre" />

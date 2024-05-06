@@ -162,7 +162,7 @@ public class UsuarioController {
     public String crearUsuario(@PathVariable("id_usuario") Integer idUsuario,Model model,RedirectAttributes redirectAttributes) {
         Usuario usuario = usuarioRepository.buscarUsuarioId(idUsuario);
         Collection<String> tipoUsuarios= new ArrayList<>();
-        if (usuario.getTipoUsuario().getTipoUsuario().equals("CAJERO") || (usuario.getTipoUsuario().getTipoUsuario().equals("GERENTE DE OFICINA"))|| (usuario.getTipoUsuario().getTipoUsuario().equals("GERENTE GENERAL"))) {
+        if ( (usuario.getTipoUsuario().getTipoUsuario().equals("GERENTE DE OFICINA"))) {
             Collection<String> tiposUsuarios = tipoUsuarioRepository.darNombres();
             Collection<String> tiposDocumentos = tipoDocumentoRepository.darTipoDocumentosNombres();
             for (String tipo: tiposUsuarios)
@@ -176,11 +176,33 @@ public class UsuarioController {
                     }
                 }
 		    }
-            model.addAttribute("tiposUsuarios", tipoUsuarios);
+            model.addAttribute("tiposUsuarios", tipoUsuarioRepository.darTipoUsuarioGerenteOficina() );
             model.addAttribute("tiposDocumentos", tiposDocumentos);
             model.addAttribute("idUsuario", idUsuario);
             return "CrearUsuarioCliente";
         }
+        else if ( (usuario.getTipoUsuario().getTipoUsuario().equals("ADMINISTRADOR"))) {
+            Collection<String> tiposUsuarios = tipoUsuarioRepository.darNombres();
+            Collection<String> tiposDocumentos = tipoDocumentoRepository.darTipoDocumentosNombres();
+            for (String tipo: tiposUsuarios)
+		    {
+                if(usuario.getTipoUsuario().getTipoUsuario().equals("GERENTE DE OFICINA")){
+                    tipoUsuarios.add(tipo);
+                }
+                else {
+                    if(tipo.contains("CLIENTE") != true){
+                        tipoUsuarios.add(tipo);
+                    }
+                }
+		    }
+            model.addAttribute("tiposUsuarios", tipoUsuarioRepository.darTipoUsuarioAdministrador());
+            model.addAttribute("tiposDocumentos", tiposDocumentos);
+            model.addAttribute("idUsuario", idUsuario);
+            return "CrearUsuarioCliente";
+        }
+
+
+
          else {
             redirectAttributes.addFlashAttribute("errorCreacionUsuario", "No tienes permisos para crear ningun tipo de usuario");
             return "redirect:/login_usuario/verificacionLogin/" + usuario.getIdUsuario();

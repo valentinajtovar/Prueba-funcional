@@ -1,5 +1,9 @@
 package uniandes.edu.co.proyecto.modelo;
 
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -30,39 +34,37 @@ public class CredencialesCuenta {
     @JoinColumn(name ="ID_CUENTA", referencedColumnName = "idCuenta")
     private Cuenta cuenta;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date fechaCreacion;
+
     public CredencialesCuenta(){;}
 
-
-    public CredencialesCuenta(Usuario cliente, Usuario gerente) {
+    public CredencialesCuenta(Usuario cliente, Usuario gerente, Cuenta cuenta, Date fechaCreacion) {
         this.cliente = cliente;
         this.gerente = gerente;
+        this.cuenta = cuenta;
+        this.fechaCreacion = fechaCreacion;
     }
-
 
     public Integer getIdCredencialesCuenta() {
         return idCredencialesCuenta;
     }
 
-
     public void setIdCredencialesCuenta(Integer idCredencialesCuenta) {
         this.idCredencialesCuenta = idCredencialesCuenta;
     }
-
 
     public Usuario getCliente() {
         return cliente;
     }
 
-
     public void setCliente(Usuario cliente) {
         this.cliente = cliente;
     }
 
-
     public Usuario getGerente() {
         return gerente;
     }
-
 
     public void setGerente(Usuario gerente) {
         this.gerente = gerente;
@@ -75,4 +77,15 @@ public class CredencialesCuenta {
     public void setCuenta(Cuenta cuenta) {
         this.cuenta = cuenta;
     }
+
+    public Date getFechaCreacion() {
+        return fechaCreacion;
+    }
+
+    public void setFechaCreacion(Date fechaCreacion) {
+        this.fechaCreacion = fechaCreacion;
+    }
+
+    
+ 
 }

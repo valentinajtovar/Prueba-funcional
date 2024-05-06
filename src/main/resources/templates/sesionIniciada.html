@@ -14,7 +14,10 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" th:href="@{/puntosAtencion}" style="color: #78288c;">Puntos De Atencion</a>
+                            <a class="nav-link active" aria-current="page" th:href="@{/login_usuario/verificacionLogin/{id_usuario}/puntosAtencion(id_usuario=${idUsuario})}" style="color: #78288c;">Puntos De Atencion</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" th:href="@{/login_usuario/verificacionLogin/{id_usuario}/puntosAtencion/nueva(id_usuario=${idUsuario})}" style="color: #78288c;">Crear Puntos De Atencion</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" th:href="@{'/' + ${idUsuario} + '/gerenteoficina/cuentagerenteoficina/lista_cuentas'}" style="color: #78288c;">Cuentas</a>

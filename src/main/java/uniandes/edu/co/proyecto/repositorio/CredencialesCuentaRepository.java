@@ -1,7 +1,7 @@
 package uniandes.edu.co.proyecto.repositorio;
 
 import java.util.Collection;
-
+import java.util.Date;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -27,8 +27,8 @@ public interface CredencialesCuentaRepository extends JpaRepository<Credenciales
 
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO CREDENCIALES_CUENTA ( id_cuenta, id_usuario, id_gerente) VALUES (:id_cuenta, :id_usuario, :id_gerente)", nativeQuery = true)
-    void insertarCredencialesCuenta(@Param("id_usuario") Integer id_usuario, @Param("id_gerente") Integer id_gerente, @Param("id_cuenta") Integer id_cuenta);
+    @Query(value = "INSERT INTO CREDENCIALES_CUENTA ( id_cuenta, id_usuario, id_gerente, fecha_creacion) VALUES (:id_cuenta, :id_usuario, :id_gerente, :fecha_creacion)", nativeQuery = true)
+    void insertarCredencialesCuenta(@Param("id_usuario") Integer id_usuario, @Param("id_gerente") Integer id_gerente, @Param("id_cuenta") Integer id_cuenta, @Param("fecha_creacion") Date fecha_creacion);
 
     @Modifying
     @Transactional

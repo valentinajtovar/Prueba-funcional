@@ -66,6 +66,7 @@
 </form>
 
 
+<a th:href="@{|/login_usuario/verificacionLogin/${idUsuario}/cuenta/movimientosCuenta|}" class="btn" style="background-color: #b659cd; color: white;" onclick="return confirm('Consultar Movimientos')">Consultar movimientos por cuenta</a>
 
 
 
@@ -97,7 +98,6 @@
 
                 </div>
                 <div class="card-footer">
-                  <a th:href="@{cuenta/{id_cuenta}/activar_Cuenta(id_cuenta=${cuenta.idCuenta})}" class="btn" style="background-color: #b659cd ; color: white;" onclick="return confirm('¿Estás seguro de activar esta cuenta?')">Activar</a>
                   <a th:href="@{/cuenta/{id_cuenta}/{idUsuario}/desactivar_Cuenta(id_cuenta=${cuenta.idCuenta}, idUsuario=${idUsuario})}" class="btn" style="background-color: #b659cd; color: white;" onclick="return confirm('¿Estás seguro de desactivar esta cuenta?')">Desactivar</a>
                   <a th:href="@{/cuenta/{id_cuenta}/{idUsuario}/cerrar_cuenta(id_cuenta=${cuenta.idCuenta}, idUsuario=${idUsuario})}" class="btn" style="background-color: #b659cd ; color: white;" onclick="return confirm('¿Estás seguro de cerrar esta cuenta?')">Cerrar</a>
                   <a th:href="@{/cuenta/{id_cuenta}/{idUsuario}/cuenta_retirar(id_cuenta=${cuenta.idCuenta}, idUsuario=${idUsuario})}" class="btn" style="background-color: #b659cd ; color: white;">Retirar</a>

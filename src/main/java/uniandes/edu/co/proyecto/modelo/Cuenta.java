@@ -5,6 +5,8 @@ package uniandes.edu.co.proyecto.modelo;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -36,7 +38,7 @@ public class Cuenta {
 
     private Double saldo;
 
-
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date fechaUltimaTransaccion;
 
     public Cuenta() {;
