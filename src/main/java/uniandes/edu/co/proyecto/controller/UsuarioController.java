@@ -230,9 +230,45 @@ public class UsuarioController {
         model.addAttribute("prestamosCompletos", prestamosPorUsuario);
         return "usuarioInfoCompleta";
     }
+    else if((usuario.getTipoUsuario().getTipoUsuario().equals("GERENTE DE OFICINA"))) {
+        Collection<Usuario> usuarios = usuarioRepository.darUsuarios();
+        Map<Usuario,Collection<String>> cuentasPorUsuario = new HashMap<>();
+        Map<Usuario,Collection<String>> prestamosPorUsuario = new HashMap<>(); 
+
+        for (Usuario usuari : usuarios) {
+            Integer id = usuari.getIdUsuario();
+            Collection<String> cuentasUsuario= usuarioRepository.darCuentasUsuarioOficina(id,idUsuario);
+            Collection<String> prestamosUsuario= usuarioRepository.darPrestamosUsuarioOficina(id,idUsuario);
+            if(!cuentasUsuario.isEmpty()){
+                cuentasPorUsuario.put(usuari, cuentasUsuario);
+            }
+            if(!prestamosPorUsuario.isEmpty()){
+            prestamosPorUsuario.put(usuari,prestamosUsuario);
+            }
+            
+        }
+        model.addAttribute("cuentasCompletas", cuentasPorUsuario);
+        model.addAttribute("prestamosCompletos", prestamosPorUsuario);
+        return "usuarioInfoCompleta";
+
+    }
+    else if((usuario.getTipoUsuario().getTipoUsuario().equals("CLIENTE NATURAL")||usuario.getTipoUsuario().getTipoUsuario().equals("CLIENTE JURIDICO")))
+    {
+        Usuario usuari= usuarioRepository.buscarUsuarioId(idUsuario);
+        Map<Usuario,Collection<String>> cuentasPorUsuario = new HashMap<>();
+        Map<Usuario,Collection<String>> prestamosPorUsuario = new HashMap<>(); 
+        Collection<String> cuentasUsuario= usuarioRepository.darCuentasUsuario(idUsuario);
+        Collection<String> prestamosUsuario= usuarioRepository.darPrestamosUsuario(idUsuario);
+        cuentasPorUsuario.put(usuari, cuentasUsuario);
+        prestamosPorUsuario.put(usuari,prestamosUsuario);
+        model.addAttribute("cuentasCompletas", cuentasPorUsuario);
+        model.addAttribute("prestamosCompletos", prestamosPorUsuario);
+        return "usuarioInfoCompleta";
+        
+    }
      else {
-        redirectAttributes.addFlashAttribute("errorCreacionUsuario", "No tienes permisos para crear ningun tipo de usuario" + usuario.getTipoUsuario().getTipoUsuario() );
-        return "redirect:/login_usuario/verificacionLogin/" + usuario.getIdUsuario();
+        redirectAttributes.addFlashAttribute("errorCreacionUsuario", "No tienes permisos" + usuario.getTipoUsuario().getTipoUsuario() );
+        return "redirect:/login_usuario/verificacionLogin/";
     }
  }
 

@@ -97,4 +97,16 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
                 "LEFT JOIN OFICINA ON CREDENCIALES_PRESTAMO.ID_GERENTE = OFICINA.GERENTE WHERE USUARIO.ID_USUARIO=:id_usuario", nativeQuery = true)
     Collection<String> darPrestamosUsuario(@Param("id_usuario") Integer id_usuario);
      
+    @Query(value="SELECT CUENTA.ID_CUENTA, CUENTA.SALDO, OFICINA.NOMBRE " +
+    "FROM USUARIO LEFT JOIN CREDENCIALES_CUENTA ON USUARIO.ID_USUARIO = CREDENCIALES_CUENTA.ID_USUARIO "+
+    "LEFT JOIN CUENTA ON CREDENCIALES_CUENTA.ID_CUENTA = CUENTA.ID_CUENTA "+
+    "LEFT JOIN OFICINA ON CREDENCIALES_CUENTA.ID_GERENTE = OFICINA.GERENTE WHERE USUARIO.ID_USUARIO=:id_usuario AND OFICINA.GERENTE=:id_gerente", nativeQuery= true)
+    Collection<String> darCuentasUsuarioOficina(@Param("id_usuario") Integer id_usuario, @Param("id_gerente") Integer id_gerente);
+
+    @Query(value="SELECT PRESTAMO.ID_PRESTAMO, PRESTAMO.MONTO, OFICINA.GERENTE " + 
+                "FROM USUARIO " + 
+                "LEFT JOIN CREDENCIALES_PRESTAMO ON USUARIO.ID_USUARIO = CREDENCIALES_PRESTAMO.ID_CLIENTE " + 
+                "LEFT JOIN PRESTAMO ON CREDENCIALES_PRESTAMO.ID_PRESTAMO = PRESTAMO.ID_PRESTAMO " + 
+                "LEFT JOIN OFICINA ON CREDENCIALES_PRESTAMO.ID_GERENTE = OFICINA.GERENTE WHERE USUARIO.ID_USUARIO=:id_usuario AND OFICINA.GERENTE=:id_gerente", nativeQuery = true)
+    Collection<String> darPrestamosUsuarioOficina(@Param("id_usuario") Integer id_usuario, @Param("id_gerente") Integer id_gerente);
 }
